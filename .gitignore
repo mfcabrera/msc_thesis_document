@@ -1,0 +1,17 @@
+*.log
+latex2e/
+*.pdf
+*.toc
+/latex/shortoverview.sty
+/latex/styles/dropping.sty
+/latex/tumlogo.sty
+/references/.DS_Store
+/latex/_region_.prv/tmp11695i5m/pr1-1.png
+/latex/_region_.prv/tmp11695i5m/pr1-2.png
+/latex/_region_.tex
+*.out
+.DS_Store
+latex/*.bbl
+latex/*.blg
+latex/*.sty
+

@@ -37,13 +37,23 @@
 \input{components/commands}
 
 
+
+
 %\makeindex
 	%% inter line spacing
 %\linespread{1.0}
 
 \makeglossary
 
+
+
+
 \begin{document}
+
+
+
+
+
 
 	\frontmatter
 	
@@ -78,7 +88,7 @@
 		%Introduction and Background Theory
 		%
 		% ---------------------------------------------------------------------------
-		\part[Introduction and Theory]{Introduction and Theory}
+		\part[Introduction and Theory]{Introduction and Related Work}
 		\label{part:introAndBackgroundTheory}
 		\input{chapters/Introduction}
 		
@@ -91,6 +101,7 @@
 		%%% ---------------------------------------------------------------------------
 		\part[The 2nd Part]{The Second Part}
 		\label{part:secondP}
+                \input{chapters/GermanWord2Vec}
 		
 		
 		% ---------------------------------------------------------------------------
@@ -105,6 +116,10 @@
 		\appendix %---------------------------------------
 		
 		\input{chapters/oneAppendix}
+                
+                \input{components/acronyms}
+                \addcontentsline{toc}{chapter}{Acronyms}
+                
 		
 	
 
@@ -116,3 +131,8 @@
  
 \end{document}
 
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
