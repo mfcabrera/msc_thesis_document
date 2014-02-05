@@ -19,13 +19,44 @@
 
 %% - Analysis of the results 
 
-The previous chapters introduced the concepts and previous work in the field
+The previous chapters introduced the concepts and related work  in the fields
 of  \ac{NLP}, \ac{NNLM} and vector representation of words. This chapter will
 focus on the application of a particular model, namely \textit{Word2Vec}, to
 the German language.  
 
-Similar to the English study we define a set of tasks 
+There art two main reasons that justify the study of the behavior of word
+vector embeddings in a language as morphologically rich and moderate inflective
+as German.  First  as reported in previous work, n-gram backoff language models, the state of the art
+technique, do not perform  as well for inflectional  languages as they work
+for English \cite{conf/icassp/MikolovKBGC09}. Recent alternatives
+n-gram based models are \ac{NNLM} \cite{Bengio:2003:NPL:944919.944966} described
+in detail in CHAPTER [TODO:REF]. \ac{NNLM} had been shown to perform well \cite{conf/icassp/MikolovKBGC09}
 
+
+
+ [Thurian and
+Other people papers listed on Mikolov]
+
+- This work have done in english (not studied in depth in high inflectional
+languages) however there are not study which theoritically explains what 
+
+- There are some evidence of good performance morphologucally rich (highly
+inflective) lanaguage 
+
+% - [On the other hand, n-gram backoff models do not work
+% as well for inﬂectional languages as they work for
+% English] \cite{conf/icassp/MikolovKBGC09} 
+
+- Several alternative model has been proposed based on \ac{NNLM}
+
+- As the word embeddings are based also en \ac{NNLM} it is expected that
+thereofore works better. 
+
+- We use in our work German is a morpholgically rich and moderate inflected
+language (CITATION). We want to test evaluate the performance of this
+particular word embeddings. 
+
+Similar to the English study we define a set of tasks 
 
 To evaluate a language model is necessary define a set of tasks 
 For that purpose, a equivalent subset of tasks targeted at the German language were
@@ -46,6 +77,14 @@ syntantic tasks were created in a similar way to the ones defined by Mikolov
 et al \cite{MikolovSCCD13}.
 
 This chapter describes the experiments and and tasks used to measure  
+
+- [Neural networks seem to be very useful for tasks where
+we struggle with inflectional languages and limited data
+amounts. While performance of our implementation is not
+high,  presents various optimization techniques that lead to
+significant improvements in required computational time for
+training and lattice re-scoring.] - \cite{conf/icassp/MikolovKBGC09}
+
 
 
 
