@@ -14,4 +14,8 @@ latex2e/
 latex/*.bbl
 latex/*.blg
 latex/*.sty
-
+latex/.DS_Store
+latex/*.log
+latex/*.aux
+latex/*.pdf
+latex/*.toc
