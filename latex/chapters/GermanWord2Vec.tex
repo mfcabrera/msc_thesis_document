@@ -136,37 +136,124 @@ important result of our approach.
 
 \section{Task Description}
 
-In their original paper \cite{DBLP:journals/corr/abs-1301-3781} Mikolov et
-al. introduced a comprehensive test that contained five types of semantic
+In their original paper \cite{DBLP:journals/corr/abs-1301-3781} the authors
+introduced a comprehensive test that contained five types of semantic
 questions. In the original data set  there were 8869 semantic and 10675
-syntactic questions. Table BLAH has been 
+syntactic questions. To create this set the authors compiled a list of
+similar word pairs manually and then they generated the list by
+connecting the word pairs. Table~\ref{tab:task_original_en} shows examples 
+examples from each category of tasks. 
+
+To evaluate the quality of the word vectors the question  are answer in the
+following manner: given the word pairs ($a$, $b$) and ($c$, $d$) a question
+is considered to be answered correctly if the for resulting vector $X$ the closest vector measured in
+cosine similarity is  $vector(d)$. $X$ is calculated by applying the following
+operation $X = vector(b) - vector(a) + vector(c)$.  
+
+ For example  for the words
+($``small''$, $''smaller''$ ) and ($``{big}''$,$"bigger"$),
+the $vector("bigger")$ should be the closest to the resulting
+vector $X$. If the representation of the word in
+vector space is good, then it is possible to find the answer using such
+operation \cite{DBLP:journals/corr/abs-1301-3781}.
+
+As discussed in the first part of this work, the word representations
+capture different types of  similarities among words. Therefore, with the
+operation described above,  what is  being
+attempted is to answer the question ``\emph{What is the word that is similar to
+c in the same sense as b is similar to a?}''. 
+
+% To compare the quality of different versions of word vectors, previous papers typically use a table
+% showing example words and their most similar words, and understand them intuitively. Although
+% it is easy to show that word France is similar to Italy and perhaps some other countries, it is much
+% more challenging when subjecting those vectors in a more complex similarity task, as follows. We
+% follow previous observation that there can be many different types of similarities between words, for
+% example, word big is similar to bigger in the same sense that small is similar to smaller. Example
+% of another type of relationship can be word pairs big - biggest and small - smallest [20]. We further
+% denote two pairs of words with the same relationship as a question, as we can ask: ”What is the
+% word that is similar to small in the same sense as biggest is similar to big?”
+
+In order to evaluate the performance of the word vectors in the same way but in other language a
+similar set of questions  needs to be created. Two approaches might be used
+to accomplish this. The words can be translated, either automatically or by hand, or the data set can be
+generated from scratch in a similar manner as the original was.  In this work
+the translation was performed by hand using an online dictionary \footnote{http://dict.cc} as guide and
+verified by two native speakers.
+
+Regardless of the method chosen, some tasks of this set are biased towards
+the morphology of English and could not be easily mapped to another language,
+and in particular to German. Therefore a simple translation would not be
+enough to obtain a equivalent task set for another language. For that reason
+each of the original 14 tasks was analyzed to either adapt it to German or
+discard it completely. 
 
 
-\begin{tabular}{ |l| |c|*{4}{c| |c| } | }
+\renewcommand{\arraystretch}{1.3}
+
+\begin{table}[h]\
+  \caption{Examples of the original types of syntactic questions in the
+    Semantic-Syntactic Word Relationship test as defined
+    by \cite{DBLP:journals/corr/abs-1301-3781}.}
+  \label{tab:task_original_en}
+
+  \begin{tabular}{ |l| |c|*{4}{c| |c| c | c }  }
+
   \hline           
   Type of Relationship &  \multicolumn{2}{c||}{Word Pair 1} &
   \multicolumn{2}{c|}{Word Pair 2} \\  \hline           
-  Common capital city & 1  2 & 3 & 6 & pailander \\ 
-  All capital cities  & 1  2 & 3 & 6 & pailander \\
-  Currency & 8 & 9 \\  
-  City-in-state & 8 & 9 \\  
-  Man-Woman & 8 & 9 \\  \hline  
-  Adjective to adverb & 8 & 9 \\  
-  Opposite & 8 & 9 \\  
-  Comparative & 8 & 9 \\  
-  Superlative & 8 & 9 \\  
-  Present participle & 8 & 9 \\  
-  Nationality adjective & 8 & 9 \\  
-  Past tense & 8 & 9 \\  
-  Plural nouns  & 8 & 9 \\  
-  Past verbs & 8 & 9 \\  \hline  
+  Common capital city & Athens & Greece & Oslo  & Norway \\ 
+  All capital cities  & Astana & Kazakhstan &  Harare & Zimbabwe  \\
+  Currency & Angola & kwanza & Iran & rial \\  
+  City-in-state  & Chicago & Illinois & Stockton & California \\  
+  Man-Woman & brother & sister  & grandson & granddaughter \\  \hline  
+  Adjective to adverb & apparent & apparently & rapid & rapidly  \\  
+  Opposite & possibly & impossibly & ethical & unethical \\  
+  Comparative & great & greater & tough & tougher \\  
+  Superlative & easy & easiest & lucky & luckiest \\  
+  Present participle & think & thinking & read & reading \\  
+  Nationality adjective & Switzerland & Swiss & Cambodia  & Cambodian  \\  
+  Past tense & walking & walked & swimming & swam \\ 
+  Plural nouns  & mouse & mice & dollar & dollars \\  
+  Past verbs & work & works & speak  & speaks  \\  \hline  
   
     
   
-
+  
 \end{tabular}
+\end{table}
 
+\section{Adapting the tasks to the German Language}
+\label{sec:adapt_task_german_lang}
 
+Many of  tasks from the original  Semantic Syntactic set of task are language
+dependent. In order to adapt them  to the German language  each of different
+types of question was evaluated. Some of them can be easily adapted to German
+just by translating the respective word. However, some of the them either do
+not make sense for German in from the morphology point of view or do not
+apply for German. From the original 14 types of questions, the German version only
+10 and equivalent set was also constructed for English for performing the
+comparison. Below each of the tasks are described in detail along with what
+was done to adapt it to German when possible.
+
+\subsection{Common Capital City and All Capital}
+\label{sec:sub_sec_common_capital_country}
+
+This group of question try to solve analogies between country and capitals.
+The vector model is asked the semantic relationship \emph{Capital Country}.
+For example:  ``\emph{What is the word that is similar to
+Germany in the same sense as Paris is similar to France?}''. The model should
+answer then the word produce a vector close to ``\emph{Berlin}''. The
+difference between the two subsets is that common capital contains
+ the 22 most ``\textit{common}'' country - capital word pairs. However the
+ criteria for the selection is not defined by the authors of the set. The
+ other subset contains country - capital pairs of less known countries such
+ as \textit{Ghana  -  Accra} and  \textit{Harare -  Zimbabwe}.
+
+For this task the adaptation was done by simply translating the names from
+the English ones to their German counterparts. 
+
+\subsection{Currency}
+\label{sec:sub_sec_currency}
 
 % To measure quality of the word vectors, we  a comprehensive test set that contains ﬁve types
 % of semantic questions, and nine types of syntactic questions. Two examples from each category are
