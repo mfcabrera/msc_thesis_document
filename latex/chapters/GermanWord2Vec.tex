@@ -236,7 +236,7 @@ apply for German. From the original 14 types of questions, the German version on
 comparison. Below each of the tasks are described in detail along with what
 was done to adapt it to German when possible.
 
-\subsection{Common Capital City and All Capital}
+\subsection{Common Capital and City and All Capital}
 \label{sec:sub_sec_common_capital_country}
 
 This group of question try to solve analogies between country and capitals.
@@ -330,21 +330,83 @@ superlative relationship  (e.g. \textit{safe}  and \textit{safest}).
 
 Many of the words belonging to this data set can be easily translated to
 German directly. However, there are some caveats. First, English have many
-more words for representing the same semantic concept.  English is language from
-the family of Germanic languages, and therefore shares the common structure
-and grammar. However, many words have been borrowed from Latin expanding the
-vocabulary  and many times replacing the words from Germanic origin. 
-For example, the word the \textit{tall} that comes from Old Germanic and  the
-word \textit{large} that comes from Latin. Both words could be translated to
-German as \textit{hoch}. However, the Englisch word  \textit{high} of German
+more words for representing the same semantic concept than German.  English is language from
+the family of Germanic languages, therefore shares the common structure
+and grammar. However, many words have been borrowed from Latin, expanding the
+vocabulary  and in many cases replacing the words from Germanic origin. 
+For example, the word \textit{tall}  comes from Old Germanic and  the
+word \textit{large} comes from Latin. Both words could be translated to
+German as \textit{hoch}. However, the English word  \textit{high} of German
 origin can also be translated as \textit{hoch}.
-Another example is that  in German the word  \textit{gross} represent
-quality of being  \textit{big}, but also \textit{large} or \textit{tall}.
+% Another example of this is the German the word  \textit{gross}, that represents
+% the quality  of being  \textit{big}, but also \textit{large} or \textit{tall}.
 That is a unique concept in German can represent many things in English. 
+Give this, only one word is maintained in German and one English representing
+the same concept making the number of pairs equivalent.
+
 
 % To measure quality of the word vectors, we  a comprehensive test set that contains ﬁve types
 % of semantic questions, and nine types of syntactic questions. Two examples from each category are
-% shown in Table 1.
+%
+\subsection{Present Participle}
+\label{sec:sub_sec_present_participle}
+
+This tasks try to model the relationship between verbs and its participle
+(e.g. \textit{come} -\textit{coming}). In English is used the participle in
+much more ways than German: 
+
+\begin{itemize}
+\item  To form the progressive (continuous) aspect: Jim was sleeping. as an
+  adjective phrase modifying a noun phrase: The man sitting over there is my
+  uncle.
+\item adverbially, the subject being understood to be the same as that
+  of the main clause: Looking at the plans, I gradually came to see where the
+  problem lay.
+\item  similarly, but with a different subject, placed before the
+  participle (the nominative absolute construction): He and I having
+  reconciled our differences, the project then proceeded smoothly.
+\item more
+  generally as a clause or sentence modifier: Broadly speaking, the project
+  was successful.
+
+\end{itemize}
+
+In German, unlike English  the present participle is used almost exclusively as an
+adjective or adverb and as such are inflected. This is imply that in a model
+such as  \textit{Word2Vec} the same word after the declension will be
+represented with different words. For the purpose of this tasks, this mean
+the is expected to have low number of correct answer.
+
+\subsection{Nationality Adjective and  Plural nouns}
+\label{sec:sub_sec_nat_plu}
+
+The nationality adjective tasks model the relationship between a country and
+the the adjective representing the nationality. For example, for the word
+\textit{Colombia}, the respective adjective is \textit{Colombian}. In German,
+the nationality is also an adjective, and as such is inflected based on the
+case and genus of the substantive. Similar to the participle, many words will
+represent the same concept, thus low correct answer rate are expected in this
+task.  For this task the corresponding German adjective with no inflection is  used.
+
+The plural nouns task model the relationship of a word and its plural the
+proportion of words that are the same plural is higher than English. This is
+a factor that will affect the test because the same word is never taken as a
+valid answer. [REFERENCE?] 
+
+
+\subsection{Past Tense and Plural Verbs}
+\label{sec:sub_sec_plural_verbs}
+The two task find syntantic relationship between verbs and they past tense
+and the conjugation respectively. This relationships does not hold in German,
+and therefore are removed from the test.
+
+
+
+%%%%% 
+%%% %TODO: Declination in German additonal task.
+%%%% Inflection of der die das
+%%%% Inflrection of adjectives
+
 
 
 %% • private data sets that do not allow experiments to be repeated are used
