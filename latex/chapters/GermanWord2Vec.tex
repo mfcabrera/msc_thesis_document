@@ -191,10 +191,11 @@ discard it completely.
 
 \renewcommand{\arraystretch}{1.3}
 
-\begin{table}[h]\
+\begin{table}[h]
+  \centering
   \caption{Examples of the original types of syntactic questions in the
-    Semantic-Syntactic Word Relationship test as defined
-    by \cite{DBLP:journals/corr/abs-1301-3781}.}
+    Semantic-Syntactic Word Relationship test as defined 
+    by \cite{DBLP:journals/corr/abs-1301-3781}. }
   \label{tab:task_original_en}
 
   \begin{tabular}{ |l| |c|*{4}{c| |c| c | c }  }
@@ -375,7 +376,7 @@ In German, unlike English  the present participle is used almost exclusively as 
 adjective or adverb and as such are inflected. This is imply that in a model
 such as  \textit{Word2Vec} the same word after the declension will be
 represented with different words. For the purpose of this tasks, this mean
-the is expected to have low number of correct answer.
+the is expected to have low number of correct answers.
 
 \subsection{Nationality Adjective and  Plural nouns}
 \label{sec:sub_sec_nat_plu}
@@ -383,11 +384,12 @@ the is expected to have low number of correct answer.
 The nationality adjective tasks model the relationship between a country and
 the the adjective representing the nationality. For example, for the word
 \textit{Colombia}, the respective adjective is \textit{Colombian}. In German,
-the nationality is also an adjective, and as such is inflected based on the
-case and genus of the substantive. Similar to the participle, many words will
+the nationality is also an adjective, and as such, it  is inflected based on the
+case and genus of the substantive.  For example  \textit{Kolumbianisch} may appear 
+inflected as \textit{Kolumbianischer},  \textit{Kolumbianischem},
+\textit{Kolumbianische}, etc.  Similar to the participle, many words will
 represent the same concept, thus low correct answer rate are expected in this
-task.  For this task the corresponding German adjective with no inflection is  used.
-
+task.  
 The plural nouns task model the relationship of a word and its plural the
 proportion of words that are the same plural is higher than English. This is
 a factor that will affect the test results because the same word is never taken as a
@@ -401,10 +403,11 @@ and the conjugation respectively. This relationships does not hold in German,
 and therefore are removed from the test.
 
 \section{Summary of Changes} 
-The changes performed to the original task can be summarized as follows:
-
+Table \ref{tab:summary_of_changes_task} shows a summary of the changes
+performed in other to generate a set for the German language.
 
  \begin{table}[h]
+   \centering
    \caption{Summary of changes } 
    \label{tab:summary_of_changes_task}
 
@@ -421,25 +424,90 @@ The changes performed to the original task can be summarized as follows:
    Adjective to adverb  &  Removed - do not apply in German \\
    Comparative & Translated - Some words removed due to polisemy \\ 
    Superlative & Translated - particle \textit{am} not used \\
-   Opposite  & Translated - Taking into account the form\\
-   
+   Opposite  & Translated \\
+   Present participle & Translated \\
+   Plural Nouns  & Translated \\
+   Past verbs &  Removed \\
+   Nationality adjective & Translated \\
    
 \hline
 
-
   
- \end{tabular}
- \end{table}
-  
+\end{tabular}
+\end{table}
     
-  
 In parallel to this changes, the english version was also modified to match
-this new set of tasks so a comparisson could be performed.
+this new set of tasks so a comparisson could be performed in a somewhat
+equivalent manner.
 
 \section{Description of Experiments}
 \label{sec:german_eng_experiments}
 
+\subsection{Dataset}
+\label{experiments:sub:dataset}
 
+In the original paper \cite{DBLP:journals/corr/abs-1301-3781} the author
+trained the word vectors using Google News internal data set containing about
+6 billions of tokens. This data set is not available. The authors have made
+available the pre-trained 300-dimensional  word vector  using Google internal
+data set containing 3 million words and phrases.
+
+The closest open data set available with such variety is the Wikipedia, and
+we use both, the English and the German Wikipedia for our experiments.  It is
+important to notice, that as it happens with most of the information
+available in World Wide Web, there are much more information in English that
+in German.  As discussed before, the amount of data available affects the quality  of the trained
+word vectors. 
+
+For the English and German word vector model  the Wikipedia is used. For
+German the complete article dump of the 102$^{th}$ of October of 2013  of the
+Wikipedia is used.  For English, the dump of all the articles from the
+1º$^{th}$ of November of 2013 is used. The dates are reported for informative
+purpose. The data set can be obtained from the Wikipedia
+servers.\footnote{\url{http://dumps.wikimedia.org/}}.
+
+As this dump are in XML and contains characters and words that are not of
+interest when building the word vector  representation the following clean up
+procedure was applied to them:
+
+\begin{itemize}
+\item Remove all XML/HTML tags from the file preserving text and caption for
+ URLs and images.
+\item Remove special characters such as \&,  [, \}, etc.
+\item make all characters lowercase.
+\item spell out numbers.
+\item remove any other character that is not alphanumeric.
+\end{itemize}
+
+In addition to this, for the German language the additional modification were
+performed
+\begin{itemize}
+\item Transform \textit{umlauts} to the ASCII spelling.  e.g. \"{o} is
+  transformed to \textit{oe},  \"{u} is transformed to \textit{ue}  and so
+  on. 
+\item The \textit{Eszett} or \textit{scharfes S} (Symbol '\ss') \  is transformed to ss.
+\end{itemize}
+
+Table shows \ref{tab:summ_dataset_germanword2vec} the data sets used
+to train the file the word vectors with their size and number of tokens after
+the preprocessing. 
+  
+
+ \begin{table}[h]
+   \centering
+   \caption{Summary of Data sets} 
+   \label{tab:summ_dataset_germanword2vec}
+
+   \begin{tabular}{ |l|c|c| }
+   \hline           
+    File Name &  Size (GB) & Number of tokens \\  \hline           
+    dewiki-20131024-pages-articles.txt & 6579 &   1051584822 \\
+    enwiki-20131104-pages-articles.txt & 17412 &  3177449048  \\
+    \hline
+
+  
+\end{tabular}
+\end{table}
 
 
 %%%%% 
