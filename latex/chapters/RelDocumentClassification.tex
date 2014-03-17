@@ -1,0 +1,37 @@
+
+\section{Text Categorization}
+\label{sec:rel_text_categorization}
+
+The goal of \ac{TC} is to automatically assign, for each
+documents, categories selected among a predefined set.
+In opposition to the machine learning typical multi-class classification
+task which aims at attributing one class among the possible ones to each
+example, documents in a text categorization task may belong to several
+categories. 
+%Sebastiani 
+% "Sebastiani02"
+
+Formally,  \ac{TC} is the  task of  assigning a bolean value to each pair 
+$\left\langle d_{j},c_{j}\right\rangle \in\mathcal{D}\,\, x\,\mathcal{\, C}$
+where  $\mathcal{D}$  is a domain of documents and
+$\mathcal{C}=\{c_{1},\ldots,c_{|c|}\}$ is a set of predefined categories. A
+true value assigned to the pair $\left\langle d_{j},c_{j}\right\rangle $
+indicates the decision of filling  $d_{j}$ under the category  $c_{j}$, and
+a false value the decision of not filling it under that category \cite{Sebastiani02}. 
+
+More formally the task is to approximate a unknown target function 
+ $\breve{\Phi}:\mathcal{D}\,\, x\,\mathcal{\, C}\rightarrow\{T,F\}$  using 
+ $\Phi:\mathcal{D}\,\, x\,\mathcal{\, C}\rightarrow\{T,F\}$  such that 
+ $\Phi$ and  $\breve{\Phi}$ ``coincide as much as possible'' \cite{Sebastiani02}. 
+
+So far only the binary case has been discussed, however in many realistic
+settings there are many possible (mutually exclusive or not) categories in
+which a document can be classified.  There are two main ways to  tackle
+such problem: 1-vs-All and All-vs-All. 
+
+WRITE HERE ABOUT THE
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../main.tex"
+%%% End:
