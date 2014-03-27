@@ -460,9 +460,9 @@ in German.  As discussed before, the amount of data available affects the qualit
 word vectors. 
 
 For the English and German word vector model  the Wikipedia is used. For
-German the complete article dump of the 102$^{th}$ of October of 2013  of the
+German the complete article dump of the 24$^{th}$ of October of 2013  of the
 Wikipedia is used.  For English, the dump of all the articles from the
-1º$^{th}$ of November of 2013 is used. The dates are reported for informative
+4$^{th}$ of November of 2013 is used. The dates are reported for informative
 purpose. The data set can be obtained from the Wikipedia
 servers.\footnote{\url{http://dumps.wikimedia.org/}}.
 
@@ -505,9 +505,30 @@ the preprocessing.
     enwiki-20131104-pages-articles.txt & 17412 &  3177449048  \\
     \hline
 
-  
 \end{tabular}
 \end{table}
+
+
+
+We can see that the English dataset contains almost 3 times as tokens as the
+German one. This mean that for the English word vector model  there much more
+setences to train form, and therefore can be expected a better performance
+from this model in the taks described before. 
+  
+\subsection{Training of the Models}
+\label{experiments:sub:Training}
+
+In order to train the model the public \emph{C} implementation available of
+\textit{word2vec} \footnote{\url{https://code.google.com/p/word2vec/}} was
+used . The implementation was slightly modified to account for the different
+number to task categories and to provide more debugging information. 
+
+In a similar fashion as in the original paper in order to quickly train the
+model we evaluted the learned model on the 30.000 most common words. That
+gave us 
+
+
+
 
 
 %%%%% 
