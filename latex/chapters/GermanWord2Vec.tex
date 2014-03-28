@@ -217,10 +217,6 @@ discard it completely.
   Past tense & walking & walked & swimming & swam \\ 
   Plural nouns  & mouse & mice & dollar & dollars \\  
   Past verbs & work & works & speak  & speaks  \\  \hline  
-  
-    
-  
-  
 \end{tabular}
 \end{table}
 
@@ -408,7 +404,7 @@ performed in other to generate a set for the German language.
 
  \begin{table}[h]
    \centering
-   \caption{Summary of changes } 
+   \caption{Summary of changes to the original task } 
    \label{tab:summary_of_changes_task}
 
    \begin{tabular}{ |l|l|  }
@@ -428,6 +424,7 @@ performed in other to generate a set for the German language.
    Present participle & Translated \\
    Plural Nouns  & Translated \\
    Past verbs &  Removed \\
+
    Nationality adjective & Translated \\
    
 \hline
@@ -438,7 +435,41 @@ performed in other to generate a set for the German language.
     
 In parallel to this changes, the english version was also modified to match
 this new set of tasks so a comparisson could be performed in a somewhat
-equivalent manner.
+equivalent manner.  Table show sample 
+
+
+\begin{table}[h]
+  \centering
+  \caption{Examples of word pais  of task  used  to evaluate the German word
+    vector model. }
+  \label{tab:task_deutsch_modified}
+
+  \begin{tabular}{ |l| |c|*{4}{c| |c| c | c }  }
+
+  \hline           
+  Type of Relationship &  \multicolumn{2}{c||}{Word Pair 1} &
+  \multicolumn{2}{c|}{Word Pair 2} \\  \hline           
+  Common capital city & Bern &  Schweiz & Kairo  & Aegypten \\ 
+  All capital cities  & Astana & Kazakhstan &  Harare & Zimbabwe  \\
+  Currency & Angola & kwanza & Iran & rial \\  
+  City-in-state  & Chicago & Illinois & Stockton & California \\  
+  Man-Woman & brother & sister  & grandson & granddaughter \\  \hline  
+  Adjective to adverb & apparent & apparently & rapid & rapidly  \\  
+  Opposite & possibly & impossibly & ethical & unethical \\  
+  Comparative & great & greater & tough & tougher \\  
+  Superlative & easy & easiest & lucky & luckiest \\  
+  Present participle & think & thinking & read & reading \\  
+  Nationality adjective & Switzerland & Swiss & Cambodia  & Cambodian  \\  
+  Past tense & walking & walked & swimming & swam \\ 
+  Plural nouns  & mouse & mice & dollar & dollars \\  
+  Past verbs & work & works & speak  & speaks  \\  \hline  
+\end{tabular}
+\end{table}
+
+
+
+
+
 
 \section{Description of Experiments}
 \label{sec:german_eng_experiments}
