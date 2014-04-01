@@ -51,8 +51,8 @@ attractive.
 The rest of the chapter is divided as follows: The first part described the
 selected tasks, the rationale behind the adaption made to fit the German
 language and the data set  and the different preprocessing alternatives we
-tried. The second part described the training approach as well describe the most
-important result of our approach.
+tried. The second part describes the training approach as well as the most
+important result of the experiments.
 
 %  In this chapter we will
 % describe a set of tasks adapted from \cite{DBLP:journals/corr/abs-1301-3781}
@@ -441,7 +441,7 @@ equivalent manner.  Table show sample
 \begin{table}[h]
   \centering
   \caption{Examples of word pais  of task  used  to evaluate the German word
-    vector model. }
+    vector model }
   \label{tab:task_deutsch_modified}
 
   \begin{tabular}{ |l| |c|*{4}{c| |c| c | c }  }
@@ -452,27 +452,49 @@ equivalent manner.  Table show sample
   Common capital city & Bern &  Schweiz & Kairo  & Aegypten \\ 
   All capital cities  & Zagreb &  Kroatien & Aschgabat & Turkmenistan  \\
   Currency & Argentinien & peso  & Lettland  & lats \\ 
-  Family & Bruder & Schwester  & grandson & granddaughter \\  \hline  
-  Man-Woman & brother & sister  & grandson & granddaughter \\  \hline  
-  Adjective to adverb & apparent & apparently & rapid & rapidly  \\  
-  Opposite & possibly & impossibly & ethical & unethical \\  
-  Comparative & great & greater & tough & tougher \\  
-  Superlative & easy & easiest & lucky & luckiest \\  
-  Present participle & think & thinking & read & reading \\  
-  Nationality adjective & Switzerland & Swiss & Cambodia  & Cambodian  \\  
-  Past tense & walking & walked & swimming & swam \\ 
-  Plural nouns  & mouse & mice & dollar & dollars \\  
-  Past verbs & work & works & speak  & speaks  \\  \hline  
+  Family & Bruder & Schwester  & Grossvater & Grossmutter \\
+  Man-Woman & Koenig & Koenigin  &  Prinz & Prinzessin   \\  \hline  
+  Opposite & zulaessig & unzulaessig & moeglich & unmoeglich \\  
+  Comparative & billig & billiger & warm & waermer \\  
+  Superlative & schlecht & schlechtesten & gut & besten \\  
+  Present participle & fliegen & fliegend & laufen & laufend \\  
+  Nationality adjective & Weissrussland & weissrussisch & Frankreich  & franzoesisch  \\  
+  Plural nouns  & Banane & Bananen & Loewe & Loewen \\
+  \hline
 \end{tabular}
 \end{table}
 
 
 
-
-
-
 \section{Description of Experiments}
 \label{sec:german_eng_experiments}
+
+this section described the experimental set-up used to evaluate the German
+word2vec model. The objective of this experiments is two answer several
+question regarding the performance of word2vec the applicability of word2vec
+on languages different than in English and in particular for German.  In
+particular:
+
+\begin{itemize}
+\item What is the performace of the German language word vector model in comparisson to that of
+  the English language?
+\item Given the morphologically differences and complexity of languages such
+  a German, is word2vec able to capture the information properly?
+\item Is there any preprocessing of the training data  that might help to caputure word vector
+  (e.g. Stemming)?
+\end{itemize}
+
+In order to answer the folling taks are performed:
+
+\begin{itemize}
+\item The training of several word2vec models using the Wikipedia German
+  database.
+\item Training of several several word2vec models using Wikipedia English as
+  traninig  database.
+\item Comparisson of the performance of the models in the modified task
+  described in section \ref{sec:adapt_task_german_lang}.
+\end{itemize}
+
 
 \subsection{Dataset}
 \label{experiments:sub:dataset}
@@ -519,6 +541,12 @@ performed
 \item The \textit{Eszett} or \textit{scharfes S} (Symbol '\ss') \  is transformed to ss.
 \end{itemize}
 
+
+To perform this changes a modified version of a Perl script originally
+designed to perform this tasks (for the English Wikipedia) was used
+\footnote{\url{http://mattmahoney.net/dc/textdata.html}}. This script is
+linked on Word2vec's Google code project site.
+
 Table shows \ref{tab:summ_dataset_germanword2vec} the data sets used
 to train the file the word vectors with their size and number of tokens after
 the preprocessing. 
@@ -546,20 +574,20 @@ German one. This mean that for the English word vector model  there much more
 setences to train form, and therefore can be expected a better performance
 from this model in the taks described before. 
   
-\subsection{Training of the Models}
+\subsection{Model Training}
 \label{experiments:sub:Training}
 
-In order to train the model the public \emph{C} implementation available of
+For training  the model the public \emph{C} implementation available of
 \textit{word2vec} \footnote{\url{https://code.google.com/p/word2vec/}} was
-used . The implementation was slightly modified to account for the different
-number to task categories and to provide more debugging information. 
+used.  This is a highly optimized C implementation. it was slightly modified to account for the different
+number to task categories and to provide more debugging information useful
+for the model training. 
 
-In a similar fashion as in the original paper in order to quickly train the
-model we evaluted the learned model on the 30.000 most common words. That
-gave us 
-
-
-
+In a similar fashion as in the original paper
+\cite{DBLP:journals/corr/abs-1301-3781},  in order to quickly train the model
+the  learned model is evaluated on  the 30.000 most common words of the
+data set. this allowed a fast  evaluation of several models before evaluation
+the full model.
 
 
 %%%%% 
