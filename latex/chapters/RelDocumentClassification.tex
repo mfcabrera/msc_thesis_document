@@ -29,7 +29,39 @@ settings there are many possible (mutually exclusive or not) categories in
 which a document can be classified.  There are two main ways to  tackle
 such problem: 1-vs-All and All-vs-All. 
 
-WRITE HERE ABOUT THE
+\textbf{TODO: INSERT THE INFORMATION FROM SCIKIT-LEARN PAGES - e.g.
+  DESCRIPTION OF 1-vs-All and All vs all}
+
+\ac{TC} relies  heavily on  models that have been developed originally for \ac{IR}.
+ the reason of this is that TC is a content based document management task,
+ and such it shares many characteristics with other IR tasks such as text
+ search, specifically \ac{IR}-style indexing using one of the models mentioned  in 
+ [REFERENCE] SECTION MODELS OF TEXT
+
+
+
+\subsection{Performance Measures}
+\label{sec:sub_performance_measures}
+
+One question that arises after reading the definition of TC is how to measure
+ the how well the classifier function  $\breve{\Phi}$ (the approximation or hypothesis) matches the unknown target function  $\Phi$
+ (effectiveness).  This is generally measured in terms of the classic IR
+ metrics of precision  $P$  and recall  $R$ but adapted to the specific case
+ of \ac{TC}. $P$  is defined as the probability that if a given a random document
+ $d_{x}$  is classified under the category  $c_{i}$  the classification is
+ correct:
+
+ $$P(\breve{\Phi}(d_{x},c_{i})=T\,\,|\,\, P(\Phi(d_{x},c_{i})=T))$$
+
+
+ Analogously  $R$  is defined as the probability that if a random document 
+ $d_{x}$ is ought to be classified under  $c_{i}$,  this decision is taken
+ by the classifier function: 
+
+ $$P(\Phi(d_{x},c_{i})=T\,\,|\,\, P(\breve{\Phi}(d_{x},c_{i})=T))$$
+ 
+
+
 
 %%% Local Variables: 
 %%% mode: latex
