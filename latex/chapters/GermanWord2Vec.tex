@@ -560,7 +560,7 @@ the preprocessing.
    \begin{tabular}{ |l|c|c| }
    \hline           
     File Name &  Size (GB) & Number of tokens \\  \hline           
-    dewiki-20131024-pages-articles.txt & 6579 &   1051584822 \\
+    dewiki-20131024-pages-articles.txt & 6579 &   1051584822 \\ 
     enwiki-20131104-pages-articles.txt & 17412 &  3177449048  \\
     \hline
 
@@ -577,6 +577,44 @@ from this model in the taks described before.
 \subsection{Model Training}
 \label{experiments:sub:Training}
 
+There are many paramater that can be modified in order to adjust the model
+and have it perform better on both the  semantic and syntactic tasks. The
+selection of this parameters affect not only the accuracy of the model but
+also the training speed.  Table TABLE shows 
+
+
+\begin{table}[h]
+   \centering
+   \caption{Summary model training parametetrs} 
+   \label{tab:word2_vec_parameters}
+
+   \begin{tabular}{ |l|c|c| }
+   \hline           
+    Parameter &  Posible Values & Comment \\  \hline           
+    \multirow{2}{*}{Architecture}  & skip-gram  & blah skipgram \\ 
+    \cline{2-3}
+    & CBOW  &   BLAH CBOW  \\ \hline
+    \multirow{2}{*}{Training Algorithm}  &  HS & BLAH HS   \\ 
+    \cline{2-3}
+    & Negative Sampling & BLAH NS \\ \hline
+    Sub-sampling  &  BLAH & BLAH   \\ \hline
+    Dimensionality  &  BLAH & BLAH   \\ \hline
+    
+\end{tabular}
+\end{table}
+
+
+
+The training speed can be significantly improved by using parallel training on multiple-CPU machine (use the switch '-threads N'). The hyper-parameter choice is crucial for performance (both speed and accuracy), however varies for different applications. The main choices to make are:
+
+architecture: skip-gram (slower, better for infrequent words) vs CBOW (fast)
+the training algorithm: hierarchical softmax (better for infrequent words) vs negative sampling (better for frequent words, better with low dimensional vectors)
+sub-sampling of frequent words: can improve both accuracy and speed for large data sets (useful values are in range 1e-3 to 1e-5)
+dimensionality of th eword vectors: usually more is better, but not always
+context (window) size: for skip-gram usually around 10, for CBO
+
+
+
 For training  the model the public \emph{C} implementation available of
 \textit{word2vec} \footnote{\url{https://code.google.com/p/word2vec/}} was
 used.  This is a highly optimized C implementation. it was slightly modified to account for the different
@@ -587,11 +625,14 @@ In a similar fashion as in the original paper
 \cite{DBLP:journals/corr/abs-1301-3781},  in order to quickly train the model
 the  learned model is evaluated on  the 30.000 most common words of the
 data set. this allowed a fast  evaluation of several models before evaluation
-the full model.
+the full model. 
 
 
 \subsection{Empirical Results}
 \label{sec:sub_empirical_results}
+
+As mention in the model trained before 
+
 
 TODO: Add a table where I show the performance of:
 %% Accuracy on subset of the semantic task Word relationships test set uysing
@@ -619,6 +660,7 @@ tabel and check it out) - Time in (min) (with and wigthout Subsampling of 3
 of Four)
 
 % ANALOGICAL REASONING  use that on the test %
+
 
 TODO: Add a table in which we compare words and their tranlation with the
 more similar words 
