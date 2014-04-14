@@ -577,10 +577,12 @@ from this model in the taks described before.
 \subsection{Model Training}
 \label{experiments:sub:Training}
 
-There are many paramater that can be modified in order to adjust the model
-and have it perform better on both the  semantic and syntactic tasks. The
+There are many parameters that can be modified in order to adjust the model
+and have it performs better on both the  semantic and syntactic tasks. The
 selection of this parameters affect not only the accuracy of the model but
-also the training speed.  Table TABLE shows 
+also the training speed.  Table \ref{tab:word2_vec_parameters} shows and
+overview of the most important parameters with short description. For a
+complete description of each of them please refer to section [LINK TO SECTION]. 
 
 
 \begin{table}[h]
@@ -588,32 +590,25 @@ also the training speed.  Table TABLE shows
    \caption{Summary model training parametetrs} 
    \label{tab:word2_vec_parameters}
 
-   \begin{tabular}{ |l|c|c| }
+   \begin{tabular}{ |l|c|p{5cm}| }
    \hline           
     Parameter &  Posible Values & Comment \\  \hline           
-    \multirow{2}{*}{Architecture}  & skip-gram  & blah skipgram \\ 
+    \multirow{2}{*}{Architecture}  & skip-gram  & Slower, better for frequent
+    words. \\ 
     \cline{2-3}
-    & CBOW  &   BLAH CBOW  \\ \hline
-    \multirow{2}{*}{Training Algorithm}  &  HS & BLAH HS   \\ 
+    & CBOW  &  Faster than skip-gram. \\ \hline
+    \multirow{2}{*}{Training Algorithm}  & \ac{HS}  & Better for infrequent words.   \\ 
     \cline{2-3}
-    & Negative Sampling & BLAH NS \\ \hline
-    Sub-sampling  &  BLAH & BLAH   \\ \hline
-    Dimensionality  &  BLAH & BLAH   \\ \hline
+    & Negative Sampling & Better for frequent works \\ \hline
+    Sub-sampling  & 1e-3 to 1e-10  &  It  can improve both accuracy and speed for large data
+    sets Useful values are in range \\ \hline
+    Dimensionality  & 10-640 & Higher dimension the better results. 
+    it depends on data availability.  \\ \hline
+    Context (Window size)  & 5 - 15 & The number of word used to predict. \\ \hline
+
     
 \end{tabular}
 \end{table}
-
-
-
-The training speed can be significantly improved by using parallel training on multiple-CPU machine (use the switch '-threads N'). The hyper-parameter choice is crucial for performance (both speed and accuracy), however varies for different applications. The main choices to make are:
-
-architecture: skip-gram (slower, better for infrequent words) vs CBOW (fast)
-the training algorithm: hierarchical softmax (better for infrequent words) vs negative sampling (better for frequent words, better with low dimensional vectors)
-sub-sampling of frequent words: can improve both accuracy and speed for large data sets (useful values are in range 1e-3 to 1e-5)
-dimensionality of th eword vectors: usually more is better, but not always
-context (window) size: for skip-gram usually around 10, for CBO
-
-
 
 For training  the model the public \emph{C} implementation available of
 \textit{word2vec} \footnote{\url{https://code.google.com/p/word2vec/}} was
@@ -632,6 +627,18 @@ the full model.
 \label{sec:sub_empirical_results}
 
 As mention in the model trained before 
+
+
+\begin{center}
+\begin{tabular}{|c|r|r|r|r|l|l|}
+ Dimensionality / Training Words  &  24M  &  49M  &   98M  &  196M  &  392M  &  780M  \\
+\hline
+                              50  &    0  &    0  &     0  &   0.0  &        &        \\
+                             100  &    0  &    0  &  0.02  &        &        &        \\
+                             300  &    0  &    0  &  0.00  &        &        &        \\
+                             600  &    0  &    0  &  0.02  &        &        &        \\
+\end{tabular}
+\end{center}
 
 
 TODO: Add a table where I show the performance of:
