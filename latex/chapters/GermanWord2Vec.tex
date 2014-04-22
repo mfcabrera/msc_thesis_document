@@ -575,13 +575,13 @@ the preprocessing.
 \end{tabular}
 \end{table}
 
-
+  
 
 We can see that the English dataset contains almost 3 times as tokens as the
 German one. This mean that for the English word vector model  there much more
 setences to train form, and therefore can be expected a better performance
 from this model in the taks described before. 
-  
+   
 \subsection{Model Training}
 \label{experiments:sub:Training}
 
@@ -605,7 +605,7 @@ complete description of each of them please refer to section [LINK TO SECTION].
     \multirow{2}{*}{Architecture}  & skip-gram  & Slower, better for frequent
     words. \\ 
     \cline{2-3}
-    & CBOW  &  Faster than skip-gram. \\ \hline
+    & \ac{CBOW}  &  Faster than skip-gram. \\ \hline
     \multirow{2}{*}{Training Algorithm}  & \ac{HS}  & Better for infrequent words.   \\ 
     \cline{2-3}
     & Negative Sampling & Better for frequent works \\ \hline
@@ -642,18 +642,19 @@ question.
 \section{Empirical Results}
 \label{sec:sub_empirical_results}
 
-As mention before, in order to obtain a quickly evaluation we evaluated
-quickly in using a subset of the data set and  evaluating only in the 30000
-most common word in the German sentantic and semantic task described in
-section \ref{sec:task_description} . Intially in order to train faster the
-models, the \ac{CBOW} architecture was used. However,  when evaluating the task
-with the models trained with this architecture the  accuracy was close to 0
+As mentioned before, with the purpose of obtaining  a quick evaluation of the
+model, only a subset of the data set was evaluationg it with the 30.000 
+most common words on it. The German syntactic and semantic task described in
+section \ref{sec:task_description} is used  to assess the quality of the
+model. Initially, in order to train faster the
+models  the \ac{CBOW} architecture was used. However, when evaluating the
+models trained with this architecture the  accuracy was close to 0
 regardless of the data size. Consequently the alternative architecture,
 Skip-gram was used.  Table  \ref{tab:initial_w2v_training}  shows the initial
 training that was performed to quickly evaluate the model as main difference
 in comparisson with the original work is that we use directly Negative
-Sampling as instead of \ac{HS} for the trining algorithm.  Given these  results, only models with Skip-gram as architecture were
-trained and evaluated on the full data. 
+Sampling as instead of \ac{HS} for the trining algorithm.  Given these
+results, only models with Skip-gram as architecture were trained and evaluated on the full data. 
 
 \begin{table}[h]
 \centering
@@ -676,20 +677,30 @@ vector Skip-gram architecture. Only questions containing words form the most
 \end{tabular}
 \end{table}
 
-One thing that can be noticed from the table \ref{tab:initial_w2v_training}
-if that neither the dimensionality of the word vectors nor the number of
+From table \ref{tab:initial_w2v_training} can be also noticed that  if that
+neither the dimensionality of the word vectors nor the number of
 training words alone can improve the performance of the word vectos. Only the
 combination of an increasing amount of both will improve the accuracy. In
 fact, as can be seen using high dimension with a small amount of training
-words might even hurt performance.
+words might even hurt performance.One thing that
 
-After performing the previous experiments, was visible that the best
+After performing the previous experiments, it was visible that the best
 architecture and training algorithm were Skip-gram and Negative Sampling
 respectively. With this two parameters we evaluated various combinations of
 other model with the full data, evaluated initially again on the 30.000 most
 common words  and then in the full data set of questions. The subsampling
-parameter was obtained empirically from tryining distinct values of it. As it
-happens, it also matches the one obtained for the English language by the original work.
+parameter was obtained empirically from trying distinct values of it. As it
+happens, it also matches the one obtained for the English language in the
+original work \cite{DBLP:journals/corr/abs-1301-3781}.
+
+%TODO:  Add a table where: 
+%Comparisson of the two architectures using models trained on the same data,
+%with the BEST  tranining architecture (basically CBOW - Skip-gram)
+
+%architecture along with negative sampling 
+%architecture and dimensions should be used. 
+
+
 
 Table \ref{tab:main_results} shows  overview of the best models obtained from
 the complete German Wikipedia data set  and their performance on the full set
@@ -705,10 +716,13 @@ sets.\cite{Turian:2010:WRS:1858681.1858721} \cite{DBLP:journals/corr/abs-1103-03
 \centering
 \small
 \caption{Accuracy of the best models obtained using the Skip-gram
-  architecture with Negative Sample on the German Wikipedia data-set. A
+  architecture with Negative Sample on the German Wikipedia data set. A
   subsampling of $10^{-5}$ is used} 
 \label{tab:main_results}
 
+
+
+%TODO Elaborate on this
 
 
 \begin{tabular}{|l|c|c|cc|c|}
@@ -725,59 +739,159 @@ NEG-10  &   5  &  300  &  59.4  &  25.3  &  42.3  \\
  NEG-15  &  10  &  500  &  60.1  &  24.3  &  42.3  \\
 \hline
 \end{tabular}
-
-
 \end{table}
 
+%TODO: Add table best model per category
+
+
+
+Table [ADD  REFERENCE] compares the best model for each language in each
+category. Both German and English behave fairly similar per category, giving
+the impression that the model work in a similar manner in German language. 
+
+
+
+\small
+\begin{center}
+\begin{tabular}{lrll}
+ Category                  &  Accuracy DE [\%]  &  Accuracy EN [\%]  &
+ Accuracy Pre EN [\%]  \\
+\hline
+ captial common countries  &             89.33  &                    &                     \\
+ capital world             &             72.33  &                    &                     \\
+ currency                  &              7.97  &                    &                     \\
+ family                    &             47.62  &                    &                     \\
+\hline
+ Total Semantic            &             63.12  &                    &                     \\
+\hline
+ opposite                  &             14.67  &                    &                     \\
+ comparative               &             33.06  &                    &                     \\
+ superlative               &              3.69  &                    &                     \\
+ present-participle        &              3.17  &                    &                     \\
+ plural                    &             36.79  &                    &                     \\
+ nationality adjective     &             33.33  &                    &                     \\
+\hline
+ Total Syntatic            &             24.83  &                    &                     \\
+\hline
+ Total                     &             44.02  &                    &                     \\
+\end{tabular}
+\end{center}
 
 
 
 
 
-architecture along with negative sampling 
-architecture and dimensions should be used. 
 
-TODO:  Add a table where: 
-Comparisson of the two architectures using models trained on the same data,
-with the BEST  tranining architecture (basically CBOW - Skip-gram)
 
-\textbf{TO MENTION}
-As the available word vectors are in English and the original data used  to train
-them is not available.  In addition to this, the sources that might be
-equivalent for the German language.  Therefore, these results cannot be
-compared with the one reported in the original article. also previous work
-compares the model in similar tasks and word2vec showed better perforance
-therefore we are no using other models 
 
-with German lanaguage is limited so we cannot really have a inter-model
-comparisson.
+
+
+
+\subsection{Comparing German and English Word Vectors}
+\label{sec:sub:comparing_english_german_w2v}
+
+In this section models trained using the English language Wikipedia and the
+German Wikipedia  are compared. It is clear that from the linguistic
+point of view it does not make sense to compare two language models for
+different languages and in that same. However the purpose of this section is
+to assess to the extend of the possibilities, the behavior the word vector model on languages with
+different degrees of syntactic complexity. For that we assess the quality of
+the word vector obtained from a  German language  data set compared to the
+from English.
+
+Although in section \ref{sec:adapt_task_german_lang} we described the
+creation of a  equivalent analogical reasoning task for the German language,
+obtaining  a unbiased comparison between vector models from different
+languages is a hard task.  First there is not an equivalent data set for
+German language.  As we described above, the Wikipedia raw text is used to
+train the word vectors. However, the English Wikipedia contains much more
+text than the German Wikipedia, almost doubling it in size.
+
+In addition to this, the original data, namely the Google News Data set, from
+which the original word vectors were trained from, is not available
+\cite{DBLP:journals/corr/abs-1301-3781}. However, some pre-trained word
+vectors were made available by the authors \footnote{\url{https://code.google.com/p/word2vec/}}, and
+are used reference to compare the two vector models trained from Wikipedia.
+
+
+% \textbf{TO MENTION}
+% Regarding the results is obvious that are less  the available word vectors are in English and the original data used  to train
+% them is not available.  In addition to this, the sources that might be
+% equivalent for the German language.  Therefore, these results cannot be
+% compared with the one reported in the original article. also previous work
+% compares the model in similar tasks and word2vec showed better perforance
+% therefore we are no using other models  with German lanaguage is limited so we cannot really have a inter-model
+% comparisson.
 
 
 TODO: Model comparissson:
 
-Add a table here were I compare models with different architectures and
-different: CBOW, Skipgram and Neg. with diffeerent (Size, training words, and
-training time) and split it into semantic, syntantic and Total. (From Google
-tabel and check it out) - Time in (min) (with and wigthout Subsampling of 3
-of Four)
+% Add a table here were I compare models with different architectures and
+% different: CBOW, Skipgram and Neg. with diffeerent (Size, training words, and
+% training time) and split it into semantic, syntantic and Total. (From Google
+% tabel and check it out) - Time in (min) (with and wigthout Subsampling of 3
+% of Four)
 
 % ANALOGICAL REASONING  use that on the test %
 
 
-TODO: Add a table in which we compare words and their tranlation with the
-more similar words 
-
+%TODO: Add a table in which we compare words and their tranlation with the
+%more similar words 
 \subsection{Effect of Preprocessing on the learned word vectors}
+\label{sec:sub:effects_of_preprocessing_on_learned_word_vectors}
+
+One of the driving ideas behind of feature learning is to learn useful
+representations with basically no prior knowledge and with minimum human
+involvement. However, as the same authors of Word2Vec state, it is likely
+that adding information to the model about morphological relationship of
+words, and in general any additional relevant features will produce better
+representation.  One way to indirectly adding such information to the model
+without modifying its formulation is to perform pre-processing on the training
+data set. This chapter explores how pre-processing, in particular stemming,  affects the
+quality of the word vectors. 
+ 
+
+In many \ac{NLP} applications, in particular, \ac{IR} related tasks,  text pre-processing is  a common, if not
+necessary, step to obtain good results. Given the nature of German highly
+inflective nature of German language, is natural to expect improvement in
+certain analogical reasoning tasks.  One of the most common pre-processing steps in NLP is stemming (i.e. grouping
+words that share the morphological root). Stemming has proven successful in
+the field of \ac{TC} \cite{Sebastiani02}. For languages such as  German were the nouns and
+adjectives are also inflected it might be helpful to reduce the vocabulary
+size.  
+
+To evaluate the effect the stemming on word vector quality, different
+stemming approaches based on the Porter Stemmer \cite{Porter80}  to the original Wikipedia
+German data set were applied
+
+\begin{itemize} 
+\item Partial stemming algorithm using only the step\_1 suffixes of the
+  Stemmer algorithm.
+\item Complete stemming algorithm.
+\item Only the \textit{sch} endings (i.e. \textit{sche}, \textit{scher},
+   \textit{schem}, etc.) are removed from the training text.
+\end{itemize} 
+
+All the stemming process was performed using the popular Python library for
+\ac{NLP} \ac{NLTK} \cite{BirdKleinLoper09}. The
+description of the stemmer algorithm for the German language can be found
+online\footnote{\url{http://snowball.tartarus.org/algorithms/german/stemmer.html}}.
 
 
-\subsection{Comparing German and English Word Vectors}
+The first modification aims to remove the plural (already affecting the
+outcome of the syntactic task) and the declension of adjectives and nouns. The second modification runs a full 
+
+Table [ADD REFERENCE HERE] show the results of training the word vectors
+using the the best parameters on this modified data set.  
+
+% TODO: Table comparing the things
 
 
 \subsection{Regularities of the German Language Captured by the model}
 \label{sec:sub:particularities_of_the_German_language}
 
-\subsection{Learning with the Gini Dataset}
-\label{sec:learning_with_the_gini_dataset}
+\subsection{Learning with the Gini Data set}
+\label{sec:learning_with_the_gini_dataset}   
 
 
 %TODO: Do an experiments in which check if the words that are usually put
@@ -814,3 +928,4 @@ more similar words
 %%% mode: latex
 %%% TeX-master: "../main.tex"
 %%% End:
+%  LocalWords:  dimensionality
