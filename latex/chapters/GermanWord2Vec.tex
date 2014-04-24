@@ -739,8 +739,6 @@ parameter was obtained empirically from trying distinct values of it. As it
 happens, it also matches the one obtained for the English language in the
 original work \cite{DBLP:journals/corr/abs-1301-3781}.
 
-
-
 Table \ref{tab:main_results} shows  overview of the best models obtained from
 the complete German Wikipedia data set  and their performance on the full set
 of questions. In contrast with the original work
@@ -752,7 +750,7 @@ trained using similar techniques and similar data sets.\cite{Turian:2010:WRS:185
 
 \begin{table}[h]
 \centering
-\small
+
 \caption{Accuracy of the best models obtained using the Skip-gram
   architecture with Negative Sample on the German Wikipedia data set. A
   subsampling of $10^{-5}$ is used} 
@@ -762,7 +760,7 @@ trained using similar techniques and similar data sets.\cite{Turian:2010:WRS:185
 
 %TODO Elaborate on this
 
-
+\small
 \begin{tabular}{|l|c|c|cc|c|}
 \hline
 Method  &  Win.  &  Dim   &  Syntactic [\%] & Semantic
@@ -779,39 +777,114 @@ NEG-10  &   5  &  300  &  59.4  &  25.3  &  42.3  \\
 \end{tabular}
 \end{table}
 
-%TODO: Add table best model per category
+The second column of table \ref{tab:language_comparisson} shows the result of
+the best German model separated by category. The second column The fourth column
+shows the performance of pre-trained word vectors on the Google News data
+set. Next section will discuss the relationship between these column in more detail.
+
+We can note that section  \textit{currency} from
+the semantic data set; the \textit{present participle}  and 
+\textit{superlative}  sections are the one with the  worst performance. This
+result can be explained for many factors, being the data set the most
+important. Both in amount of data and variety. However, from a exploration of
+the model it can be seen that the concept of currency is maintained however
+the exact semantic relationship is not built.  For example, taking one of the
+tasks:  $(\text{'Algerien','dinar'},\text{'Angola','kwanza'})$. If we define
+$x$ as the result of applying:  $x = vector(\text{dinar}) -
+vector(\text{Algerien}) + vector(\text{Angola})$, then in order for this task
+to be answered correctly, the closest vector to should be $vector(\text{kwanza})$.
+However the top-5 closet vectors are:
+
+
+\begin{center}
+\small
+\begin{tabular}{|l|c|}
+ \hline
+ Word             &  Cosine similarity to $x$  \\
+\hline
+ \textit{peso}           &      0.6193921566009521  \\
+ \textit{centavos}       &      0.6159522533416748  \\
+ \textbf{kwanza}         &      0.6066386699676514  \\
+ \textit{kwacha}         &      0.6008095741271973  \\
+ \textit{waehrung}       &      0.6000255942344666  \\
+\hline
+\end{tabular}
+\end{center}
+
+
+Although the closes vector is not the expected one, all the words are related
+somehow with the concept of \textit{money} or \textit{currency}.  For example
+the word \textit{peso} is the currency of many Latin American countries. In
+fact with some additional modification  to they vector operations it is
+possible to obtain the desired answer. For example if we define $x$ as  $x = vector(\text{dinar}) -
+vector(\text{Algerien}) + vector(\text{Angola})  + vector(\text{Afrika}) $,
+that is, the same operation as before but adding the vector representation of
+the word \textit{Afrika}, it produces a vector with the following top-5 closest
+vectors:
+
+
+\begin{center}
+\small
+\begin{tabular}{|l|c|}
+ \hline
+ Word                 &  Cosine similarity to $x$  \\
+\hline
+\textbf{kwanza}        &        0.7224324941635132  \\
+ \emph{angolas}       &        0.6794506311416626  \\
+ \emph{angolanische}  &        0.6792401075363159  \\
+ \emph{kwacha}        &        0.6728493571281433  \\
+ \emph{metical}       &        0.6719954609870911  \\
+\hline
+\end{tabular}
+\end{center}
+
+Which would return the correct answer for the task. This does not work all
+the cases, but it shows that the semantic relationship is built albeit not
+maintaining the exact relation between words as the tasks expect. In the
+other cases  a similar phenomena occurs in which the right answer is in the
+top-5 or top-10 of the closest words to the resulting vector. This suggests 
+that with more training data it is possible to build better word
+representations  that fulfill the relationships define  by the analogical
+reasoning test.
 
 
 
-
-
+\begin{table}[h]
+\centering
+\small
+\caption{Accuracy of the best models separated by category using the German
+  Wikipedia, the English Wikipedia and the pretrained Google News data set
+  word vectors. } 
+\label{tab:language_comparisson}
 
 
 \small
-\begin{center}
-\begin{tabular}{lrll}
- Category                  &  Accuracy DE [\%]  &  Accuracy EN [\%]  &
- Accuracy Pre EN [\%]  \\
+\begin{tabular}{|l|c|c|c|}
 \hline
- captial common countries  &             89.33  &                    &                     \\
- capital world             &             72.33  &                    &                     \\
- currency                  &              7.97  &                    &                     \\
- family                    &             47.62  &                    &                     \\
+ Category                  &  Accuracy DE [\%]  &  Accuracy EN [\%]  &  Accuracy Pre [\%]  \\
 \hline
- Total Semantic            &             63.12  &                    &                     \\
+ captial common countries  &             89.33  &             96.05  &              83.20  \\
+ capital world             &             72.33  &             88.68  &              79.13  \\
+ currency                  &              7.97  &             13.63  &              27.37  \\
+ family                    &             47.62  &             79.64  &              84.58  \\
 \hline
- opposite                  &             14.67  &                    &                     \\
- comparative               &             33.06  &                    &                     \\
- superlative               &              3.69  &                    &                     \\
- present-participle        &              3.17  &                    &                     \\
- plural                    &             36.79  &                    &                     \\
- nationality adjective     &             33.33  &                    &                     \\
+ Total Semantic            &             63.12  &             78.40  &              72.88  \\
 \hline
- Total Syntatic            &             24.83  &                    &                     \\
+ opposite                  &             14.67  &             33.62  &              42.73  \\
+ comparative               &             33.06  &             75.83  &              90.84  \\
+ superlative               &              3.69  &             28.25  &              87.34  \\
+ present-participle        &              3.17  &             60.61  &              78.22  \\
+ plural                    &             36.79  &             70.20  &              86.04  \\
+ nationality adjective     &             33.33  &             89.31  &              89.93  \\
 \hline
- Total                     &             44.02  &                    &                     \\
+ Total Syntatic            &             24.83  &             63.46  &              81.99  \\
+\hline
+ Total                     &             44.02  &             70.47  &              77.73  \\
+\hline
 \end{tabular}
-\end{center}
+
+\end{table}
+
 
 
 
@@ -822,11 +895,11 @@ NEG-10  &   5  &  300  &  59.4  &  25.3  &  42.3  \\
 In this section models trained using the English language Wikipedia and the
 German Wikipedia  are compared. It is clear that from the linguistic
 point of view it does not make sense to compare two language models for
-different languages and in that same. However the purpose of this section is
-to assess to the extend of the possibilities, the behavior the word vector model on languages with
-different degrees of syntactic complexity. For that we assess the quality of
-the word vector obtained from a  German language  data set compared to the
-from English.
+different languages and in that same idea word vector representations. 
+However the purpose of this section is to assess to the extend of the
+possibilities, the behavior the word vector model on languages with different
+degrees of syntactic complexity. For that we assess the quality of the word
+vector obtained from a  German language  data set compared to the from English.
 
 Although in section \ref{sec:adapt_task_german_lang} we described the
 creation of a  equivalent analogical reasoning task for the German language,
@@ -841,21 +914,38 @@ which the original word vectors were trained, is not available
 \cite{DBLP:journals/corr/abs-1301-3781}. However, some pre-trained word
 vectors were made available by the authors \footnote{\url{https://code.google.com/p/word2vec/}}, and
 are used reference to compare the two vector models trained from Wikipedia.
-These word vectors were trained with 
+These word vectors were trained with about billion of words.
 
-Given all that, it is still valuable to explore the behavior of these word
+Even with these limitations,  it is still valuable to explore the behavior of these word
 vectors trained in different language data set as well as to explore the
 difference in performance compared to pretrained vectors.  
 
-Table [ADD  REFERENCE] compares the best model for each language in each
+Table \ref{tab:language_comparisson} compares the best model for each language in each
 category. Both German and English behave fairly similar per category, giving
-the impression that the model work in a similar manner in German language. 
+the impression that the model work in a similar manner in German language.
+However for the syntactic task  the performance is  different when
+compared with other languages. In particular for the superlative and the
+present-participle  the performance is low compared to other categories in
+German and with the  equivalent categories for English. This may be caused by
+the complex and different German syntax and usage. The data size is also an
+important factor that affects the performance.  We can see that when we
+compare the data set of English trained on the Wikipedia and the one  pretrained. 
 
-- TODO: Mention that the data set on which the trained vectors are obtained
-from affects the end result (so not only syntax is learned but also semantics)
-- TODO: Less data with better relationships betweeen entities might be even
-better than a lot of data with no context.
 
+Although the pretrained vectors are trained with much more data
+than the Wikipedia ones, for some tasks the performance is better for the
+later. That suggest that is not only the size but the \textit{quality} of the
+text might have important effect on the performance. Quality in these context
+means if the text contains the semantic or syntactic relationships  that the
+test set expects. In other words, less data contained better semantic or
+syntactic relationship might be better for training that a lot of text with
+no context. Another example of this will be shown in chapter [PUT REFERENCE
+HERE] word vectors from Wikipedia are used to perform document classification.
+
+%- TODO: Mention that the data set on which the trained vectors are obtained
+%from affects the end result (so not only syntax is learned but also semantics)
+%- TODO: Less data with better relationships between entities might be even
+%better than a lot of data with no context.
 
 % \textbf{TO MENTION}
 % Regarding the results is obvious that are less  the available word vectors are in English and the original data used  to train
@@ -871,7 +961,6 @@ better than a lot of data with no context.
 % training time) and split it into semantic, syntantic and Total. (From Google
 % tabel and check it out) - Time in (min) (with and wigthout Subsampling of 3
 % of Four)
-
 % ANALOGICAL REASONING  use that on the test %
 
 
@@ -881,19 +970,19 @@ better than a lot of data with no context.
 \label{sec:sub:effects_of_preprocessing_on_learned_word_vectors}
 
 One of the driving ideas behind of feature learning is to learn useful
-representations with basically no prior knowledge and with minimum human
-involvement. However, as the same authors of Word2Vec state, it is likely
+representations with no prior knowledge and with minimum human
+involvement. However, as the same authors of \textit{word2vec} state, it is likely
 that adding information to the model about morphological relationship of
-words, and in general any additional relevant features will produce better
-representation.  One way to indirectly adding such information to the model
+words, and in general any additional relevant prior knowledge, it   will produce better
+representations.  One way of indirectly adding such information to the model
 without modifying its formulation is to perform preprocessing on the training
 data set. This chapter explores how preprocessing, in particular stemming,  affects the
 quality of the word vectors. 
  
 
-In many \ac{NLP} applications, in particular, \ac{IR} related tasks,  text preprocessing is  a common, if not
-necessary, step to obtain good results. Given the nature of German highly
-inflective nature of German language, is natural to expect improvement in
+In many \ac{NLP} applications, in particular, \ac{IR} related tasks,  text preprocessing is a common, if not
+necessary, step to obtain good results. Given highly inflective nature of
+German is natural to expect improvement in
 certain analogical reasoning tasks.  One of the most common preprocessing steps in NLP is stemming (i.e. grouping
 words that share the morphological root). Stemming has proven successful in
 the field of \ac{TC} \cite{Sebastiani02}. For languages such as  German were the nouns and
@@ -901,16 +990,56 @@ adjectives are also inflected it might be helpful to reduce the vocabulary
 size.  
 
 To evaluate the effect the stemming on word vector quality, different
-stemming approaches based on the Porter stemmer \cite{Porter80}  to the original Wikipedia
-German data set were applied
+stemming approaches based on the Porter stemmer \cite{Porter80} were applied  to the original Wikipedia
+German text corpus described in section \ref{experiments:sub:dataset}.
 
 \begin{itemize} 
 \item Partial stemming algorithm using only the step\_1 suffixes of the
   stemmer algorithm.
-\item Complete Potter stemmer algorithm.
-\item Only the \textit{sch} endings (i.e. \textit{sche}, \textit{scher},
-   \textit{schem}, etc.) are removed from the training text.
+\item Application of the complete Potter stemmer algorithm.
+\item Remove the declensions of  \textit{sch} endings (i.e. \textit{sche}, \textit{scher},
+   \textit{schem}, etc.)  and replace it simply by \textit{sch}.
 \end{itemize} 
+
+
+
+\begin{table}[h]
+\centering
+\small
+\caption{Different schemes comparisson } 
+\label{tab:stemming_comparisson}
+\small
+\begin{tabular}{lrrr}
+ Category                  &  Custom Stemming [\%]  &  Full Stemming [\%]  &  Replaced \emph{sch} [\%]  \\
+\hline
+ captial common countries  &                 56.92  &               38.53  &                     91.11  \\
+ capital world             &                 39.00  &               10.19  &                     73.21  \\
+ currency                  &                  5.77  &                0.11  &                      7.62  \\
+ family                    &                  6.06  &                5.19  &                     48.92  \\
+\hline
+ Total Semantic            &                 33.94  &               10.71  &                     63.94  \\
+\hline
+ opposite                  &                 13.33  &                2.66  &                     15.33  \\
+ comparative               &                 25.22  &                0.00  &                     34.69  \\
+ superlative               &                  0.00  &                0.00  &                      4.06  \\
+ present-participle        &                  1.48  &                0.00  &                      2.56  \\
+ plural                    &                  1.81  &                0.45  &                     34.37  \\
+ nationality adjective     &                 77.19  &                1.51  &            \textbf{90.06}  \\
+\hline
+ Total Syntatic            &                 25.66  &                0.71  &                     39.38  \\
+\hline
+ Total                     &                 29.82  &                5.74  &                     51.82  \\
+\hline
+ Questions seen            &                 67.73  &                7.71  &                     94.22  \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
 
 All the stemming process was performed using the popular Python library for
 \ac{NLP} \ac{NLTK} \cite{BirdKleinLoper09}. The
@@ -926,7 +1055,7 @@ training data set would allow the model to perform better in certain task.
 Note that all modifications, although probably helping in some of the tasks
 would undoubtedly incur in loss of performance in another. For examples, if
 some adjectives are stemmed, the ability of recognizing comparatives or
-superlative might be lost.
+superlative are  lost.
 
 Table [ADD REFERENCE HERE] show the results of training the word vectors
 using the  best parameters on this modified data set.  
@@ -934,10 +1063,10 @@ using the  best parameters on this modified data set.
 % TODO: Table comparing the things
 
 
-\subsection{Regularities of the German Language Captured by the model}
-\label{sec:sub:particularities_of_the_German_language}
+%\subsection{Regularities of the German Language Captured by the model}
+%\label{sec:sub:particularities_of_the_German_language}
 
-\subsection{Conclusion and Future Work}
+\section{Conclusion and Future Work}
 \label{sec:conclusion_and_future_work}   
 
 
