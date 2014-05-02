@@ -1,5 +1,5 @@
-\section{Word2vec for Document Classification of German language business document}
-\label{sec:rel_word2vec_doc_classification}
+\chapter{Word2vec for Document Classification of German language business document}
+\label{chap:rel_word2vec_doc_classification}
 
 % Introduction 
 %  - Promises of deep learning
@@ -17,6 +17,74 @@
 %  Conclusion and Future work.
 %   - Using individual features will make always hard to work with variable
 %   - Sized documents - that is definitive.
+
+\section{Introduction}
+\label{sec:w2v4tc_intro}
+
+One of the motivation of feature learning is to be able to
+obtain useful representation that will improve existing task. In the case of
+\ac{NLP} word vector features have been shown to improve existing taks such
+as \ac{NER}, Chunking and Sentiment Analysis \cite{Turian:2010:WRS:1858681.1858721}
+\cite{DBLP:journals/corr/abs-1103-0398}  and have shown promising results in
+fields as machine translation and speech processing \cite{collobert:2008}
+\cite{DBLP:journals/corr/MikolovLS13}.  
+
+In the field of \ac{TC} there have
+not been much work of improving this task by using word vector representations. There are many reason
+fo this. One can be that many of the current methods work well enough, in particular those
+based on the \ac{VSM} \cite{Sebastiani02}. Another reason might be that that
+when using word representation each word get a $n$-dimensional vector
+representation representation, therefore a large document could be only
+represented as big matrix,  and current methods work only with vector
+representation od document. However there has been previous work using word
+vector for short text classification, namely sentiment analysis
+\cite{maas2011learning} . Sentiment Analysis can be seen as a variation of
+\ac{TC}. In fact in the aforementioned work the use the traditional
+approaches for \ac{TC} to train the sentiment predictor.  In this work the
+performance  word vector representations based on the \textit{Word2vec} model 
+are compared against other features in the context of classifying  business-related German language
+documents. 
+
+The rest of the chapter is divided as follows: The first part describes 
+the company's  document platform, the requirements and challenges behind this
+particular document classification task. The second the part describes the different features
+used and the classification algorithms used while explaining the limitation
+faced.  The third and final  part discusses the most important results as
+well as well as the future work. 
+
+\section{Gini document platform}
+\label{sec:gini_doc_platform}
+
+Gini currently own a database of mostly German language document. These
+are personal and business related documents that have been bought 
+from  persons all over Germany. Document type are really broad and go from
+long insurance contract to short remittance slips. These document are stored
+in a central system database that can be accessed via an  \textsc{API}.
+Document can be either \textit{native} or \textit{scanned}. The document
+\textit{native} that are native are orignal digital document. (e.g. PDF document) that
+are uploaded to the system. \textit{Scanned} documents on the other hand, are
+uploaded from an image obtained a scanner or a camera (e.g. a mobile phone
+camera). Given the variability of the capture devices for the scanned
+documents, the quality of such images is not regular among all the documents.
+This is important to consider, given that after being uploaded all the
+documents are processed using a \ac{OCR} solution, so the quality of the
+images affect the the accuracy with which the text is extracted from. 
+After the text has been extracted, it is stored  along with
+the position of the words a into a  database using a custom
+\textsc{XML} format. 
+
+% - Stored Dookud
+% - Stored as DocXML not only text but also location information of words.
+% - Two ways to get the text from the document {Native, Scanned (e.g.)}
+
+
+%  approach as well as the most
+% important results. It includes  a performance comparison of the word vectors in German with their counterpart in English as well as  the evaluation of  some corpus
+% preprocessing approaches that might affect the performance of the word
+% representation for German.
+
+
+
 
 
 %%% Local Variables: 
