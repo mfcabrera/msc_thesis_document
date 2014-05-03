@@ -140,7 +140,27 @@ Taking in consideration all these challenges, the objective is then to design
 a better classifier that allow, at least partially, solve the
 aforementioned issued.
 
-\section{Gini Document Database and Dataset Description}
+
+
+\section{Experimental Setup}
+\label{sec:w2vec_doctype_experimental_setup}
+
+As mentioned in the introduction, three different approaches are going to be
+compared, namely:
+
+\begin{itemize}
+\item The current \ac{SVM} implementation with the handcrafted features.
+\item A new \ac{SVM} implementation using \ac{BOW} features.
+\item A new \ac{SVM} implementation using \textit{Word2vec} word vector as features.
+\end{itemize}
+
+The classification algorithm is kept while the
+evaluation real evaluation is on the features. The idea  is to verify
+that in fact better features account for better classification. The following
+sections describe each of the features and the specific od the algorithm. 
+
+
+\subsection{Gini Document Database and Dataset Description}
 \label{sec:gini_db_dataset_desc}
   
 Section \ref{sec:gini_doc_platform} described briefly the platform where
@@ -155,8 +175,8 @@ used. Furthermore, there is a class called \textit{Other} that include
 documents that do not fall into any of the categories listed. It is also a
 unbalanced data set, having with number of intances per class ranging from 69
 to 650. All the document are not used in the data set because as of right now
-it is not necessary to classify all of other classes (creating thus a huge
-unbalanced \textit{Other class}). Additionally other document are not
+it is not necessary to classify all of other classes (creating thus a large
+unbalanced \textit{Other} class). Additionally, other document are not
 annotated or annotated wrongly, that is, they are correct document but has
 not been properly annotated with the correspondent \ac{DocType}.
 
@@ -186,17 +206,42 @@ not been properly annotated with the correspondent \ac{DocType}.
 \end{tabular}
 \end{table}
 
-\section{Experimental Setup}
-\label{sec:w2vec_doctype_experimental_setup}
+As mentioned mentioned previously, there was not an official test set used to
+evaluate the classifier performance. Therefore a new one was defined using a
+stratified random selection of 20\% original  set for the testing and the
+other 80\% for training, ending up with 2156 documents for training  539 for
+testing. The same documents are used to evaluate all the classifier /
+features.
 
-As mentioned in the introduction, three different approaches are going to be
-compared, namely:
 
-\begin{itemize}
-\item The current \ac{SVM} implementation with the handcrafted features.
-\item A new \ac{SVM} implementation using \ac{BOW} features.
-\item A new \ac{SVM} implementation using \textit{Word2vec} word vector as features.
-\end{itemize}
+\subsection{Handcrafted Features}
+\label{sec:sub_w2v4tc_current_features}
+
+As mentioned back in section  \ref{sec:gini_doctype_classifier} the current
+Gini document classifier is based  \texttt{LIBSVM} \cite{CC01a} using 
+\texttt{RBF} Kernel.   The features used to rain this classifier are
+handcrafted features that count then number of words (actually the matches of
+specific regular expressions) in the text, the font size of some
+words, the digit character ration, the average font size, etc. In total 701 features like these are used.
+ 
+
+\subsection{\ac{BOW} Features}
+\label{sec:sub_w2v4tc_bow_features}
+
+For the \ac{BOW} features, the traditional \ac{tf-idf}  
+\cite{Salton88term-weightingapproaches}\cite{Sebastiani02} discussed in
+section [LINK TO RELATED WORK] is used as features. For the actual feature
+extraction the \texttt{TfidfTransformer} from \texttt{Scikit-learn}
+\cite{scikit-learn}  was used ending up with 55122-dimensional sparse
+vectors.
+  
+% The training is done using grid search and the best
+% model in 10-fold cross-validation with all the training data available is
+% taken.
+
+
+
+
 
 
 % - Stored Dookud
