@@ -142,7 +142,7 @@ aforementioned issued.
 
 
 
-\section{Experimental Setup}
+\section{Experiments}
 \label{sec:w2vec_doctype_experimental_setup}
 
 As mentioned in the introduction, three different approaches are going to be
@@ -234,13 +234,236 @@ section [LINK TO RELATED WORK] is used as features. For the actual feature
 extraction the \texttt{TfidfTransformer} from \texttt{Scikit-learn}
 \cite{scikit-learn}  was used ending up with 55122-dimensional sparse
 vectors.
-  
+
+As for  pre-processing for feature extraction,  typical stop word subsitution was performed with the help
+of \ac{NLTK} \cite{BirdKleinLoper09}. Additional stop word clean up was
+detected by looking at the vocabulary, for example extremely large words
+(more than 30 characters) and word containing non German alphanumerical
+characters were verified that were not the result of wrong OCR
+readings and were removed accordingly. In addition to this, words than
+appeared in 90\% of the documents were removed  previous the \ac{tf-idf}
+feature generation.
+
+
+As for  pre-processing for feature extraction,  typical stop word subsitution was performed with the help
+of \ac{NLTK} \cite{BirdKleinLoper09}. Additional stop word clean up was
+detected by looking at the vocabulary, for example extremely large words
+(more than 30 characters) and word containing non German alphanumerical
+characters were verified that were not the result of wrong OCR
+readings and were removed accordingly. In addition to this, words than
+appeared in 90\% of the documents were removed  previous the \ac{tf-idf}
+feature generation.
+
+
+
+\subsection{Word Vector  based Features}
+\label{sec:sub_w2v4tc_w2v_based_features}
+
+As mentioned early in the document, using word vector features form \ac{TC}
+posses some challenges from the algorithm point of view. Although in theory
+we could represent a document as the concatenation of all the vector
+representation of the words in contains, this in practice would be impossible
+as first each document has a different number of words which would imply
+high-dimensional variable size dense vector representing a document that
+could not be used to train with traditional learning algorithm and in
+particular the current classification algorithm used by Gini.
+
+Another approach described in previous work named \textit{document mean
+  representation} consists of average of the vector representation of the  words
+present in the document.  More formally, assuming that there is  vocabulary of
+size $|V|$ and with learned $\beta$-dimensional word vector representation of
+that vocabulary, then  $R  \in \mathbf{R}^{(\beta \times |V|)}$  is  the
+matrix of learned word vectors.  The representation of a document $d \in |V|$ can be obtained using the following method:
+
+$$d = Rv$$
+
+Where $v$ is a $|V|$-dimensional  binary vector representation of the
+document.   The resulting vector $d$ is then  normalized or the mean can be
+applied (hence the name mean).
+
+%Also the word representation matrix $R$ is also   normalzed using the work of [1]  
+
+Although simple in principle, these document representation has  shown good
+results task such as sentiment analysis and even an improvement when used in tandem
+with more traditional document representation  \cite{maas2010probabilistic},
+event though In the cited referenced, they used another word vector representation that
+did not have the linear compositionality characteristic of the
+\textit{Word2vec} generated word representation \cite{MikolovSCCD13}.
+
+
+\subsubsection{Training of the Word Vector Features}
+\label{sec:sub_w2v_4tc_training-word-vector}
+In order to use word vector representations to do document classification it is necessary to train the
+vectors.  As all the documents of the document classification training set are
+in German a German language word vectors are needed.  One option a
+corpus like the German Wikipedia is necessary. However, as mentioned back in
+chapter \ref{chapter:wor2vec_german} the nature of the text the word vectors
+are generated from influences the quality of the word vectors and their
+performance in specific tasks. For that reason, the whole unlabeled document
+database that  Gini are used to generate the word vector used for document
+classification. 
+
+The data from Gini document is stored as \texttt{XML} documents in a
+relational database. These document were exported and preprocessed. Besides
+the text, the format contains the coordinates of the position of each word
+existing in the document. This information is not necessary for the purpose
+and is therefore removed. In addition, the preprocessing described back in
+section \ref{sec:adapt_task_german_lang} is also applied to this dataset.
+
+Table \ref{tab:w2v4tc_dataset_comparisson} compares the two data sets used
+to generate the document classification. There is a big difference in
+vocabulary and number of token trained. However, as it will be in the result
+section this does not necessarily mean that for this particular tasks the
+word vector generated from Wikipedia will be necessarily superior.
+
+\begin{table}[h]
+
+  \centering
+  \caption{Comparisson of the datasets used to train the word vector for
+    \ac{DocType} classification}
+  \label{tab:w2v4tc_dataset_comparisson}
+
+\small
+\begin{tabular}{|l|c|c|c|}
+\hline
+Dataset           &  Size (MB)  &    \# Tokens  &  Vocabulary  Size  \\
+\hline
+ Gini Dataset      &         27  &     3657159  &             33596  \\
+ Wikipedia German  &       6656  &  1051584822  &           1871739  \\
+\hline
+\end{tabular}
+
+\end{table}
+
+
+\section{Training and Evaluation}
+
+For the handcrafted features and \ac{BOW} based classifier a standard 10-fold
+cross-validation  on the training data  was used to select the best model.
+As mentioned in section \ref{sec:gini_doctype_classifier}, this classifier is
+based on  on \texttt{LIBSVM} \cite{CC01a}.
+Afterwards the classifier were evaluated on the testing set and based on
+those results are compared against each other.
+
+For the \ac{BOW} feature based classifier as well as for the word vector
+based one, the  \texttt{SVC} implementation of  \texttt{Scikit-learn}
+with a linear kernel and automatic class weights was used. This
+implementation is also  based on \texttt{LIBSVM}. However, after evaluating
+other implementation, the  faster \texttt{LinearSVC} based on \texttt{LIBLINEAR}
+\cite{Fan:2008:LLL:1390681.1442794}  produced better faster training times
+and slightly better results. This classifier was also tested on the
+handcrafted features but there was a significant loss in performance.
+
+
+For the \textit{document mean representation} we had two possible dataset to
+train the word vector from from. For the Wikipedia corpus we selected the model that
+performed the best as describe in section \ref{experiments:sub:evaluation}. 
+As for the word vector generated from Gini dataset 
+size of the dataset  allowed a fast model generation. So around 120
+\textit{Word2vec} model generation  combinations. All these combinations
+were trained using the same 10-fold cross-validation to set the parameters on
+the classifiers and then evaluated on testing set.
+
+
+The evaluation measures are the standard measures used in document
+classification: \textit{precision}, \textit{recall}, \textit{f-score}. These
+measures are  weighted to account for unbalanced in the classes. These
+performance measures are described in detail back in section [LINK TO SECTION].
+
+
+\begin{table}[h]
+
+  \centering
+  \caption{Top-5 of evaluation of document classification task using
+    \textit{document mean representation} generated from word vectors learned
+  using Gini unlabeled dataset. The model were trained using a subsampling of
+  $10^{-5}$.}
+  \label{tab:w2v4tc_ginig_w2v_evaluation}
+
+\small
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+ Algorithm  &  Architecture  &  Window  &  Dim.  &  Precision  &    Recall  &  F1-Score  \\
+\hline
+ \ac{HS}    &  Skip-gram     &      15  &   340  &   0.916914  &  0.914657  &  0.914861  \\
+ \ac{HS}    &  Skip-gram     &      15  &   160  &   0.914635  &  0.912801  &  0.912901  \\
+ \ac{HS}    &  Skip-gram     &      15  &   200  &   0.912762  &  0.910946  &  0.911149  \\
+ \ac{HS}    &  Skip-gram     &      10  &   460  &   0.910683  &  0.909091  &  0.909243  \\
+ \ac{HS}    &  Skip-gram     &      15  &    80  &   0.909976  &  0.909091  &  0.909231  \\
+ \ac{HS}    &  Skip-gram     &      15  &   240  &   0.909967  &  0.909091  & 0.909075  \\
+\hline
+\end{tabular}
+\end{table}
+
+
+Table \ref{tab:w2v4tc_ginig_w2v_evaluation} shows the TOP-5 model for Gini  data set evaluated on the
+testing set. 
+
+
+\section{Results}
+\label{sec:w2v4tc_results}
+
+This section compares the different 
+
+
+
+% Table comparing the best result of each approach.
+% The cross validation results.
+% the t-SEN plots of the features.
+% training with wikipedia and comparisson
+% The graph of generalization vs less trained data.
+ 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/002-xvalidaton-dmr.pdf}
+    \caption{Confusion matrix of the classification results  using \textit{document mean
+      representations} features - Values of percentages of the test set per
+    each document type.}
+    \label{fig:confusion-matrix-dmr}
+\end{figure}
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/003-xvalidaton-bow.pdf}
+    \caption{Confusion matrix of the classification results  using \textit{document mean
+      representations} features - Values of percentages of the test set per
+    each document type.}
+    \label{fig:confusion-matrix-bow}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/004-xvalidaton-handcrafted.pdf}
+    \caption{Confusion matrix of the classification results  using \textit{document mean
+      representations} features - Values of percentages of the test set per
+    each document type.}
+    \label{fig:confusion-matrix-handcrafted}
+\end{figure}
+
+
+
+
+
+\section{Conclusion}
+\label{sec:w2v4tc_conclusion}
+blah 
+
+
+%Once the word vector are generated 
+ 
+
 % The training is done using grid search and the best
-% model in 10-fold cross-validation with all the training data available is
+% model in 10-fold cross-validation with all the training data available is%
 % taken.
 
 
 
+%Discussion - Promise of Deep Learning and modifiy the word vectors.
 
 
 
@@ -277,7 +500,8 @@ vectors.
 %  contract\_insurance\_third\_party\_risk  &  Contract insurance third party risk  - Haftpflicht (Vertrag)                                      \\
 %  contract\_telco                          &  Contract telco -  Telko (Vertrag)                                                                 \\
 %  credit\_card\_statement                  &  Credit card statement - Kreditkartenabrechnung                                                    \\
-%  credit\_note                             &  Credit note -  Gutschrift                                                                         \\
+%  credit\_note                             &  Credit note -  Gutschrift
+%  \\ 
 %  delivery\_note                           &  Delivery note -  Lieferschein                                                                     \\
 %  insurance\_policy                        &  Insurance policy -  Versicherungsunterlagen                                                       \\
 %  invoice                                  &  Invoice - Rechnung                                                                                \\
