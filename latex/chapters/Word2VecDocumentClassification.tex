@@ -337,6 +337,7 @@ Dataset           &  Size (MB)  &    \# Tokens  &  Vocabulary  Size  \\
 
 
 \section{Training and Evaluation}
+\label{sec:w2v4tc_training-evaluation}
 
 For the handcrafted features and \ac{BOW} based classifier a standard 10-fold
 cross-validation  on the training data  was used to select the best model.
@@ -350,7 +351,7 @@ based one, the  \texttt{SVC} implementation of  \texttt{Scikit-learn}
 with a linear kernel and automatic class weights was used. This
 implementation is also  based on \texttt{LIBSVM}. However, after evaluating
 other implementation, the  faster \texttt{LinearSVC} based on \texttt{LIBLINEAR}
-\cite{Fan:2008:LLL:1390681.1442794}  produced better faster training times
+\cite{Fan:2008:LLL:1390681.1442794}  produced faster training times
 and slightly better results. This classifier was also tested on the
 handcrafted features but there was a significant loss in performance.
 
@@ -360,7 +361,8 @@ train the word vector from from. For the Wikipedia corpus we selected the model 
 performed the best as describe in section \ref{experiments:sub:evaluation}. 
 As for the word vector generated from Gini dataset 
 size of the dataset  allowed a fast model generation. So around 120
-\textit{Word2vec} model generation  combinations. All these combinations
+\textit{Word2vec} model generation  combinations were the parameters
+summarized in table \ref{tab:word2_vec_parameters} were varied. All these combinations
 were trained using the same 10-fold cross-validation to set the parameters on
 the classifiers and then evaluated on testing set.
 
@@ -369,6 +371,29 @@ The evaluation measures are the standard measures used in document
 classification: \textit{precision}, \textit{recall}, \textit{f-score}. These
 measures are  weighted to account for unbalanced in the classes. These
 performance measures are described in detail back in section [LINK TO SECTION].
+
+
+
+
+\section{Results}
+\label{sec:w2v4tc_results}
+
+
+This section compares the different models. In the first part is discussed
+the results of using \textit{Word2vec} word vector representation. The second
+part compares all the features based on their classification performance.
+
+
+\subsection{Word Vector for Document Classification}
+\label{sec:w2v4tc_w2v_results}
+
+As mentioned in section \ref{sec:w2v4tc_training-evaluation}, as a similar
+logical reasoning test does not exist to validate the quality of word vectors
+for this tasks, then indirect training was performed by training different
+models with varying parameters in a similar way to a grid search. Then the
+best models  were evaluated on the testing set. Table \ref{tab:w2v4tc_ginig_w2v_evaluation} shows the TOP-5
+models  trained for Gini  data set evaluated on the testing set.  
+
 
 
 \begin{table}[h]
@@ -385,25 +410,44 @@ performance measures are described in detail back in section [LINK TO SECTION].
 \hline
  Algorithm  &  Architecture  &  Window  &  Dim.  &  Precision  &    Recall  &  F1-Score  \\
 \hline
- \ac{HS}    &  Skip-gram     &      15  &   340  &   0.916914  &  0.914657  &  0.914861  \\
- \ac{HS}    &  Skip-gram     &      15  &   160  &   0.914635  &  0.912801  &  0.912901  \\
- \ac{HS}    &  Skip-gram     &      15  &   200  &   0.912762  &  0.910946  &  0.911149  \\
- \ac{HS}    &  Skip-gram     &      10  &   460  &   0.910683  &  0.909091  &  0.909243  \\
- \ac{HS}    &  Skip-gram     &      15  &    80  &   0.909976  &  0.909091  &  0.909231  \\
- \ac{HS}    &  Skip-gram     &      15  &   240  &   0.909967  &  0.909091  & 0.909075  \\
+\ac{HS}    &  Skip-gram     &      15  &   340  &   0.916512  &  0.916779  &  0.916769  \\
+\ac{HS}    &  Skip-gram     &      15  &   160  &   0.914635  &  0.912801  &  0.912901  \\
+\ac{HS}    &  Skip-gram     &      15  &   200  &   0.912762  &  0.910946  &  0.911149  \\
+\ac{HS}    &  Skip-gram     &      10  &   460  &   0.910683  &  0.909091  &  0.909243  \\
+\ac{HS}    &  Skip-gram     &      15  &   240  &   0.909967  &  0.909091  & 0.909075  \\
 \hline
 \end{tabular}
 \end{table}
 
+Surprisingly, the trained algorithm that obtained better performance was
+\ac{HS} in contrast  with the logical reasoning tasks, where model based on
+Negative Sampling obtained the best results.  One of the parameters more
+important in this is the size is the dimension and Window. 
 
-Table \ref{tab:w2v4tc_ginig_w2v_evaluation} shows the TOP-5 model for Gini  data set evaluated on the
-testing set. 
 
 
-\section{Results}
-\label{sec:w2v4tc_results}
 
-This section compares the different 
+\begin{table}[h]
+  \centering
+  \caption{Comparison of performance of different features. The precision,
+    and recall and F1-Score are weighted based on the number of samples per class.}
+  \label{tab:w2v4tc_ginig_w2v_main_comparisson}
+  
+  \small
+  \begin{tabular}{|l|c|c|r|}
+    \hline
+    Feature                   &  Precision  &  Recall  &  F1-Score  \\
+    \hline
+    Handcrafted               &     0.8636  &  0.8581  &    0.8587  \\
+    \ac{BOW}                  &     \textbf{0.9242}  & \textbf{ 0.9239}  &   \textbf{ 0.9238}  \\
+    Word Vectors (Gini)       &     0.9170  &  0.9147  &    0.9130  \\
+    Word Vectors (Wikipedia)  &     0.8645  &  0.8578  &    0.8514  \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+
 
 
 
