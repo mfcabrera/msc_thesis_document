@@ -1,6 +1,10 @@
-\chapter{List of Document Types Available in the Gini Database}
+\chapter{Types and Features of the Gini Document Classifier}
 %\section{Detailed Validation Results}
 \label{chapter:available_doc_types}
+
+
+\section{List of Document Types Available in the Gini Database}
+
 
 \begin{longtable}[h]{|l|p{9cm}|}
 \caption[List of document types available in the Gini Dataset]{List of document types available in the Gini Dataset} \label{tab:list_gini_doctypes} \\
@@ -48,3 +52,711 @@
  travel\_expense\_report                  &  Travel expense report - Reisekostenabrechnung     \\             \hline                          
 \end{longtable}
 
+%
+% \caption[List of document types available in the Gini Dataset]{List of
+%   document types available in the Gini  Dataset} 
+% \label{tab:list_gini_features} \\
+% \hline Feature \\ 
+% \hline
+% "FontSizeOf[Vv]ertrag" \\
+% "NumberOf Kapitalertragssteuer " \\
+% "FontSizeOf[Ll]etter" \\
+% "NumberOfReisekosten" \\
+% "FontSizeOf[Gg]utschrift" \\
+% "NumberOf Kartenzahlung \_Normalized" \\
+% "NumberOfAktueller Kontostand\_Normalized" \\
+% "NumberOf Ihr Dispositionskredit " \\
+% "NumberOfPflichten" \\
+% "NumberOf Ueberweisung " \\
+% "NumberOf[Ii]nkasso\([\\p{L}]\)*\b" \\
+% "NumberOf[aA]lter Kontostand" \\
+% "FontSizeOf[Pp]ayroll" \\
+% "NumberOfAbzug Mittagessen" \\
+% "NumberOf[Zz]ahlungserinnerung\(en\)?\(\(\s\([\\p{L}]\)+\)*\snicht\sreagier\([\\p{L}]\)+\)*" \\
+% "NumberOfPr\"{a}ambel\_Normalized" \\
+% "NumberOfNettoauftragssumme" \\
+% "NumberOf[Zz]ahlungs\(auf\)?forderung\_Normalized" \\
+% "NumberOfErstattungsbetrag\_Normalized" \\
+% "NumberOfDienstgesch\"{a}ft" \\
+% "NumberOf\"{U}bernachtungskosten" \\
+% "NumberOf Sollzins " \\
+% "NumberOf\d+\d\d\s*H\_Normalized" \\
+% "NumberOfAbnahmeverzug" \\
+% "FontSizeOf[Bb]est\"{a}tig" \\
+% "NumberOf[Zz]ahlungserinnerung\(en\)?\(\(\s\([\\p{L}]\)+\)*\snicht\sreagier\([\\p{L}]\)+\)*\_Normalized" \\
+% "NumberOf[Kk]artenzahlung" \\
+% "NumberOfnicht reagiert" \\
+% "NumberOfwie gesehen" \\
+% "NumberOfOriginalrechnung" \\
+% "NumberOfPflichtverletzung\_Normalized" \\
+% "NumberOf[Bb]estell\_Normalized" \\
+% "NumberOfPAUSCHALABRECHNUNG\_Normalized" \\
+% "NumberOfTrennungsreisegeld\_Normalized" \\
+% "NumberOfgesetzlichen\_Normalized" \\
+% "NumberOf[Rr]echnung\(en\)?\s\(\([\\p{L}]\)+\s\)*\(\"{u}bersehen|\"{u}berf\"{a}llig\)" \\
+% "NumberOfUnterzeichnung" \\
+% "NumberOfFrist\_Normalized" \\
+% "NumberOfNebenabreden" \\
+% "NumberOfbetrachten Sie" \\
+% "NumberOfk\"{u}ndigen\_Normalized" \\
+% "NumberOfleider" \\
+% "NumberOfsalvatorische\_Normalized" \\
+% "NumberOfReisekostenabrechnung" \\
+% "NumberOfErstattung" \\
+% "NumberOf bank eG " \\
+% "NumberOf Saldovortrag " \\
+% "NumberOfDritter\_Normalized" \\
+% "NumberOfFrist" \\
+% "NumberOf Habenzins \_Normalized" \\
+% "NumberOfBlatt d+/d+" \\
+% "NumberOfInkasso" \\
+% "FontSizeOf[Tt]ax" \\
+% "FontSizeOf[Rr]echnung" \\
+% "NumberOfkeine Zahlung" \\
+% "NumberOf[Gg]utschrift\_Normalized" \\
+% "NumberOf Visa \_Normalized" \\
+% "NumberOfals gegenstandslos" \\
+% "NumberOfkeine Zahlung\_Normalized" \\
+% "NumberOf[Ss]teuer\_Normalized" \\
+% "NumberOf[Bb]est\"{a}tig\_Normalized" \\
+% "NumberOf Elektronischer Kontoauszug \_Normalized" \\
+% "NumberOf[Rr]echnung\(en\)?\s\(\([\\p{L}]\)+\s\)*\(\"{u}bersehen|\"{u}berf\"{a}llig\)\_Normalized" \\
+% "NumberOf Privatgirokonto \_Normalized" \\
+% "NumberOfzwischenzeitlich\_Normalized" \\
+% "FontSizeOf[Rr]ent" \\
+% "NumberOfVerpflegungspau\(schale\)?\_Normalized" \\
+% "NumberOfGeburtsdatum" \\
+% "NumberOf[Rr]echnung\(en\)?\s\(\([\\p{L}]\)+\s\)*\(nicht\)\s\(bezahlt|zahlt|ausgeglichen|beglichen|eingel\"{o}st\)\_Normalized" \\
+% "NumberOfVerg\"{u}tung\_Normalized" \\
+% "NumberOf MONTHLY STATEMENT \_Normalized" \\
+% "NumberOf[Aa]ntrag" \\
+% "NumberOf[Ee]inzahlung\_Normalized" \\
+% "NumberOfExtractions\_for\_payDate" \\
+% "NumberOf[Zz]ins\_Normalized" \\
+% "NumberOfExtractions\_for\_street" \\
+% "NumberOfAbsatz" \\
+% "NumberOfAktueller Kontostand" \\
+% "NumberOfReisenebenkosten" \\
+% "NumberOf Ihre Abrechnung " \\
+% "NumberOfVersicherungsbedingungen" \\
+% "NumberOfsalvatorische" \\
+% "NumberOfnicht reagiert\_Normalized" \\
+% "NumberOf\([Ss]chreiben|[Mm]ahnschreiben|[Mm]ahnung\(en\)?\)\s\(bitte\s\)?als\sgegenstandslos\_Normalized" \\
+% "NumberOfFortbildungsreise\_Normalized" \\
+% "NumberOf Kreditkarte \_Normalized" \\
+% "NumberOf Ihr Dispositionskredit \_Normalized" \\
+% "NumberOfKaution" \\
+% "NumberOfAuszug \d+\_Normalized" \\
+% "NumberOf Zu Ihren Gunsten " \\
+% "NumberOfBordverpflegung\_Normalized" \\
+% "NumberOf UniCredit Bank AG " \\
+% "NumberOf Verf\"{u}gungsrahmen \_Normalized" \\
+% "NumberOf Buchungsghinweis \_Normalized" \\
+% "NumberOfAbzug Mittagessen\_Normalized" \\
+% "NumberOf[Ll]eistung\_Normalized" \\
+% "NumberOfAbsatz\_Normalized" \\
+% "NumberOf Zu Ihren Gunsten \_Normalized" \\
+% "NumberOfPr\"{a}ambel" \\
+% "NumberOfMembercard" \\
+% "NumberOf Sollzins \_Normalized" \\
+% "NumberOfTarif" \\
+% "NumberOfObliegenheiten" \\
+% "NumberOf[Kk]ein\([\\p{L}]\)*\s[Zz]ahlung\(seingang\)?\([\\p{L}]\)+\s\)*\(\s\(geleistet|feststellen|eingegangen|verbuchen|erhalten|erfolgen\)\)?\_Normalized" \\
+% "NumberOf Buchungsposten " \\
+% "NumberOf Buchungs-Nr. " \\
+% "NumberOfwie gesehen\_Normalized" \\
+% "NumberOfKosten entstehen\_Normalized" \\
+% "NumberOfBearbeitungsgeb\"{u}hr\_Normalized" \\
+% "NumberOf[Zz]ahlung\(seingang|spflicht\)?\s\(\([\\p{L}]\)+\s\)*\(nicht\)\s\(verbuchen|nachgekommen|feststellen\)\_Normalized" \\
+% "NumberOfzu vermeiden\_Normalized" \\
+% "NumberOfOrt\_Normalized" \\
+% "NumberOf[Mm]enge\_Normalized" \\
+% "NumberOf kartenausgebenden " \\
+% "NumberOfValuta" \\
+% "NumberOfSonstige Vereinbahrungen\_Normalized" \\
+% "NumberOfVerg\"{u}tung" \\
+% "FontSizeOf[Kk]reditkartenabrechnung" \\
+% "NumberOf BuTag " \\
+% "NumberOfValuta\_Normalized" \\
+% "FontSizeOf[Ee]inzahlung" \\
+% "NumberOfReisespesenart" \\
+% "NumberOfGesamtbetrag steuerfrei\_Normalized" \\
+% "NumberOfleider\_Normalized" \\
+% "NumberOfReiseantritt\_Normalized" \\
+% "NumberOfBedingungen und Bestimmungen\_Normalized" \\
+% "NumberOfExtractions\_for\_bankAccountNumber" \\
+% "NumberOf Soll \_Normalized" \\
+% "NumberOfDieser Vertrag tritt 10 Werktage\_Normalized" \\
+% "NumberOfzu vermeiden" \\
+% "NumberOf Wertstellung " \\
+% "NumberOfZahlungserinnerung" \\
+% "NumberOf Sparda-Bank " \\
+% "NumberOfExtractions\_for\_customerIds" \\
+% "NumberOfQuartalsletzten" \\
+% "NumberOf Buchungsinformation \_Normalized" \\
+% "FontSizeOf[Ll]ieferschein" \\
+% "NumberOf[Zz]ahlung\(en\)? offen" \\
+% "NumberOf Kapitalertragssteuer \_Normalized" \\
+% "NumberOfgesetzlichen" \\
+% "NumberOfAusw\"{a}rtst\"{a}tigkeit" \\
+% "NumberOfbereits bezahlt" \\
+% "NumberOfRecht\_Normalized" \\
+% "FontSizeOf[Vv]ersicherung" \\
+% "FontSizeOf[Zz]ahlungserinnerung" \\
+% "NumberOf Abrechnungszeitraum vom[:]?\s+\d+" \\
+% "NumberOfNutzungsrechte\_Normalized" \\
+% "NumberOfOriginalbeleg\_Normalized" \\
+% "NumberOfMitgliedschaftsvertrag\_Normalized" \\
+% "NumberOfunverz\"{u}glich" \\
+% "NumberOfEs gelten die allgemeinen Gesch\"{a}ftsbedingungen" \\
+% "NumberOf Habenzins " \\
+% "NumberOfvertreten durch\_Normalized" \\
+% "NumberOf[Aa]nbei\_Normalized" \\
+% "NumberOf[Ee]inzahlung" \\
+% "NumberOf[Zz]ahl\_Normalized" \\
+% "NumberOfnicht bezahlt" \\
+% "NumberOfK[Oo][Nn][Tt][Oo][-]?[Aa][Uu][Ss][Zz][Uu][Gg]" \\
+% "NumberOf[Kk]ontoauszug\_Normalized" \\
+% "NumberOfObliegenheiten\_Normalized" \\
+% "NumberOfdie Zahlung" \\
+% "NumberOfVertragsparteien\_Normalized" \\
+% "NumberOf Privatgirokonto " \\
+% "NumberOf bank eG \_Normalized" \\
+% "NumberOffristlos" \\
+% "NumberOfDieser Vertrag tritt 10 Werktage" \\
+% "NumberOf Ihre Abrechnung \_Normalized" \\
+% "NumberOfgerichtliche Schritte" \\
+% "NumberOf Karteninhaberservice " \\
+% "NumberOf[Gg]eschuldete\([\\p{L}]\)*\s[Bb]etrag\_Normalized" \\
+% "NumberOf Monatsrechnung \_Normalized" \\
+% "NumberOfAnlage\_Normalized" \\
+% "NumberOfMietverh\"{a}ltnis" \\
+% "FontSizeOf[Oo]rder" \\
+% "NumberOfPflichtverletzung" \\
+% "NumberOf[Kk]onto" \\
+% "NumberOfVertragsdaten\_Normalized" \\
+% "NumberOfBestandteil des Vertrages" \\
+% "NumberOf Buchungs-Nr. \_Normalized" \\
+% "NumberOf[Qq]uittung\_Normalized" \\
+% "NumberOf[Vv]ersicherung" \\
+% "NumberOf Kontostand [in EUR] am[:]?\s+\d+" \\
+% "NumberOfExtractions\_for\_companyName" \\
+% "NumberOfBeendigung\_Normalized" \\
+% "NumberOfExtractions\_for\_city" \\
+% "NumberOfPflichten\_Normalized" \\
+% "NumberOfBestimmungen" \\
+% "NumberOfBegleichung" \\
+% "NumberOfVertragslaufzeit" \\
+% "NumberOf[Kk]aufbeleg\_Normalized" \\
+% "NumberOf SOLLZINSEN \_Normalized" \\
+% "NumberOfber\"{u}cksichtigt\_Normalized" \\
+% "NumberOf[Zz]ahlungsverzug" \\
+% "NumberOfVerzugszinsen" \\
+% "NumberOf[Kk]undenbeleg\_Normalized" \\
+% "NumberOfBestimmungen\_Normalized" \\
+% "NumberOfReisenebenkosten\_Normalized" \\
+% "NumberOf[Rr][Ee][Cc][Hh][Nn][Uu][Nn][Gg]\_Normalized" \\
+% "NumberOf[Zz]ahlungs\(auf\)?forderung" \\
+% "NumberOfExtractions\_for\_customerId" \\
+% "NumberOf[Mm]iet\_Normalized" \\
+% "NumberOf[Kk]ein\([\\p{L}]\)*\s[Gg]eldeingang" \\
+% "NumberOfMit freundlichen Gr\"{u}ßen" \\
+% "NumberOf Rechnungsabschluss \_Normalized" \\
+% "NumberOf[Bb]rief" \\
+% "NumberOf[Zz]ins" \\
+% "NumberOfLaufzeit" \\
+% "FontSizeOf[Cc]onfirmation" \\
+% "NumberOfVerpflegungsmehraufwendungen" \\
+% "NumberOf[Vv]ertrag\_Normalized" \\
+% "NumberOf Summe Gutschriften " \\
+% "NumberOf[Zz]ahlung\(en\)? offen\_Normalized" \\
+% "FontSizeOf[Kk]aufbeleg" \\
+% "NumberOfInhalt des Vertrages\_Normalized" \\
+% "NumberOfgezwungen\_Normalized" \\
+% "NumberOfMembercard\_Normalized" \\
+% "NumberOfSalvatorische\_Normalized" \\
+% "NumberOfMahnstufe\_Normalized" \\
+% "NumberOfMitwirkungspflichten" \\
+% "NumberOfSehr geehrte" \\
+% "NumberOfGerichtsstand" \\
+% "NumberOfTagegeld\_Normalized" \\
+% "FontSizeOf[Kk]undenbeleg" \\
+% "NumberOfNebenabreden\_Normalized" \\
+% "NumberOf[Aa]nbei" \\
+% "NumberOfKontostand" \\
+% "NumberOfverpflichtet" \\
+% "NumberOfIm Falle \_Normalized" \\
+% "NumberOfr\"{u}ckst\"{a}ndigen Betrag" \\
+% "NumberOfUntermietvertrag\_Normalized" \\
+% "NumberOf gilt als annerkannt \_Normalized" \\
+% "NumberOf[Vv]erzugszinsen\_Normalized" \\
+% "NumberOf Summe Abschlussposten " \\
+% "NumberOf[Kk]ein\([\\p{L}]\)*\s[Gg]eldeingang\_Normalized" \\
+% "NumberOfEigenbedarf\_Normalized" \\
+% "NumberOfExtractions\_for\_invoiceIds" \\
+% "NumberOf[Bb]uchung\_Normalized" \\
+% "NumberOfExtractions\_for\_code" \\
+% "NumberOf Master Card Gold Service " \\
+% "NumberOf Verf\"{u}gungsrahmen " \\
+% "NumberOfWert\_Normalized" \\
+% "NumberOfIhre internat. Bankverbindung" \\
+% "NumberOfverpflichtet\_Normalized" \\
+% "NumberOfGeltungsbereich\_Normalized" \\
+% "NumberOf Buchungen zum[:]?\s+\d+" \\
+% "NumberOfReisezweck\_Normalized" \\
+% "NumberOfVerpflegungsmehraufwand\_Normalized" \\
+% "NumberOfSch\"{o}nheitsreperaturen" \\
+% "NumberOf Zinsen f\"{u}r Guthaben \_Normalized" \\
+% "NumberOfExtractions\_for\_bankNumbers" \\
+% "NumberOf auf Richtigkeit \_Normalized" \\
+% "NumberOf[Kk]onto\_Normalized" \\
+% "FontSizeOf[Zz]ahlungs\(auf\)?forderung" \\
+% "NumberOfUnterschrift\_Normalized" \\
+% "NumberOfWert" \\
+% "NumberOf Buchungen zum[:]?\s+\d+\_Normalized" \\
+% "NumberOf[Zz]ahlung\(seingang|spflicht\)?\s\(\([\\p{L}]\)+\s\)*\(nicht\)\s\(verbuchen|nachgekommen|feststellen\)" \\
+% "NumberOfReisekosten\_Normalized" \\
+% "NumberOfFassung" \\
+% "NumberOfGerichtsstand\_Normalized" \\
+% "NumberOfSehr geehrte\_Normalized" \\
+% "NumberOfbereits bezahlt\_Normalized" \\
+% "NumberOfrechtsverbindlich" \\
+% "NumberOfGeltungsbereich" \\
+% "NumberOfGeburtsdatum\_Normalized" \\
+% "NumberOfunwirksam\_Normalized" \\
+% "NumberOfSollten einzelne Bestimmungen" \\
+% "NumberOf§\s?\d+" \\
+% "NumberOfReisespesenart\_Normalized" \\
+% "NumberOf Buchungstag \_Normalized" \\
+% "documentCurrency\_CHF" \\
+% "NumberOf Einwendungen \_Normalized" \\
+% "NumberOf\(\d+\)" \\
+% "NumberOf Kartenservice " \\
+% "NumberOfverpflichten\_Normalized" \\
+% "NumberOfKaution\_Normalized" \\
+% "NumberOfStreitigkeiten" \\
+% "NumberOf[Mm]enge" \\
+% "NumberOf Bank Austria \_Normalized" \\
+% "NumberOf[Aa]ntrag\_Normalized" \\
+% "FontSizeOf[Pp]acking [Ll]ist" \\
+% "NumberOfgezwungen" \\
+% "NumberOfoffenen Forderungen\_Normalized" \\
+% "NumberOf\b[Mm]ahn\(ung\)?\([\\p{L}]\)+\b\_Normalized" \\
+% "NumberOfVertragsabschlusses" \\
+% "NumberOfDienstgesch\"{a}ft\_Normalized" \\
+% "NumberOf[1234567890]\. " \\
+% "NumberOfZahlungsvereinbahrungen" \\
+% "NumberOf KarteninhaberIn " \\
+% "NumberOfEs gelten die allgemeinen Gesch\"{a}ftsbedingungen\_Normalized" \\
+% "FontSizeOf[Mm]iet" \\
+% "NumberOfnoch offen\_Normalized" \\
+% "NumberOf\"{U}bernachtungspau\(schale\)?\_Normalized" \\
+% "NumberOfZahlungseingang\_Normalized" \\
+% "NumberOf Zu Ihren Lasten \_Normalized" \\
+% "NumberOf Ueberweisung \_Normalized" \\
+% "NumberOf Summe Belastungen \_Normalized" \\
+% "NumberOfInhalt des Vertrages" \\
+% "NumberOfin Kraft" \\
+% "NumberOfZahlungsaufforderung\_Normalized" \\
+% "NumberOfGesamtbetrag steuerfrei" \\
+% "NumberOf Summe Abschlussposten \_Normalized" \\
+% "NumberOf Abhebung Geldautomat \_Normalized" \\
+% "NumberOfReisekostenabrechnung\_Normalized" \\
+% "NumberOfStreitigkeiten\_Normalized" \\
+% "NumberOf[Kk]ontoauszug" \\
+% "NumberOfVertragsparteien" \\
+% "NumberOfBegleichung\_Normalized" \\
+% "NumberOf VISA-Card " \\
+% "NumberOfDritter" \\
+% "BiggestFontSize" \\
+% "NumberOfAnlass der Reise\_Normalized" \\
+% "NumberOfEmpfangsbekenntnis\_Normalized" \\
+% "NumberOfErf\"{u}llungsort\_Normalized" \\
+% "NumberOf Buchungstext " \\
+% "FontSizeOf[Kk][Oo][Nn][Tt][Oo][Aa][Uu][Ss][Zz][Uu][Gg]" \\
+% "NumberOfoffene Rechnung" \\
+% "NumberOf[Kk]ein\([\\p{L}]\)*\s[Zz]ahlung\(seingang\)?\([\\p{L}]\)+\s\)*\(\s\(geleistet|feststellen|eingegangen|verbuchen|erhalten|erfolgen\)\)?" \\
+% "NumberOfAusw\"{a}rtst\"{a}tigkeit\_Normalized" \\
+% "NumberOfordnugsgem\"{a}ß" \\
+% "NumberOfVertragsgegenstand\_Normalized" \\
+% "NumberOfVersicherungsbedingungen\_Normalized" \\
+% "NumberOf\([Ss]chreiben|[Mm]ahnschreiben|[Mm]ahnung\(en\)?\)\s\(bitte\s\)?als\sgegenstandslos" \\
+% "NumberOf[Dd]oppelte Haushaltsf\"{u}hrung" \\
+% "NumberOffr\"{u}hestens jedoch nach Ablauf " \\
+% "NumberOfAbschlag" \\
+% "FontSizeOf[Bb]rief" \\
+% "NumberOf Kreditkartenkonto \_Normalized" \\
+% "NumberOfZahlungsaufforderung" \\
+% "NumberOfFahrtkosten" \\
+% "NumberOf[Aa]uftrag" \\
+% "NumberOfSie inzwischen\_Normalized" \\
+% "NumberOfber\"{u}cksichtigt" \\
+% "NumberOfKostenzuordnung" \\
+% "NumberOfInkrafttreten\_Normalized" \\
+% "SmallestFontSize" \\
+% "NumberOfdie Zahlung\_Normalized" \\
+% "NumberOf Sparda-Bank \_Normalized" \\
+% "NumberOfBlatt \d von \d\_Normalized" \\
+% "NumberOf Wertstellung \_Normalized" \\
+% "NumberOf Haben " \\
+% "FontSizeOf[Qq]uittung" \\
+% "NumberOfBearbeitungsgeb\"{u}hr" \\
+% "NumberOfBeendigung" \\
+% "NumberOfm\"{u}ndliche Abmachungen\_Normalized" \\
+% "NumberOfOriginalbeleg" \\
+% "NumberOfVertragsdaten" \\
+% "NumberOf\d+
+% \d\d\s*H" \\
+% "FontSizeOf[Mm]ahnung" \\
+% "NumberOfTagegeld" \\
+% "NumberOfvermeiden" \\
+% "NumberOf Saldo \_Normalized" \\
+% "NumberOfReisekostenverg\"{u}tung\_Normalized" \\
+% "NumberOf Postbank " \\
+% "NumberOf\d+
+% \d\d\s*S\_Normalized" \\
+% "NumberOfVertragsabschlusses\_Normalized" \\
+% "NumberOfReisezweck" \\
+% "NumberOf Buchung " \\
+% "NumberOfgerichtliche Schritte\_Normalized" \\
+% "NumberOf[Kk]ontostand\_Normalized" \\
+% "NumberOfausstehenden Betrag" \\
+% "NumberOf[Bb]ank\_Normalized" \\
+% "NumberOf Ihr Kartenlimit " \\
+% "NumberOfPages" \\
+% "NumberOfLeistungserbringer" \\
+% "NumberOfnachstehend Auftraggeber genannt\_Normalized" \\
+% "NumberOf Kontoinhaber " \\
+% "NumberOf[Bb]eleg\_Normalized" \\
+% "NumberOfZahlungseingang" \\
+% "NumberOf Bank Austria " \\
+% "NumberOfAnsatz Pauschbetrag\_Normalized" \\
+% "NumberOfIm Falle " \\
+% "NumberOfGew\"{a}hrleistung\_Normalized" \\
+% "NumberOf VISA-Accountnummer \_Normalized" \\
+% "NumberOfErstattungsbetrag" \\
+% "NumberOfVerpflegungsmehraufwand" \\
+% "NumberOfMietr\"{a}ume\_Normalized" \\
+% "NumberOfKosten entstehen" \\
+% "NumberOfr\"{u}ckst\"{a}ndigen Betrag\_Normalized" \\
+% "NumberOf[nN]euer Kontostand\_Normalized" \\
+% "NumberOffristlos\_Normalized" \\
+% "NumberOf Rechnungsabschluss " \\
+% "NumberOf Giro \_Normalized" \\
+% "NumberOf[Aa]uftrag\_Normalized" \\
+% "NumberOf UniCredit Bank AG \_Normalized" \\
+% "NumberOfAbnahme\_Normalized" \\
+% "NumberOfHaftungsbeschr\"{a}nkung\_Normalized" \\
+% "NumberOf Buchungsdetails " \\
+% "NumberOf\"{U}bernachtungspau\(schale\)?" \\
+% "NumberOfReisekostenrechung" \\
+% "FontSizeOf[Kk]ontostand" \\
+% "NumberOf Girokonto " \\
+% "NumberOfunentgeltliche Verpflegung\_Normalized" \\
+% "NumberOf Saldo " \\
+% "NumberOfals gegenstandslos\_Normalized" \\
+% "NumberOfBlatt d+/d+\_Normalized" \\
+% "NumberOf Sperrhotline \_Normalized" \\
+% "NumberOfSie umgehend\_Normalized" \\
+% "NumberOf[Tt]icket" \\
+% "NumberOf Summe Belastungen " \\
+% "NumberOfReiseverlauf\_Normalized" \\
+% "NumberOfService" \\
+% "NumberOfVorschriften\_Normalized" \\
+% "NumberOfoffenen Forderungen" \\
+% "NumberOf Buchungsinformation " \\
+% "NumberOf[Rr]echnung\(en\)?\s\(\([\\p{L}]\)+\s\)*\(nicht\)\s\(bezahlt|zahlt|ausgeglichen|beglichen|eingel\"{o}st\)" \\
+% "NumberOf Buchungsnr. \_Normalized" \\
+% "FontSizeOf[Vv]oucher" \\
+% "NumberOf Buchungsnummer " \\
+% "NumberOfunter Ausschluss jeder Gew\"{a}hrleistung\_Normalized" \\
+% "NumberOfNummer\s+Blatt" \\
+% "NumberOf Endsaldo " \\
+% "NumberOf[Vv]erzugszinsen" \\
+% "NumberOfHaftungsbeschr\"{a}nkung" \\
+% "NumberOfSie inzwischen" \\
+% "NumberOf Kartenzahlung " \\
+% "NumberOf VISA-Card \_Normalized" \\
+% "NumberOfZahlung inzwischen" \\
+% "NumberOfnoch offen" \\
+% "NumberOfFassung\_Normalized" \\
+% "NumberOf Startsaldo \_Normalized" \\
+% "NumberOf Master Card " \\
+% "NumberOfReisekosten-Pauschverg\"{u}tung\_Normalized" \\
+% "NumberOf K[Oo][Nn][Tt][Oo][Ff][Uu][Ee][Hh][Rr][Uu][Nn][Gg]\_Normalized" \\
+% "NumberOfAuszug \d+" \\
+% "NumberOfReiseNr\_Normalized" \\
+% "NumberOf[Bb]ezahlt\_Normalized" \\
+% "NumberOf[Zz]ahl" \\
+% "NumberOfLeistungserbringer\_Normalized" \\
+% "CharsOnFirstPage" \\
+% "NumberOfInkrafttreten" \\
+% "NumberOfZahlungserinnerung\_Normalized" \\
+% "NumberOf MONTHLY STATEMENT " \\
+% "NumberOfBetreten der Mietr\"{a}ume durch den Vermieter" \\
+% "NumberOfReisekostenrechung\_Normalized" \\
+% "NumberOfMietr\"{a}ume" \\
+% "NumberOffr\"{u}hestens jedoch nach Ablauf \_Normalized" \\
+% "FontSizeOf[Ii]nsurance" \\
+% "NumberOfKostenzuordnung\_Normalized" \\
+% "NumberOfAnlage" \\
+% "FontSizeOf[Kk]ontoauszug" \\
+% "NumberOfPflichtfeld" \\
+% "NumberOf\(\d+\)\_Normalized" \\
+% "NumberOfNettoauftragssumme\_Normalized" \\
+% "NumberOfSonstige Vereinbahrungen" \\
+% "NumberOfZahlungsvereinbahrungen\_Normalized" \\
+% "NumberOf[Zz]ahlungsverzug\_Normalized" \\
+% "NumberOfSchritte" \\
+% "NumberOf\"{U}bernachtungskosten\_Normalized" \\
+% "NumberOfService\_Normalized" \\
+% "NumberOf[Rr][Ee][Cc][Hh][Nn][Uu][Nn][Gg]" \\
+% "NumberOfExtractions\_for\_sender" \\
+% "NumberOfunverz\"{u}glich\_Normalized" \\
+% "NumberOfVerpflegungspau\(schale\)?" \\
+% "NumberOf[Vv]erkauf" \\
+% "NumberOfExtractions\_for\_documentDate" \\
+% "NumberOf[Dd]oppelte Haushaltsf\"{u}hrung\_Normalized" \\
+% "NumberOfOrt
+%  Datum\_Normalized" \\
+% "NumberOfnachstehend Auftraggeber genannt" \\
+% "NumberOf§\s?\d+\_Normalized" \\
+% "NumberOf KarteninhaberIn \_Normalized" \\
+% "NumberOf W\"{a}hrung " \\
+% "NumberOf[Bb]rief\_Normalized" \\
+% "NumberOf Summe Gutschriften \_Normalized" \\
+% "NumberOfExtractions\_for\_bankAccountNumbers" \\
+% "NumberOfVerzugszinsen\_Normalized" \\
+% "NumberOfReisekosten-Pauschverg\"{u}tung" \\
+% "NumberOf W\"{a}hrung \_Normalized" \\
+% "NumberOfAbzug Fr\"{u}hst\"{u}ck" \\
+% "NumberOf Startsaldo " \\
+% "NumberOf Buchungsnummer \_Normalized" \\
+% "NumberOfVertragsgegenstand" \\
+% "NumberOf Bitte R\"{u}ckseite beachten \_Normalized" \\
+% "NumberOfExtractions\_for\_ibans" \\
+% "NumberOf Buchungstag " \\
+% "NumberOfNutzungsrechte" \\
+% "NumberOfOriginalrechnung\_Normalized" \\
+% "NumberOfunwirksam" \\
+% "NumberOf Buchungstext \_Normalized" \\
+% "NumberOf SOLLZINSEN " \\
+% "NumberOfm\"{u}ndliche Abmachungen" \\
+% "NumberOfAbnahmeverzug\_Normalized" \\
+% "NumberOf Kontoinhaber \_Normalized" \\
+% "NumberOfEinzelnachweis" \\
+% "NumberOfExtractions\_for\_amountToPay" \\
+% "NumberOfdieses Schreiben" \\
+% "NumberOf Master Card \_Normalized" \\
+% "NumberOf§" \\
+% "NumberOfSch\"{o}nheitsreperaturen\_Normalized" \\
+% "AverageFontSize" \\
+% "NumberOfPAUSCHALABRECHNUNG" \\
+% "FontSizeOf[Cc]ontract" \\
+% "NumberOf[Ll]ieferschein\_Normalized" \\
+% "NumberOf Haben \_Normalized" \\
+% "NumberOf[Kk]undenbeleg" \\
+% "NumberOf erstellt am \_Normalized" \\
+% "NumberOf[Bb]est\"{a}tig" \\
+% "NumberOfordentliche K\"{u}ndigung" \\
+% "NumberOf§\_Normalized" \\
+% "NumberOfVertragspartner" \\
+% "NumberOfMahnstufe" \\
+% "NumberOfUnterschrift" \\
+% "NumberOf Monatsrechnung " \\
+% "NumberOfAbzug Fr\"{u}hst\"{u}ck\_Normalized" \\
+% "NumberOfAnlass der Reise" \\
+% "NumberOfUnterzeichnung\_Normalized" \\
+% "NumberOfVertragspflichten\_Normalized" \\
+% "NumberOf[Bb]ank" \\
+% "NumberOf Endsaldo \_Normalized" \\
+% "NumberOf Bei Kartenverlust \_Normalized" \\
+% "NumberOfTarif\_Normalized" \\
+% "FontSizeOf[Bb]estell" \\
+% "NumberOfBestandteil des Vertrages\_Normalized" \\
+% "NumberOfweiteren Kosten\_Normalized" \\
+% "NumberOf[Ii]nkasso\([\\p{L}]\)*\b\_Normalized" \\
+% "FontSizeOf[Bb]eleg" \\
+% "NumberOfBedingungen und Bestimmungen" \\
+% "NumberOfExtractions\_for\_amounts" \\
+% "NumberOfErbringung\_Normalized" \\
+% "NumberOfVorschriften" \\
+% "FontSizeOfdelivery (slip|note|order|receipt)" \\
+% "NumberOfFortbildungsreise" \\
+% "documentCurrency\_EUR" \\
+% "NumberOf[Qq]uittung" \\
+% "NumberOf Buchungsghinweis " \\
+% "NumberOfREISEKOSTENNACHWEIS\_Normalized" \\
+% "NumberOfReiseverlauf" \\
+% "documentCurrency\_GBP" \\
+% "NumberOf BuTag \_Normalized" \\
+% "NumberOfVertragslaufzeit\_Normalized" \\
+% "NumberOfausstehenden Betrag\_Normalized" \\
+% "FontSizeOf[Aa]uftrag" \\
+% "NumberOfZahlung inzwischen\_Normalized" \\
+% "NumberOfErf\"{u}llungsort" \\
+% "NumberOfSchriftform" \\
+% "NumberOfLaufzeit\_Normalized" \\
+% "NumberOfMietvertrag" \\
+% "NumberOfReisekostennachweis" \\
+% "NumberOf[Kk]artenzahlung\_Normalized" \\
+% "NumberOf Zu Ihren Lasten " \\
+% "NumberOf Sollzinsen \_Normalized" \\
+% "NumberOf Einwendungen " \\
+% "NumberOf Saldovortrag \_Normalized" \\
+% "NumberOfFahrtkosten\_Normalized" \\
+% "NumberOfBordverpflegung" \\
+% "NumberOf kartenausgebenden \_Normalized" \\
+% "NumberOfKontostand\_Normalized" \\
+% "NumberOf erstellt am " \\
+% "NumberOf Kontokorrent " \\
+% "NumberOf Postbank \_Normalized" \\
+% "NumberOfEinzelnachweis\_Normalized" \\
+% "NumberOfEigenbedarf" \\
+% "NumberOf Kontostand [in EUR] am[:]?\s+\d+\_Normalized" \\
+% "NumberOfExtractions\_for\_emails" \\
+% "FontSizeOf[Kk]\"{u}ndigung" \\
+% "NumberOfVerpflegungsmehraufwendungen\_Normalized" \\
+% "NumberOf Buchungsnr. " \\
+% "NumberOf[aA]lter Kontostand\_Normalized" \\
+% "NumberOf Bitte R\"{u}ckseite beachten " \\
+% "NumberOf Zinsen f\"{u}r Guthaben " \\
+% "NumberOfOrt" \\
+% "NumberOfTrennungsreisegeld" \\
+% "NumberOfunter Ausschluss jeder Gew\"{a}hrleistung" \\
+% "NumberOf Sollzinsen " \\
+% "NumberOf auf Richtigkeit " \\
+% "NumberOfZahlungsmodalit\"{a}ten" \\
+% "FontSizeOf[Rr]eceipt" \\
+% "NumberOf[Bb]eleg" \\
+% "NumberOf VISA-Kontonummer " \\
+% "NumberOfErbringung" \\
+% "NumberOf[Vv]ertrag" \\
+% "NumberOf[Vv]erkauf\_Normalized" \\
+% "NumberOf VISA-Accountnummer " \\
+% "NumberOfK[Oo][Nn][Tt][Oo][-]?[Aa][Uu][Ss][Zz][Uu][Gg]\_Normalized" \\
+% "NumberOf Visa " \\
+% "NumberOfunentgeltliche Verpflegung" \\
+% "NumberOfEmpfangsbekenntnis" \\
+% "NumberOf Elektronischer Kontoauszug " \\
+% "NumberOfStadtsparkasse " \\
+% "NumberOfk\"{u}ndigen" \\
+% "NumberOfUntermietvertrag" \\
+% "NumberOf Ihr Kartenlimit \_Normalized" \\
+% "NumberOfReiseantritt" \\
+% "NumberOfVertragspartner\_Normalized" \\
+% "NumberOfLieferverzug" \\
+% "NumberOf[Uu]nterschrift" \\
+% "NumberOfExtractions\_for\_bankNumber" \\
+% "NumberOfZahlungsverzug" \\
+% "NumberOf[Bb]estell" \\
+% "NumberOf[Uu]nterschrift\_Normalized" \\
+% "NumberOfQuartalsletzten\_Normalized" \\
+% "NumberOfBeitragsanpassung" \\
+% "NumberOf[nN]euer Kontostand" \\
+% "NumberOf[Ss][Pp][Aa][Rr][Kk][Aa]Ss][Ss][Ee]" \\
+% "NumberOfReiseNr" \\
+% "NumberOf gilt als annerkannt " \\
+% "NumberOfOrt
+%  Datum" \\
+% "NumberOf[1234567890]\. \_Normalized" \\
+% "NumberOfnicht bezahlt\_Normalized" \\
+% "NumberOf Abrechnungszeitraum vom[:]?\s+\d+\_Normalized" \\
+% "NumberOfoffene Rechnung\_Normalized" \\
+% "NumberOfSie umgehend" \\
+% "NumberOfSollten einzelne Bestimmungen\_Normalized" \\
+% "NumberOf Buchung \_Normalized" \\
+% "NumberOfAnsatz Pauschbetrag" \\
+% "NumberOf Buchungsposten \_Normalized" \\
+% "NumberOfExtractions\_for\_invoiceId" \\
+% "NumberOfzwischenzeitlich" \\
+% "NumberOfReisekostenantrag" \\
+% "FontSizeOfstatement" \\
+% "NumberOfLieferverzug\_Normalized" \\
+% "NumberOfIhre internat. Bankverbindung\_Normalized" \\
+% "NumberOf Abhebung Geldautomat " \\
+% "NumberOf Sperrhotline " \\
+% "NumberOf\d+
+% \d\d\s*S" \\
+% "NumberOf Kartenservice \_Normalized" \\
+% "NumberOfrechtsverbindlich\_Normalized" \\
+% "NumberOf[Tt]icket\_Normalized" \\
+% "NumberOfweiteren Kosten" \\
+% "NumberOfErstattung\_Normalized" \\
+% "NumberOf Giro " \\
+% "NumberOfReiseaufwand\_Normalized" \\
+% "NumberOfReiseaufwand" \\
+% "NumberOfStadtsparkasse \_Normalized" \\
+% "NumberOfSchritte\_Normalized" \\
+% "NumberOfMitwirkungspflichten\_Normalized" \\
+% "NumberOf[Ll]eistung" \\
+% "NumberOf Kreditkartenkonto " \\
+% "NumberOfvermeiden\_Normalized" \\
+% "NumberOfExtractions\_for\_dates" \\
+% "NumberOfdieses Schreiben\_Normalized" \\
+% "FontSizeOf[Bb]ericht" \\
+% "NumberOfZahlungsmodalit\"{a}ten\_Normalized" \\
+% "NumberOf[Gg]eschuldete\([\\p{L}]\)*\s[Bb]etrag" \\
+% "NumberOfReisekostenantrag\_Normalized" \\
+% "NumberOfvertreten durch" \\
+% "NumberOf\b[Mm]ahn\(ung\)?\([\\p{L}]\)+\b" \\
+% "FontSizeOf[Ii]nvoice" \\
+% "FontSizeOf[Aa]ntrag" \\
+% "NumberOfAbnahme" \\
+% "NumberOf Card Limit \_Normalized" \\
+% "NumberOf K[Oo][Nn][Tt][Oo][Ff][Uu][Ee][Hh][Rr][Uu][Nn][Gg]" \\
+% "NumberOfMitgliedschaftsvertrag" \\
+% "DigitWordCharacterRatio" \\
+% "NumberOfGew\"{a}hrleistung" \\
+% "NumberOfReisekostennachweis\_Normalized" \\
+% "NumberOfSalvatorische" \\
+% "NumberOfordnugsgem\"{a}ß\_Normalized" \\
+% "NumberOfSchriftform\_Normalized" \\
+% "NumberOfBetreten der Mietr\"{a}ume durch den Vermieter\_Normalized" \\
+% "NumberOf Master Card Gold Service \_Normalized" \\
+% "NumberOfMietvertrag\_Normalized" \\
+% "NumberOfAbschlag\_Normalized" \\
+% "NumberOfZahlungsverzug\_Normalized" \\
+% "NumberOf[Ll]ieferschein" \\
+% "NumberOfExtractions\_for\_vatRegNumbers" \\
+% "NumberOfRecht" \\
+% "documentCurrency\_USD" \\
+% "NumberOfExtractions\_for\_urls" \\
+% "NumberOf[Mm]iet" \\
+% "NumberOf Card Limit " \\
+% "NumberOf[Ss][Pp][Aa][Rr][Kk][Aa]Ss][Ss][Ee]\_Normalized" \\
+% "NumberOf[Kk]ontostand" \\
+% "NumberOf Bei Kartenverlust " \\
+% "NumberOf Kreditkarte " \\
+% "NumberOf Kontokorrent \_Normalized" \\
+% "NumberOfREISEKOSTENNACHWEIS" \\
+% "NumberOfBeitragsanpassung\_Normalized" \\
+% "NumberOfBlatt \d von \d" \\
+% "NumberOf Karteninhaberservice \_Normalized" \\
+% "documentCurrency\_UNKNOWN" \\
+% "NumberOfNummer\s+Blatt\_Normalized" \\
+% "NumberOf[Vv]ersicherung\_Normalized" \\
+% "NumberOfVertragspflichten" \\
+% "NumberOfbetrachten Sie\_Normalized" \\
+% "NumberOfverpflichten" \\
+% "NumberOf[Gg]utschrift" \\
+% "NumberOf Girokonto \_Normalized" \\
+% "NumberOfMit freundlichen Gr\"{u}ßen\_Normalized" \\
+% "NumberOfordentliche K\"{u}ndigung\_Normalized" \\
+% "NumberOf Soll " \\
+% "NumberOfMietverh\"{a}ltnis\_Normalized" \\
+% "NumberOf[Bb]ezahlt" \\
+% "NumberOfin Kraft\_Normalized" \\
+% "NumberOf[Ss]teuer" \\
+% "NumberOfReisekostenverg\"{u}tung" \\
+% "FontSizeOf[Tt]icket" \\
+% "NumberOfPflichtfeld\_Normalized" \\
+% "NumberOf Buchungsdetails \_Normalized" \\
+% "NumberOfExtractions\_for\_iban" \\
+% "NumberOfTotalChars" \\
+% "NumberOf[Bb]uchung" \\
+% "NumberOfInkasso\_Normalized" \\
+% "NumberOf[Kk]aufbeleg" \\
+% "NumberOf VISA-Kontonummer \_Normalized" \\
+
+%\end{longtable}

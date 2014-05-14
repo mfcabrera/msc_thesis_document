@@ -18,6 +18,8 @@
 %   - Using individual features will make always hard to work with variable
 %   - Sized documents - that is definitive.
 
+
+
 \section{Introduction}
 \label{sec:w2v4tc_intro}
 
@@ -25,43 +27,45 @@ One of the motivation of feature learning is to be able to
 obtain useful representation that will improve the performance of  existing tasks. In the case of
 \ac{IR}/\ac{NLP} related tasks  word vector features have been shown to
 improve existing taks such \ac{NER}, Chunking and Sentiment Analysis
-\cite{Turian:2010:WRS:1858681.1858721} \cite{DBLP:journals/corr/abs-1103-0398}. Word vector features have also shown 
-  and have shown promising results in
-fields as machine translation and speech processing \cite{collobert:2008}
+\cite{Turian:2010:WRS:1858681.1858721}
+\cite{DBLP:journals/corr/abs-1103-0398}. Word vector features have also shown
+promising results in fields as machine translation and speech processing \cite{collobert:2008}
 \cite{DBLP:journals/corr/MikolovLS13}.  
 
 In the field of \ac{TC}  there has been  limited work on improving  this
-task by using word vector representations. There are some reason 
-fo this. Many of the current the current methods work well enough, in particular those
-based on the \ac{VSM} \cite{Sebastiani02}. Another reason behind this is that
-when using word representation each word get a $n$-dimensional vector
-representation representation, therefore a large document could be only
-represented as big matrix. However,  current methods work only with vector
-representation of a document. In spite of that, there has been previous work using word
-vector for short text classification, namely Sentiment Analysis
-\cite{maas2011learning}. The task of Sentiment Analysis can be seen as a variation of
-\ac{TC}. In fact in the aforementioned work the authors use the traditional
-approaches for \ac{TC} to train the sentiment predictor. 
+task by using word vector representations. One of the  possible reasons  behind this,
+is that many of the current  methods work well enough and they have been the standard in
+the industry for the last decade \cite{Sebastiani02} . Another possible reason comes from the
+technical side. Namely, when using word representation, each word is represented a $n$-dimensional vector, therefore a large document could be only
+represented as big matrix. However, most of the exiting methods work only with vector
+representation of documents. This makes  it hard to adapt existing
+techniques to these new features.  
 
-This chapter compares the performance  word vector representations based on
-the \textit{Word2vec} model  against other features  in the context of classifying
+The task of Sentiment Analysis  has been  tackled by using learned word
+features from unlabeled data set \cite{maas2011learning}. To achieve this,
+different ways of representing a document from its word vectors were tried,
+all of them including some form of averaging. As Sentiment Analysis   can be
+seen as a variation of traditional \ac{TC},  this same approach is therefore
+used  for performing document classification on this work. In fact, in 
+the aforementioned article,  the authors the same  traditional approaches for \ac{TC} combined with word vector features to train the sentiment predictor. 
+
+This chapter compares the performance  of document representations obtained  from  word vector features against other features  in the context of classifying
 business-related documents in German. The objective is therefore to
-improve the existing classifier by  using the learned word vector features.
-However, as a  sort of byproduct other more 
-traditional approaches  are also evaluated, thus offering a benchmark
-among the current technique used in the company, the state-of-the-art techniques and
+improve the existing classifier by  using this new word representation.
+As and additional result from  this work,  other more traditional
+approaches  are also evaluated, thus offering a benchmark among the current
+techniques used in the company, the state-of-the-art techniques and 
 newer word vector based approaches for document classification. Given this,
-the objective of this chapter is two-fold:  on one  hand  to evaluate the
-performance  of the word vector representation for document classification
-and on the other,  find bette better for the existing classifier, even if
-they are not based on the learned word representations.
+the objective of this chapter is two-fold:  on one hand the objective is to evaluate the
+performance  of the word vector representation for document classification,
+and on the other, improve the existing classifier used by the company, even if this improvement is not based on the learned word representations.
 
 The rest of the chapter is divided as follows: The first part describes 
 the company's  document platform, the requirements and challenges behind this
 particular document classification task. The second the part describes the different features
 used and the classification algorithms used while explaining the limitation
 faced.  The third and final  part discusses the most important results as
-well some particularities of the learned word vectors. Finally the most
+well some particularities of the learned word vectors.  Finally the most
 important outcomes are discussed well as well as outlining possible future
 research directions.
 
@@ -75,26 +79,27 @@ research directions.
 \section{Gini document platform}
 \label{sec:gini_doc_platform}
 
-Gini currently owns a database  German language document. These documents 
+Gini currently owns a database  German language documents. These documents 
 are personal and business related documents that have been bought 
 from  persons all over Germany. Document types are very broad and go from
-long insurance contracts to short remittance slips. These document are stored
-in a central system database that can be accessed via an  \texttt{API}.
-Document can be either \textit{native} or \textit{scanned}. The document
-\textit{native} that are native are orignal digital document. (e.g. PDF document) that
-are uploaded to the system. \textit{Scanned} documents on the other hand, are
-uploaded from an image obtained a scanner or a camera (e.g. a mobile phone
-camera). Given the variability of the capture devices for the scanned
-documents, the quality of such images is not regular among all the documents.
-This is important to consider, given that after being uploaded all the
+long insurance contracts to short remittance slips. The document are stored
+in a central system database that can be accessed via an  \texttt{API} (\textsl{Dooku}).
+Documents can be either \textit{native} or \textit{scanned}. 
+\textit{native} Document are those  coming  from original digital documents. (e.g. a
+PDF file). \textit{Scanned} documents on the other hand, are uploaded
+from an image obtained using a scanner or a camera (e.g. a mobile phone 
+camera). Given the variability of the capture devices of the scanned
+documents, the quality of such images is not standard.
+This is an important factor to consider, given that after being uploaded all the
 documents are processed using a \ac{OCR} solution, so the quality of the
-images affect the the accuracy with which the text is extracted from. 
-After the text has been extracted, it is stored  along with
-the position of the words on the page; font size and style,  and other information a into a database using a custom
-\textsc{XML} format.  Besides this information, a document is also assigned
-\textit{tags} or labels, that when querying for particular characteristic
-(e.g. quality, source, etc.) help filter the results. Figure
-\ref{fig:dooku_screenshot} shows a screen-shot of the application with the
+images affect the the accuracy of the text extraction. 
+After the text has been extracted, it is stored  into a database using a custom
+\textsc{XML} format. Other relevant information such the position of the
+words on the page; font size and style, etc.  is also stored in the custom
+\textsc{XML}.  Besides this information, a document is also assigned
+\textit{tags} or labels help filter the results  when querying the document database for
+particular characteristic of the documents
+(e.g. quality, source, etc.)   Figure \ref{fig:dooku_screenshot} shows a screen capture of the application with the
 most important columns.
 
 
@@ -104,20 +109,21 @@ The annotations include labels such as  \textit{sender name}, \textit{bank
 \textit{document type} (\ac{DocType}). Using this annotation several
 machine leaning algorithm are trained.  These classifier are then exposed to
 clients also via an \texttt{API}. Table \ref{tab:list_gini_doctypes} shows the
-complete list of \ac{DocTypes} available in the system and their description.
+complete list of \ac{DocType}s available in the system and their description.
 
 
 \section{The Gini Document Classifier}  
 \label{sec:gini_doctype_classifier}
 
-One of the functionality that Gini offer to their customer is document
-classification.  As mentioned in the previous section this is done using
-machine learning on top of the annotations made by humans. In the particular
-case of the \ac{DocType} classifier, it is implemented using \ac{SVM} using
+One of the functionality that Gini offer to their customers is document
+classification.  As mentioned in the previous section, this functionality is
+created by  using learned classification model trained from  the annotations
+made by humans (labeled samples). In the particular
+case of the \ac{DocType} classifier, it is implemented using \ac{SVM} with
 handcrafted features such as the appearance of a particular word, the font
-of specific words, the number of pages of the documents, etc. This features
-once constructed are fed into the \ac{SVM} implementation to train classifier. the
-classifier is then exposed through a Web service.
+of specific words, the number of pages of the documents, etc. These features
+once constructed are fed into the \ac{SVM} implementation to generate a classifier. This
+classifier is then exposed through a Web service to client applications.
 
 The particular implementation of the \ac{SVM} is based on \texttt{Java}
 implementation of the popular \texttt{LIBSVM} \cite{CC01a} using a
@@ -132,19 +138,18 @@ with:
 \item The quality of the data: As much of the data comes from varying degree
   of capture devices, the quality of the OCR is not perfect, thus producing a
   lot of noise in the stored text.
-\item Feature generation and extension: Every time a new document type is
-  required to be supported, a manual analysis of the document type should be
+\item Feature generation and extension: Every time a new \ac{DocType} is
+  required to be supported, a manual analysis of this particular document type should be
   done with the purpose of identifying what features are important and then
-  these are added to the document.
+  once selected, are then added to the document. No feature selection
+  procedure is performed.
 \item No validation of the classifier is done on a validation set and quality
-  is measured on documents belonging to the training set. This fundamental
-  flaw, albeit common and required  in a scientific setting, is many times overlooked in
+  is measured on documents belonging to the training set. This validation step, albeit common and required  in a scientific setting, is many times overlooked in
   the industry.
 \end{itemize}
 
 Taking in consideration all these challenges, the objective is then to design
-a better classifier that allow, at least partially, solve the
-aforementioned issued.
+a better classifier that allows to solve the previously mentioned issues at least partially.
 
 
 
@@ -152,7 +157,7 @@ aforementioned issued.
 \label{sec:w2vec_doctype_experimental_setup}
 
 As mentioned in the introduction, three different approaches are going to be
-compared, namely:
+compared, specifically:
 
 \begin{itemize}
 \item The current \ac{SVM} implementation with the handcrafted features.
@@ -160,31 +165,32 @@ compared, namely:
 \item A new \ac{SVM} implementation using \textit{Word2vec} word vector as features.
 \end{itemize}
 
-The classification algorithm is kept while the
-evaluation real evaluation is on the features. The idea  is to verify
+As can be seen, the underlying classification algorithm is kept while the
+ real evaluation is performed on  the features. The idea  is to verify
 that in fact better features account for better classification. The following
-sections describe each of the features and the specific od the algorithm. 
+sections describe each of the features and the specifics of each algorithm. 
 
 
 \subsection{Gini Document Database and Dataset Description}
 \label{sec:gini_db_dataset_desc}
   
 Section \ref{sec:gini_doc_platform} described briefly the platform where
-document Gini owned resided. This section described the specific of the
+document that are owned by Gini reside. This section describes the specific of the
 documents used for training the classifier. 
 
-Gini database of documents consists of approximately 9339 different types of
-document, from these only 2685 are used to train the document classifier.
+Gini database of documents consists of approximately 9339 different documents. From these, only 2685 are used to train the document classifier.
 Table \ref{tab:doctype_classifier_classes} show the distribution of the data
-set among the classes. As can be seen from the data set, not all classes
-used. Furthermore, there is a class called \textit{Other} that include
+set among the classes. As can be seen from the data set, not all the existing
+classes are used. Furthermore, the class called \textit{Other} includes
 documents that do not fall into any of the categories listed. It is also a
-unbalanced data set, having with number of intances per class ranging from 69
-to 650. All the document are not used in the data set because as of right now
-it is not necessary to classify all of other classes (creating thus a large
-unbalanced \textit{Other} class). Additionally, other document are not
-annotated or annotated wrongly, that is, they are correct document but has
-not been properly annotated with the correspondent \ac{DocType}.
+unbalanced data set, having a number of instances per class ranging from 69
+to 650. As all the documents classes need not to be categorized,  only those
+required by the business needs are used. However if all documents are put
+into the \textit{Other} class, this will create large unbalanced class that
+will hurt the performance of the classifier. In Addition to this, many of the
+other documents are not annotated or annotated wrongly, that is, they are correct documents but has
+not been properly annotated with the correspondent \ac{DocType}. Therefore,
+using these document will probably create noise in the dataset.
 
 
 \begin{table}[h]
@@ -201,7 +207,7 @@ not been properly annotated with the correspondent \ac{DocType}.
  CreditCardStatement  &           158  \\
  Other                &           650  \\
  BankStatement        &           369  \\
- Contract             &           178  \\
+ Contract             &           178  \\  
  InsurancePolicy      &           105  \\
  Payroll              &            69  \\
  Invoice              &           570  \\
@@ -212,12 +218,12 @@ not been properly annotated with the correspondent \ac{DocType}.
 \end{tabular}
 \end{table}
 
-As mentioned mentioned previously, there was not an official test set used to
+As  mentioned previously, there was not an official test set used to
 evaluate the classifier performance. Therefore a new one was defined using a
 stratified random selection of 20\% original  set for the testing and the
 other 80\% for training, ending up with 2156 documents for training  539 for
-testing. The same documents are used to evaluate all the classifier /
-features.
+testing. The same documents are used to evaluate all other classifier /
+feature sets.
 
 
 \subsection{Handcrafted Features}
@@ -228,8 +234,9 @@ Gini document classifier is based  \texttt{LIBSVM} \cite{CC01a} using
 \texttt{RBF} Kernel.   The features used to rain this classifier are
 handcrafted features that count then number of words (actually the matches of
 specific regular expressions) in the text, the font size of some
-words, the digit character ration, the average font size, etc. In total 701 features like these are used.
+words, the digit character ratio, the average font size, etc. In total 697 features like these are used.
  
+
 
 \subsection{\ac{BOW} Features}
 \label{sec:sub_w2v4tc_bow_features}
@@ -247,19 +254,8 @@ detected by looking at the vocabulary, for example extremely large words
 (more than 30 characters) and word containing non German alphanumerical
 characters were verified that were not the result of wrong OCR
 readings and were removed accordingly. In addition to this, words than
-appeared in 90\% of the documents were removed  previous the \ac{tf-idf}
-feature generation.
-
-
-As for  pre-processing for feature extraction,  typical stop word subsitution was performed with the help
-of \ac{NLTK} \cite{BirdKleinLoper09}. Additional stop word clean up was
-detected by looking at the vocabulary, for example extremely large words
-(more than 30 characters) and word containing non German alphanumerical
-characters were verified that were not the result of wrong OCR
-readings and were removed accordingly. In addition to this, words than
-appeared in 90\% of the documents were removed  previous the \ac{tf-idf}
-feature generation.
-
+appeared in 90\% of the documents were removed  before generating the \ac{tf-idf}
+features.
 
 
 \subsection{Word Vector  based Features}
@@ -274,7 +270,7 @@ high-dimensional variable size dense vector representing a document that
 could not be used to train with traditional learning algorithm and in
 particular the current classification algorithm used by Gini.
 
-Another approach described in previous work named \textit{document mean
+Another approach described in previous work \cite{maas2011learning}  named \textit{document mean
   representation} consists of average of the vector representation of the  words
 present in the document.  More formally, assuming that there is  vocabulary of
 size $|V|$ and with learned $\beta$-dimensional word vector representation of
@@ -289,10 +285,10 @@ applied (hence the name mean).
 
 %Also the word representation matrix $R$ is also   normalzed using the work of [1]  
 
-Although simple in principle, these document representation has  shown good
-results task such as sentiment analysis and even an improvement when used in tandem
+Although simple in principle, this document representation has  shown good
+results in tasks  such as sentiment analysis and even an improvement when used in tandem
 with more traditional document representation  \cite{maas2010probabilistic},
-event though In the cited referenced, they used another word vector representation that
+event though in the cited referenced, they used another word vector representation that
 did not have the linear compositionality characteristic of the
 \textit{Word2vec} generated word representation \cite{MikolovSCCD13}.
 
@@ -300,11 +296,12 @@ did not have the linear compositionality characteristic of the
 \subsubsection{Training of the Word Vector Features}
 \label{sec:sub_w2v_4tc_training-word-vector}
 In order to use word vector representations for  document classification it
-is necessary to obtain the vectors vectors.  As all the documents of the
-document classification training set are in German a German language word
+is necessary to obtain the word vectors.  All the documents of the
+document classification training set are in German, therefore  a German language word
 vectors are needed.  One available option is to use  corpus like the German
-Wikipedia is necessary. However, as mentioned back in chapter
-\ref{chapter:wor2vec_german} the nature of the text the word vectors are generated from influences the quality of the word vectors and their
+Wikipedia. However, as previously mentioned in chapter
+\ref{chapter:wor2vec_german}, the nature of the text from which the word
+vectors are generated influences the quality of the word representation and their
 performance in specific tasks. For that reason, the whole unlabeled document
 database of Gini  (described in section \ref{sec:gini_db_dataset_desc})   is
 used to generate the word vector used for document classification. 
@@ -318,9 +315,9 @@ section \ref{sec:adapt_task_german_lang} is also applied to this dataset.
 
 Table \ref{tab:w2v4tc_dataset_comparisson} compares the two data sets used
 to generate the document classification. There is a big difference in
-vocabulary and number of token trained. However, as it will be in the result
-section this does not necessarily mean that for this particular tasks the
-word vector generated from Wikipedia will be necessarily superior.
+vocabulary and number of token trained. However, as it will be shown in the result
+section, this does not necessarily mean that for this particular tasks the
+word vector generated from Wikipedia will generate features that perform better.
 
 \begin{table}[h]
 
@@ -346,16 +343,20 @@ Dataset           &  Size (MB)  &    \# Tokens  &  Vocabulary  Size  \\
 \label{sec:w2v4tc_training-evaluation}
 
 This section describe the training and evaluation procedure used for each of
-the features being evaluated. As all of them are different, and in
-particular, the word vector based requires a previous the previous generation
-of word vectors and additional step to set up the parameters of the word
-vectors in the best way are required to ensure the best generalization
-possible.
-
+the used features. As all of them are different, and in
+particular, the word vector based requires  the previous generation
+of word vectors, additional steps are required to select the word
+vector model that provides a real generalization power.  
 The evaluation measures used for the comparison  are the standard measures used in document
 classification: \textit{precision}, \textit{recall}, \textit{f-score}. These
 measures are  weighted to account for unbalanced in the classes. These
 performance measures are described in detail back in section [LINK TO SECTION].
+
+% highest  generalization 
+% to set up the parameters of the word
+% vectors in the best way are required to ensure the best generalization
+% possible.
+
 
 
 \subsection{Handcrafted Features}
@@ -383,7 +384,7 @@ handcrafted features but there was a significant loss in performance.
 
   \centering
   \caption{Top-5 of evaluation of document classification task using
-    \textit{document mean representation} generated from word vectors learned
+    \textit{document mean vector representation} generated from word vectors learned
   using Gini unlabeled dataset. \textit{no validation set used}
  }
   \label{tab:w2v4tc_ginig_w2v_evaluation_no_validation}
@@ -408,7 +409,7 @@ handcrafted features but there was a significant loss in performance.
 
 \subsection{Word Vector Features}
 
-For the \textit{document mean representation} two datasets were available to
+For the \textit{document mean vector representation} two datasets were available to
 train the word vectors from. The Gini dataset and the German Wikipedia.
  For the Wikipedia corpus we selected the model that
 performed the best as describe in section \ref{experiments:sub:evaluation}. 
@@ -427,7 +428,7 @@ set.
 
   \centering
   \caption{Top-5 of evaluation of document classification task using
-    \textit{document mean representation} generated from word vectors learned
+    \textit{document mean vector representation} generated from word vectors learned
   using Gini unlabeled dataset. The model were trained using a subsampling of
   $10^{-5}$.}
   \label{tab:w2v4tc_gini_w2v_evaluation}
@@ -448,28 +449,29 @@ set.
 
 
 
-Table \ref{tab:w2v4tc_ginig_w2v_evaluation_no_validation} hsows  an example
-of these behaviour. High training performance are obtained by the word vector
-model with hight dimension, in this case using the \ac{CBOW} architecture.
+Table \ref{tab:w2v4tc_ginig_w2v_evaluation_no_validation} shows an example
+of this behaviour. High training performance is obtained by the word vector
+model with the highest dimension, in this case using the \ac{CBOW} architecture.
 However, when tested against the testing set the result were not considerable
 better. Another way to explore this behaviour is to plot a performance
-measure against the size of the word vector. The right part of the graph
-shows after some values of the word vector dimension, the model stat
-overfitting the training data.
+measure against the size of the word vector. Figure
+\ref{fig:fscore-vs-size-dmr} shows clearly this behavior. After some values
+of the word vector dimension, the model star overfitting  the training data. 
 
-
-After training using a evaluation set to avoid overfitting, the best model in
-this case use the Skip-gram architecture and a window size of 15. Table
+After training using a evaluation set to avoid overfitting,  model trained
+with Skip-gram architecture performed better. Table
 \ref{tab:w2v4tc_gini_w2v_evaluation} summarizes the results on the testing
-set after training with the validation set.
+set after training with the validation set. The large size of the window is
+expected, as large window allow the model to capture semantic information in
+opposition to shorter ones which are generally used for capturing syntactic relationships.
 
-When using the validation step to avoid overfiting the performance on the
+When using the validation step to avoid overfiting, the performance on the
 testing set increase considerably while obtaining an acceptable performance
 on the training set. This additional complexity in the training could be
-avoided using different strategies. A specific logical reasoning tasks
-targeted to the document classification task. Another possibility is to
+avoided using different strategies. For example, a specific logical reasoning tasks
+targeted to the document classification task could be created. Another possibility is to
 adjust the word vectors at the same time that the document classifier is
-being training,   \textit{fine-tuning} the word representation for this
+being training, i.e.,  \textit{fine-tuning} the word representation for this
 particular task.
 
 
@@ -506,15 +508,22 @@ particular task.
 % Negative Sampling obtained the best results.  One of the parameters more
 % important in this is the size is the dimension and Window. 
 
+%%% Hi Chris, TODO: About the context lenght (why so large)
+% there is actually nothing recurrent about these neural nets, although they use long context during the training. The usefulness of the length of the context (which is set by the '-window N' param) is usually mainly for tasks where you want to capture "semantic" information about the words / phrases. An example might be "Michael_Jordan" - you probably want to train such token with a lot of contextual words. Going beyond sentence boundary, as long as your training data are not shuffled, can actually lead to nice improvements here.
+
+% On the other hand, if you want to capture well what I consider as the "syntactic" information (such as the past tense of verbs, plurals etc.), then short context is usually enough to reach the optimal performance.
+
+
+
 \section{Results}
 \label{sec:w2v4tc_results}
 
 This section compares the different models and discussed the most important
-results of this work.  Table \ref{tab:w2v4tc_ginig_w2v_main_comparisson}
-shows a summary of the results.  In general terms,  \ac{BOW} features are the
-best one in this case. However, the mean document representation performance
-is pretty close to the more stete-of-art \ac{BOW}. It is also important to
-notice the amount of data from which the word  vectors were trained from is
+results.  Table \ref{tab:w2v4tc_ginig_w2v_main_comparisson}
+summarizes the results.  In general terms,  \ac{BOW} features work better for
+the document classification of this dataset. However, the mean document
+representation performs very similar in term of accuracy. It is also important to
+notice the amount of data used to train the word vector is very
 small in comparison to data used to evaluate the logical reasoning taks in
 chapter \ref{part:secondP}. 
 
@@ -541,9 +550,9 @@ The table also display the results of using word vectors trained on the
 Wikipedia German in the same way as the one trained with Gini data (Section
 \ref{sec:sub_w2v4tc_w2v_based_features}). For this particular experiment the
 model with best performance in the logical reasoning tasks as described in
-section \ref{sec:sub_empirical_results}.  Even that the Wikipedia is a
-general corpus of text, containing no specific, content biased information,
-the word mean document representation seem to convey information to create an
+section \ref{sec:sub_empirical_results} was used.  Even though  the Wikipedia is a
+general corpus of text, containing no domain specific information,
+the word mean document representation seem to convey enough information to create an
 acceptable classifier, even surpassing in performance the hadcrafted features
 on the evaluation set. 
  
@@ -554,15 +563,16 @@ on the evaluation set.
 % The graph of generalization vs less trained data.
  
 \begin{figure}[!htbp]
-    \centering
+    \centering 
     \includegraphics[width=0.6\textwidth]{images/002-xvalidaton-dmr.pdf}
-    \caption{Confusion matrix of the classification results  using \textit{document mean
+    \caption{Confusion matrix of the classification results  using
+      \textit{document mean vector 
       representations} features - Values of percentages of the test set per
     each document type.}
     \label{fig:confusion-matrix-dmr}
 \end{figure}
 
-To visualize better the performance of the classifier in each of different
+To visualize better the performance of a particular classifier for each of different
 classes a confusion matrix is useful. As mentioned in [LINK TO SECTION X],
 each column of the matrix represents the instances in a predicted class,
 while each row represents the instances in an actual class. Therefore, a
@@ -572,9 +582,8 @@ is the predicted class matches the actual class.
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.6\textwidth]{images/003-xvalidaton-bow.pdf}
-    \caption{Confusion matrix of the classification results  using \textit{document mean
-      representations} features - Values of percentages of the test set per
-    each document type.}
+    \caption{Confusion matrix of the classification results  using \ac{BOW}
+      features - Values of percentages of the test set per each document type.}
     \label{fig:confusion-matrix-bow}
 \end{figure}
 
@@ -594,15 +603,13 @@ the first row and first column shows the percentage of all the
  \begin{figure}[!htpb]
     \centering
     \includegraphics[width=0.6\textwidth]{images/004-xvalidaton-handcrafted.pdf}
-    \caption{Confusion matrix of the classification results  using \textit{document mean
-      representations} features - Values of percentages of the test set per
-    each document type.}
+    \caption{Confusion matrix of the classification results  using the handcrafted features - Values of percentages of the test set per each document type.}
     \label{fig:confusion-matrix-handcrafted}
 \end{figure}
 
 Both \ac{BOW} and word vector based features behave pretty similar. The
-document class \texttt{Other} appears  to be the more hard to classify
-correctly, as all the classifiers  had problem with it. This can be explained
+document class \texttt{Other} appears  to be the harder to classify
+correctly, as all of the classifiers  had problem with it. This can be explained
 for the nature of the class, which is composed  of different type of
 documents, even from existing classes on the training dataset, thus creating
 a lot of noise into the dataset. Furthermore, in the \ac{BOW} based and word
@@ -615,14 +622,14 @@ correctly classified.
 Another way to study  the characteristics of the features   is through the
 visualization in a 2D/3D projection. For that purpose the \ac{t-SNE} is used
 to generate a 2D embedding of the features. This technique besides generating
-good visualization it often reveal underlying structure of the data,
+good visualization it often reveal underlying structure of a dataset,
 otherwise hidden when using other techniques for visualizing high dimensional
 data.
 
 \begin{figure}[ht!]
 	\begin{center}
 
-			\includegraphics[width=0.8\textwidth]{images/tse-document-mean-vectors.pdf} 
+			\includegraphics[width=0.7\textwidth]{images/tse-document-mean-vectors.pdf} 
 
 	\end{center}
 	\caption{\ac{t-SNE} visualization of \textit{document mean
@@ -632,17 +639,16 @@ data.
 
 Figure \ref{fig:tsne_viz_1}, \ref{fig:tsne_viz_2} and \ref{fig:tsne_viz_3}
 show the the embeddings of the \textit{document mean vector representation},
-the \ac{tf-idf} \ac{BOW}  and handcrafted features of the  set used
-to train the classifier. The \ac{t-SNE} visualization of the word vector
-based features reveals a structure of the documents represented using this
-features. Apart from some outliers, most of the document form
+the \ac{tf-idf} \ac{BOW}  and handcrafted features of the training set
+respectively. The \ac{t-SNE} visualization of the word vector  based features
+reveals a structure of the documents represented using this features. Apart from some outliers, most of the document form
 well established clusters.
 
 
 \begin{figure}[ht!]
 	\begin{center}
 
-			\includegraphics[width=10cm]{images/tse-tfidf-vectors.png} 
+			\includegraphics[width=0.7\textwidth]{images/tse-tfidf-vectors.png} 
 
 	\end{center}
         \caption{\ac{t-SNE} visuzalization of \ac{BOW} features of the training set.  }
@@ -652,15 +658,15 @@ well established clusters.
  
 For the \ac{BOW} features, although the embeddings show also a  structure
 and clusters, it  is less clear that then one of word vector features. The
-Handcrafted however, show even less structure. It is arguable then that this
+handcrafted  features however, show almost no clear structure. It is arguable then that this
 structure is correlated to the classification performance or at least offer a
 good visual hint of the quality of the representation / features. 
 
 
-\begin{figure}[ht!]
+\begin{figure}[hptb!]
 	\begin{center}
 
-			\includegraphics[width=10cm]{images/tse-handcrafted-vectors.pdf} 
+			\includegraphics[width=0.7\textwidth]{images/tse-handcrafted-vectors.pdf} 
 
 	\end{center}
         \caption{\ac{t-SNE} visuzalization of handcrafted features of the training set.}
@@ -683,14 +689,14 @@ to visualize how well the generalization is with smaller amount of training
 data, i.e. the bias of the estimator.
 
 
-\begin{figure}[ht!]
+\begin{figure}[hptb!]
 	\begin{center}
 
-			\includegraphics[width=0.8\textwidth]{images/plot-models.png} 
+			\includegraphics[width=0.9\textwidth]{images/plot-models.pdf} 
 
 	\end{center}
-	\caption{Plot of training and test set mean classification  error
-          for different training size}
+	\caption{Plot of training and validation set mean classification  error
+          for different training sizes}
 	\label{fig:w2v4tc_learning_curve}
 \end{figure}
 
@@ -698,7 +704,7 @@ Figure \ref{fig:w2v4tc_learning_curve} shows the learning curve of both the
 \ac{BOW} based and the word vector classifier. The figure show that for small
 training set sizes the word vector features generalize better. The reason of
 this is that many of the semantic knowledge is obtained via the previous unsupervised
-training of the word vector. For dataset with few training samples, this
+training of the word vectors. For datasets with few training samples, this
 might be a good alternative to generate classifiers that generalize better
 with less labeled trained data.
 
@@ -707,14 +713,18 @@ with less labeled trained data.
 % - Features 
 % - Generalization why use wordvector features.
 % - Negative results 
- 
+
+
 % maintaining the old features - NEW DOCUMENT APPEAR- the classifier should
 % be replaced - Recommeendation
 
+
+% ADD CONCLUSION
+% - Mean vector representation work pretty well even with relatively large document.
 \section{Conclusion \& Future Work}
 \label{sec:w2v4tc_conclusion}
 
-This chapter presented an approach  of using  word vector features for
+This chapter presented an approach  of using  word vectors features for
 document classification in the context of German language business document.
 In addition to this,  a comparison with the more
 traditional \ac{tf-idf}  based features and an existing handcrafted
@@ -722,17 +732,24 @@ feature set was performed. This chapter shows that \textit{Word2vec} word
 vector features works similar to the state-of-the-art techniques for document
 classification, even when generated  with a relatively small corpus.
 
-However, as the word vector features are  generated using an usupervised
-algorithm , there is no way to directly ensure the quality of the word
-vectors. Thus when using  word vector features is necessary to either  use an
-additional validation set  to set the parameter of the word vector model or
-define en equivalent logical reasoning task targeted toward document
-classification. 
-
-Another approach to solve this is to first generate the pre-trained vector
+Both \textit{Word2vec} based features and the \ac{BOW} approach perform
+better than the handcrafted features for most document classes. Both
+ approaches are semi-automated in the sense that the specific
+features do not need to be hand-picked. However, for \ac{BOW} features the larger the training
+corpus generally the larger and sparser the feature set is. Thus, feature
+selection and dictionary based methods will become  necessary.
+Word vector features do not suffer of this, as they are  generated using an usupervised
+algorithm. Yet there is no way to directly ensure the quality of the word
+vectors for this particular task. Thus, when using  word vector
+features it is necessary to either  use an additional validation set  to set
+the parameter of the word vector model or define en equivalent logical
+reasoning task targeted towards document
+classification.   Another approach to solve this is to first generate the pre-trained vector
 and then when realizing the document class predictions, propagate error back
 to the word vector. This could be done by replacing the \ac{SVM} with a
-full-fledge neural network or by using a SVM in a similar way to [LINK TO PAPER].
+full-fledge neural network and a Softmax layer or by using a \ac{NN} in tandem with a \ac{SVM} in a
+similar way to \cite{DBLP:journals/corr/Tang13}.
+
 
 Another interesting characteristic of using word vector for document
 classification, and in general any other \ac{IR}/\ac{NLP} task,  is the
@@ -746,15 +763,15 @@ amount of domain specific text the word vector features provide better
 generalization power. Further experimentation is then necessary  of
 explore the extent of this generalization power.
 
-Document classification is one of the ac{IR}/\ac{NLP} tasks inside Gini.
-Therefore it would be interesting to evaluate how the word vector features
+Document classification is one of the \ac{IR}/\ac{NLP} tasks inside Gini.
+Therefore, it would be interesting to evaluate how the word vector features
 can be used to improve/replace the existing \ac{CRF} based \ac{NER} tasks
-inside the company, maybe in a similar way to [Reference  Here]. As this
-chapter shows that word vector features are useful even in abscense of
-large amount of data it would be interesting to evaluate them  when more data
-becomes available.
+inside the company, maybe in a similar way to
+\cite{Turian:2010:WRS:1858681.1858721}.
 
-
+Finally, this chapter chapter shows that word vector features,  are useful even in abscense of
+large amount of data to train them from. It would be interesting to evaluate
+the word vector once that  more data becomes available.
 
 
 
