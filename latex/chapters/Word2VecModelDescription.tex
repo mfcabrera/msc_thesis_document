@@ -1,16 +1,36 @@
-\chapter{Descriptio of Word2Vec Model }
-\label{chap:related_work}
+\chapter{Description of the Word2Vec Model }
+\label{chap:word2vec_description}
 
 
-\section{Related Previous Work}
-\label{sec:strategies_improve_time}
+\section{Introduction}
+As described in  previous chapter,  continuous language space models have
+demonstrated good results across a variety of tasks. Word vector
+representation are in some way a byproduct of \ac{NNLM}, as not only the
+model itself is learned by the neural network but also the word representation.  As pointed out by
+the authors, these continuous word vector representation capture syntactic
+and semantic relationship of words not possible to achieve from a discrete
+representation of traditional $n$-gram models. Furthermore, these
+representation can be used to improve existing \ac{NLP} tasks.
 
+One of the way to learn a \ac{NNLM} is to learn the word vector using a
+\ac{NN} with a single hidden layer. Then, these word vectors are used to
+train the \ac{NNLM}. In these architecture learns the word vectors without
+even constructing the complete language model.  This chapter describes in
+detail a recent approach  to efficiently learn
+high-dimensional word representation \cite{DBLP:journals/corr/abs-1301-3781}
+focusing only in the first part, that is, learning good word representation
+representations.
+
+Another interesting architecture of NNLM was presented in [13, 14], where the word vectors are
+ﬁrst learned using neural network with a single hidden layer. The word vectors are then used to train
+the NNLM. Thus, the word vectors are learned even without constructing the full NNLM. In this
+work, we directly extend this architecture, and focus just on the ﬁrst step where the word vectors are
+learned using a simple model.
 
 \section{Description of The Model}
-\label{sec:huffman_coding}
 
 
-\section{Strategies to Run Fast MOFO }
+\section{Optimization Strategies used by Word2vec}
 \label{sec:strategies_improve_time}
 
 \subsection{Huffman Coding}
@@ -22,8 +42,6 @@ student at MIT. \cite{huf52}.
 
 Huffan cioding is an algorithm to proce an  optimal symbol code $C$ for a given 
 \emph{pmf} $ p = (p_1,....,p_n) $.  Huffman coding builds a tree orderded by frequency.
-
-
 
 
 
