@@ -34,8 +34,7 @@ promising results in fields as machine translation and speech processing \cite{c
 
 In the field of \ac{TC}  there has been  limited work on improving  this
 task by using word vector representations. One of the  possible reasons  behind this,
-is that many of the current  methods work well enough and they have been the standard in
-the industry for the last decade \cite{Sebastiani02} . Another possible reason comes from the
+is that many of the current  methods work well enough and they have been the industry standard in the last decade \cite{Sebastiani02} . Another possible reason comes from the
 technical side. Namely, when using word representation, each word is represented a $n$-dimensional vector, therefore a large document could be only
 represented as big matrix. However, most of the exiting methods work only with vector
 representation of documents. This makes  it hard to adapt existing
@@ -47,9 +46,9 @@ different ways of representing a document from its word vectors were tried,
 all of them including some form of averaging. As Sentiment Analysis   can be
 seen as a variation of traditional \ac{TC},  this same approach is therefore
 used  for performing document classification on this work. In fact, in 
-the aforementioned article,  the authors the same  traditional approaches for \ac{TC} combined with word vector features to train the sentiment predictor. 
+the aforementioned article,  the authors use same  traditional approaches for \ac{TC} combined with word vector features to train the sentiment predictor. 
 
-This chapter compares the performance  of document representations obtained  from  word vector features against other features  in the context of classifying
+This chapter compares the performance  of document representations obtained  from  word vector representation against other types of  features  in the context of classifying
 business-related documents in German. The objective is therefore to
 improve the existing classifier by  using this new word representation.
 As and additional result from  this work,  other more traditional
@@ -57,17 +56,17 @@ approaches  are also evaluated, thus offering a benchmark among the current
 techniques used in the company, the state-of-the-art techniques and 
 newer word vector based approaches for document classification. Given this,
 the objective of this chapter is two-fold:  on one hand the objective is to evaluate the
-performance  of the word vector representation for document classification,
+performance  of word vector representations for document classification,
 and on the other, improve the existing classifier used by the company, even if this improvement is not based on the learned word representations.
 
 The rest of the chapter is divided as follows: The first part describes 
-the company's  document platform, the requirements and challenges behind this
-particular document classification task. The second the part describes the different features
+Gini's  document platform, the requirements and challenges behind this
+particular document classification task. The second  part describes the different features
 used and the classification algorithms used while explaining the limitation
-faced.  The third and final  part discusses the most important results as
+faced. The third and final part discusses the most important results as
 well some particularities of the learned word vectors.  Finally the most
-important outcomes are discussed well as well as outlining possible future
-research directions.
+important outcomes are discussed well  as outlining possible future
+research directions. 
 
 \begin{figure}[h]
     \centering
@@ -92,7 +91,7 @@ camera). Given the variability of the capture devices of the scanned
 documents, the quality of such images is not standard.
 This is an important factor to consider, given that after being uploaded all the
 documents are processed using a \ac{OCR} solution, so the quality of the
-images affect the the accuracy of the text extraction. 
+images affect the accuracy of the text extraction. 
 After the text has been extracted, it is stored  into a database using a custom
 \textsc{XML} format. Other relevant information such the position of the
 words on the page; font size and style, etc.  is also stored in the custom
@@ -347,7 +346,7 @@ the used features. As all of them are different, and in
 particular, the word vector based requires  the previous generation
 of word vectors, additional steps are required to select the word
 vector model that provides a real generalization power.  
-The evaluation measures used for the comparison  are the standard measures used in document
+The evaluation measures used for the comparison  are the standard ones used in document
 classification: \textit{precision}, \textit{recall}, \textit{f-score}. These
 measures are  weighted to account for unbalanced in the classes. These
 performance measures are described in detail back in section [LINK TO SECTION].
