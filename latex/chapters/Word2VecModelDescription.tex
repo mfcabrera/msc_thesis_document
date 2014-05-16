@@ -3,31 +3,118 @@
 
 
 \section{Introduction}
-As described in  previous chapter,  continuous language space models have
-demonstrated good results across a variety of tasks. Word vector
-representation are in some way a byproduct of \ac{NNLM}, as not only the
-model itself is learned by the neural network but also the word representation.  As pointed out by
-the authors, these continuous word vector representation capture syntactic
-and semantic relationship of words not possible to achieve from a discrete
-representation of traditional $n$-gram models. Furthermore, these
-representation can be used to improve existing \ac{NLP} tasks.
+As described in  previous chapter,  continuous space language  models have
+demonstrated good results across a variety of tasks in the field of NLP.  As pointed out by
+the authors, these continuous word vector representation achieves a level of
+generalization not possible with class traditional $n$-gram based models
+\cite{conf/icassp/MikolovKBGC09}. In addition to the language model,  word vector
+representations are learned in the initial layers of a \ac{NN}. These
+induced representations  have been used successfully to improve the
+performance of existing \ac{NLP} tasks \cite{collobert:2008}
+\cite{Turian:2010:WRS:1858681.1858721}. 
 
-One of the way to learn a \ac{NNLM} is to learn the word vector using a
-\ac{NN} with a single hidden layer. Then, these word vectors are used to
-train the \ac{NNLM}. In these architecture learns the word vectors without
-even constructing the complete language model.  This chapter describes in
-detail a recent approach  to efficiently learn
-high-dimensional word representation \cite{DBLP:journals/corr/abs-1301-3781}
-focusing only in the first part, that is, learning good word representation
-representations.
+As discussed in section \ref{sec:mikolov-neural-net-model},  One of the way to learn a
+\ac{NNLM} is to learn the word vector using  a \ac{NN} with a single hidden
+layer. Then, these word vectors are used to  train another the final
+\ac{NNLM} \cite{conf/icassp/MikolovKBGC09}.   
+What is particular about this architecture is that they learn the  word
+vectors without  even constructing the complete language model.  This means
+in practice that the two step are performed separately. 
 
-Another interesting architecture of NNLM was presented in [13, 14], where the word vectors are
-ﬁrst learned using neural network with a single hidden layer. The word vectors are then used to train
-the NNLM. Thus, the word vectors are learned even without constructing the full NNLM. In this
-work, we directly extend this architecture, and focus just on the ﬁrst step where the word vectors are
-learned using a simple model.
+This chapter describes in detail a recent approach to efficiently learn
+high-dimensional word representation \cite{DBLP:journals/corr/abs-1301-3781}.
+In other words, focusing only on the first part of the previously described 
+architecture. It has been found that the word vectors learned in this manner,
+not only capture linguistic regularities of words  but also semantic
+relationships. As the word vector generated from this architecture is used in
+through this work, therefore it is necessary to describe this model with more
+detail.
 
-\section{Description of The Model}
+% making it  necessary to describe
+%%it properly.  
+The rest of the chapter is structured as follows blah!
+
+\section{Modern Neural Network Language Model Architectures}
+
+In order to understand  \textit{Word2vec}'s it is necessary to study the
+models on which it is built upon. Word2vec as both an improvement and
+as well as a simplification of a full-fledged \ac{NNLM}. Therefore, this section introduces
+briefly the most common  architectures and their more important
+characteristics.
+
+\subsection{Model Complexity}
+
+One of the main reason behind the development of \textit{Word2vec} was the
+need of obtaining good word vector representation with low training complexity cost. In
+order to observe these, it is necessary to show describe the each model's
+complexity as mean of comparison.
+
+As described in the original paper all the model described have a complexity
+proportional to \cite{DBLP:journals/corr/abs-1301-3781}:
+
+\begin{center}
+\begin{equation} O = E \times T \times Q,   \end{equation}
+\end{center}
+
+where $E$ is number of the training epochs, $T$ is the number of the words in
+the training set and $Q$ depends on each architecture. Common choice is $E$ = 3-50 and $T$ up to one billion.
+All models are trained using stochastic gradient descent and backpropagation \cite{Bengio:2003:NPL:944919.944966}\cite{DBLP:journals/corr/abs-1301-3781}.
+
+%\subsection{Feed Forward Neural Net Model}
+
+Section \ref{subsec:fwd-neural-net-lm} described the network language model
+that was originally proposed by Bengio \cite{Bengio:2003:NPL:944919.944966}.
+It consists of three layers, input, projection and output layers. The N
+previous word are encoded using 1-of-$|V|$ encoding, where $|V|$ is the size
+of the vocabulary. 
+
+Of input, projection, hidden and output layers. At the input layer, N previous words are encoded
+using 1-of-V coding, where V is size of the vocabulary. The input layer is then projected to a
+projection layer P that has dimensionality N  D, using a shared projection matrix. As only N
+inputs are active at any given time, composition of the projection layer is a relatively cheap operation.
+
+
+
+
+\begin{figure}[h]
+    \centering
+    \caption{Recurrent Neural Network Language Model Architecture}
+    \label{fig:RNNLM_architecture}
+\end{figure}
+
+\subsection{Recurrent Neural Net Language Model}
+
+
+
+\subsection{Mikolov's Language Model}
+
+A neural probabilistic language model
+
+% Note that Bengio [1] claims that training word features
+% together with neural network language model is better than
+% independent training of features and n-gram NN LM. In our
+% approach, we consider the first network as a feature extractor
+% and do not train it together with the n-gram net. We suppose
+% that this can prevent word features from learning cache-like
+% relationships in the data, which tend to heavily optimize per-
+% plexity, but not recognition accuracy (Goodman [8]).
+
+
+\section{Word2Vec}
+
+% What is word 2 vec ... !
+
+
+% Summary of the model
+%% Architecture
+%% Algorithm
+%% Other important parameter
+%%% Subsampling
+%%% Window
+
+
+\subsection{\ac{CBOW} Model}
+\subsection{Skip-Gram Model}
 
 
 \section{Optimization Strategies used by Word2vec}

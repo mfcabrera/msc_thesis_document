@@ -1,0 +1,151 @@
+  
+\chapter{Related Work}
+\label{chap:related_work}
+
+\section{Natural Language Processing}
+\label{sec:rel_nlp}
+
+\section{Language Models}
+\label{sec:relwork-language-models}
+
+A statistical language model assigns assigns a probability to a sequence of m
+words $P(w_1,\ldots,w_m)$ by means of a probability distribution. 
+This probability can be obtained from the probability of
+each word given the context of words preceding it using the chain rule of probability \cite{Bengio:2008}:
+
+\begin{equation}
+\label{eq:lm_probability}
+ P(w_1, w_2, \ldots, w_{t-1},w_t) = P(w_1) P(w_2|w_1) P(w_3|w_1,w_2) \ldots 
+  P(w_t | w_1, w_2, \ldots w_{t-1}).
+\end{equation}
+
+Most probabilistic language models  approximate $P(w_t | w_1, w_2, \ldots
+w_{t-1})$ using a fixed context of size $n-1$, i.e. using  $P(w_t | w_{t-n+1}, \ldots w_{t-1})\ ,$.
+
+
+
+\section{N-Grams based language models}
+\label{sec:n-gram-lm}
+
+\section{Neural Network Language Model}
+
+\subsection{Feed forward Neural Network Language Model}
+\label{subsec:fwd-neural-net-lm}
+
+% Section \ref{sec:relwork-language-models} described the generalities of
+% language models in the context of \ac{NLP}.  In that section we described
+% that the 
+
+INTRODUCTORY COOL TEXT AND FIGURE WITH 
+
+
+In the model introduced in \cite{Bengio:2003:NPL:944919.944966}
+the probabilistic prediction $P(w_t | w_{t-n+1}, \ldots w_{t-1})$ described
+in equation (\ref{eq:lm_probability}) is obtained as follows. First, each word $w_{t-i}$ (represented
+with an integer in $[1,N]$) in the  $n-1$-word context is mapped
+to an associated $d$-dimensional feature vector $C_{w_{t-i}}\ ,$ which is
+column $w_{t-i}$ of parameter matrix $C\ .$ Vector $C_k$
+contains the learned features for word $k\ .$
+Let vector $x$ denote the concatenation of these $n-1$
+feature vectors:
+\begin{equation}
+  x = (C_{w_{t-n+1},1}, \ldots, C_{w_{t-n+1},d}, C_{w_{t-n+2},1}, \ldots C_{w_{t-2},d}, C_{w_{t-1},1}, \ldots C_{w_{t-1},d}).
+\end{equation}
+The probabilistic prediction of the next word, starting from $x$
+is then obtained using a standard artificial neural network architecture
+for probabilistic classification, using the softmax activation function at the output units (Bishop, 1995):
+\begin{equation}
+ P(w_t=k | w_{t-n+1}, \ldots w_{t-1}) = \frac{e^{a_k}}{\sum_{l=1}^N e^{a_l}}
+\end{equation}
+where
+\begin{equation}
+ a_k = b_k + \sum_{i=1}^h W_{ki} \tanh(c_i + \sum_{j=1}^{(n-1)d} V_{ij} x_j)
+\end{equation}
+where the vectors $b,c$ and matrices $W,V$ are also
+parameters (in addition to matrix $C$). Let us denote
+$\theta$ for the concatenation of all the parameters.
+The capacity of the model is controlled by the number of hidden units $h$
+and by the number of learned word features $d\ .$ 
+
+
+\begin{figure}[h]
+    \centering
+    \caption{Feed Forward Neural Network Model Language Model Architecture}
+    \label{fig:NNLM_architecture}
+\end{figure}
+
+
+
+
+
+The neural network is trained using a gradient-based optimization algorithm
+to maximize the training set \textit{log-likelihood}
+\begin{equation}
+ L(\theta) = \sum_t \log P(w_t | w_{t-n+1}, \ldots w_{t-1}) .
+\end{equation}
+The gradient $\frac{\partial L(\theta)}{\partial \theta}$
+can be computed using the backpropagation algorithm \cite{Bishop:1995:NNP:525960}, extended
+to provide the gradient with respect to $C$ as well as with
+respect to the other parameters. 
+
+% Note that the gradient on most of $C$
+% is zero (and need not be computed or used) for most of the columns of $C\ :$
+% only those corresponding to words in the input subsequence have a non-zero gradient.
+% Because of the large number of examples (millions to hundreds of millions),
+% the only known practical [[optimization algorithm]] for  
+% artificial neural networks 
+% are online algorithms, such as [[stochastic gradient descent]]: the
+% gradient on the log-likelihood of a single example at a time (one word in its
+% context) or a mini-batch of examples (e.g., 100 words) is iteratively used to perform
+% each update of the parameters.
+
+% In a similar spirit, other variants of the above equations have been proposed (Bengio et al 2001, 2003;Schwenk and Gauvain 2004;Blitzer et al 2005; Morin and Bengio 2005; Bengio and Senecal 2008).
+
+% The different  existing architecture will be described on section BLAH of
+% this document.
+
+\subsection{Mikolov Neural Network Model}
+\label{sec:mikolov-neural-net-model}
+
+
+
+\section{Deep Learning}
+\label{sec:deep_learning}
+
+
+\section{Represenation of Text}
+\label{sec:rel_represenation_text}
+
+
+\subsection{Local Representations}
+\label{sec:rel_local_representation}
+
+\subsubsection{N-grams}
+\label{sec:sub_ngrams}
+
+\subsubsection{Bag-of-words}
+\label{sec:rel_bow}
+
+\subsubsection{1-of-N coding}
+\label{sec:1_of_coding}
+
+\subsection{Continuous Representations}
+\label{sec:sub_continuous_representation}
+
+\subsubsection{Latent Semantic Analysis}
+\label{sec:rel_local_representation}
+
+\subsubsection{Latent Dirichlet Allocation}
+\label{sec:rel_lda}
+
+\subsubsection{Distributed Representations}
+\label{sec:dis_rep}
+
+
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../main.tex"
+%%% End:
