@@ -27,7 +27,8 @@ w_{t-1})$ using a fixed context of size $n-1$, i.e. using  $P(w_t | w_{t-n+1}, \
 \section{N-Grams based language models}
 \label{sec:n-gram-lm}
 
-\section{Neural Network Language Model}
+\section{Neural Network Language Models}
+\label{sec:nnlms-intro}
 
 As its name describes, is a language model based on a \ac{NN}, exploiting their
 ability to learn distributed representations to reduce the impact of the
@@ -186,20 +187,43 @@ computed as follows \cite{conf/interspeech/MikolovKBCK10}:.
 
 
 Where   $f(z)$ is \textit{sigmoid} activation function and $g(z)$  is the
-traditional   \textit{softmax}. $x(t)$ represents the word in time $t$
-encoded using 1-of-$N$ coding and previous function. 
+traditional   \textit{softmax}. 
 
+Figure \ref{fig:RNNLM_architecture} despicts the architecture of the simple
+recurrent neural network this model is based on. Similar to the \ac{FNNLM},    $w(t)$ represents the word in time $t$ encoded using 1-of-$V$ coding.  $s(t-1)$ represents the output values in the
+hidden layer from the previous time step. Therefore $x(t)$, the input, has
+the size of the vocabulary $V$ and of vector $s(t-1)$. After the network is
+trained, the output represent the probability represented by equation (\ref{eq:lm_probability}).  \cite{mikolovphd2012}.
+
+\begin{figure}[hptb!]
+    \centering
+    \caption{Recurrent Neural Network Language Model Architecture}
+    \label{fig:RNNLM_architecture}
+\end{figure}
+
+The network is trained by  stochastic gradient descent using the
+\textit{backpropagation} algorithm \cite{Bishop:1995:NNP:525960}.
+
+
+\subsubsection{Model Complexity}
+\label{sec:sub:sub:mikolov_rnnlm_complexity}
+
+Assuming that the hidden layer and the word representation share the same
+dimensionality with the hidden layer, the complexity per training example of the RNN model is
+given by:
+
+
+\begin{equation} Q = H \times H + H \times V,   \end{equation}
+
+In a similar fashion to the \ac{FNNLM}, the term $H \times V$ can be
+efficiently reduced to $H \times log_2(V)$ by using the hierarchical softmax
+formulation. Thus, most of the complexity comes $H \times H$.
 
 % Recurrent neural networks do not use limited size of con- text. By using recurrent connections, information can cycle in
 % side these networks for arbitrarily long time (see [5]). However, it is also often claimed that learning long-term dependencies by stochastic gradient descent can be quite difficult [6].
 % In our work, we have used an architecture that is usually called a simple recurrent neural network or Elman network [7]. This is probably the simplest possible version of recurrent neu- ral network, and very easy to implement and train. The network has an input layer x, hidden layer s (also called context layer or state) and output layer y. Input to the network in time t is x(t), output is denoted as y(t), and s(t) is state of the network (hidden layer). :
 
 
-\begin{figure}[!hptb]
-    \centering
-    \caption{Recurrent Neural Network Language Model Architecture}
-    \label{fig:RNNLM_architecture}
-\end{figure}
 
 
 % A major deficiency of Bengio’s approach is that a feedfor- ward network has to use fixed length context that needs to be specified ad hoc before training. Usually this means that neural networks see only five to ten preceding words when predicting the next one. It is well known that humans can exploit longer context with great success. Also, cache models provide comple- mentary information to neural network models, so it is natural to think about a model that would encode temporal information implicitly for contexts with arbitrary lengths.
@@ -207,6 +231,58 @@ encoded using 1-of-$N$ coding and previous function.
 
 \subsection{Mikolov's Neural Network Language Model}
 \label{sec:mikolov-neural-net-model}
+
+Mikolov neural network language model uses additional approach to the one
+described back in section \ref{subsec:fwd-neural-net-lm}.  The neural network
+architecture is split in two steps. In the first one the architecture trains
+a bigram neural network. Given a word $w$ from a vocabulary $V$, the neural
+network tries to estimate the the probability distribution of the next word
+in the text. Both the input and output are of size $|V|$, were the words a
+usually is encoded with 1-of-$K$ encoding, with $K=|V|$.  Theres is one hidden layer of
+size $|D|$ has an arbitrary size (reported by the authors  to range from 20-60). As with the
+other models, the output layer  is a  softmax layer. The nework is trained
+using the standard \textit{backpropagation} algorithm
+\cite{conf/icassp/MikolovKBGC09}. 
+
+The second step consiste of  A $N$-gram network. The network is trained in a
+similar waym, however the input vector does not encode previous word in
+history using 1-of-$K$ encoding, but is formed using $N-1$ projections from
+the  bigram network. These projections are the learned weights of dimension
+$|D|$ learned by the big-gram network. Figure \ref{fig:mikolov_nnlm_architecture} show a schematic of the
+two-network architecture 
+
+
+\begin{figure}[hptb!]
+    \centering
+    \caption{Mikolov's Neural Network Language Model Architecture}
+    \label{fig:mikolov_nnlm_architecture}
+\end{figure}
+
+
+\subsubsection{Model Complexity}
+
+As this model is formed by two parts, the model complexity depends wheter the
+full model is desired to be estimated or not. If one is only interested in
+the word representations, i.e. the projections from the big-gram network the
+complexity is reduced  by the simplicity of the model, regardless of the
+quality of the representation obtained.  As reference the full model
+complexity is described: 
+
+
+\begin{equation} Q_1 = V \times D + D \times V  \end{equation}
+
+\begin{equation} Q_2 =  N \times D \times H + H \times V   \end{equation}
+
+\begin{equation} Q = Q_1 + Q_2
+\end{equation}
+
+With $Q_1$ and $Q_2$ the complexity of the bigram network and the $N$-gram
+network respectively. Although not mentioned by the authors, efficiency
+improvement can be achieved by using hierarchical formulations of the softmax
+can be used. If it is used, most of the complexity  lies in the  $N \times D \times
+H$ term of $Q_2$.
+
+
 
 % \subsection{Mikolov Neural Network Model}
 

@@ -6,7 +6,7 @@
 As described in  previous chapter,  continuous space language  models have
 demonstrated good results across a variety of tasks in the field of NLP.  As pointed out by
 the authors, these continuous word vector representation achieves a level of
-generalization not possible with class traditional $n$-gram based models
+generalization not possible with class traditional $N$-gram based models
 \cite{conf/icassp/MikolovKBGC09}. In addition to the language model,  word vector
 representations are learned in the initial layers of a \ac{NN}. These
 induced representations  have been used successfully to improve the
@@ -19,7 +19,7 @@ layer. Then, these word vectors are used to  train another the final
 \ac{NNLM} \cite{conf/icassp/MikolovKBGC09}.   
 What is particular about this architecture is that they learn the  word
 vectors without  even constructing the complete language model.  This means
-in practice that the two step are performed separately. 
+in practice that the two step are performed separately \cite{conf/icassp/MikolovKBGC09}. 
 
 This chapter describes in detail a recent approach to efficiently learn
 high-dimensional word representation \cite{DBLP:journals/corr/abs-1301-3781}.
@@ -34,27 +34,21 @@ detail.
 %%it properly.  
 The rest of the chapter is structured as follows blah!
 
-\section{Modern Neural Network Language Model Architectures}
+% \section{Modern Neural Network Language Model Architectures}
 
-In order to understand  \textit{Word2vec}'s it is necessary to study the
-models on which it is built upon. Word2vec as both an improvement and
-as well as a simplification of a full-fledged \ac{NNLM}.
+% In order to understand  \textit{Word2vec}'s it is necessary to study the
+% models on which it is built upon. Word2vec as both an improvement and
+% as well as a simplification of a full-fledged \ac{NNLM}.
 % Therefore, this section introduces
 %briefly the most common  architectures and their more important
 %characteristics.
 
-\subsection{Model Complexity}
+% \subsection{Model Complexity}
 
-One of the main reason behind the development of \textit{Word2vec} was the
-need of obtaining good word vector representation with low training complexity cost.
+% One of the main reason behind the development of \textit{Word2vec} was the
+% need of obtaining good word vector representation with low training complexity cost.
 
-
-
-
-
-
-
-A neural probabilistic language model
+% A neural probabilistic language model
 
 % Note that Bengio [1] claims that training word features
 % together with neural network language model is better than
@@ -66,11 +60,53 @@ A neural probabilistic language model
 % plexity, but not recognition accuracy (Goodman [8]).
 
 
-\section{Word2Vec}
+\section{Word2vec Generalities}
+
+\textit{Word2vec} is an open source project released in 2013 by the authors.
+its overall architecture has been described in several paper published at the
+time of its release
+\cite{DBLP:journals/corr/abs-1301-3781,MikolovSCCD13,conf/naacl/MikolovYZ13}
+and some previous  \cite{mikolovphd2012}.  \textit{Word2vec}'s architecture
+has its origin  in the architecture described back in section 
+\ref{sec:mikolov-neural-net-model} where a \ac{NNLM} is learned separately. 
+First learning the word representation using a \ac{NN} and then learning then
+estimating equation (\ref{eq:lm_probability}) using a $N$-gram neural
+network.  \textit{Word2vec} in that sense is a simpler model given that does not try to
+learn the full probability distribution as a full \ac{NNLM} does. Instead, it
+only focuses on learning good representations of word by  only performing  the first step
+of the aforementioned architecture.  In that sense, \textit{Word2vec} is an
+unsupervised feature learning algorithm.
+
+As  described in section \ref{sec:nnlms-intro}, the complexity of all 
+these models arises from the non-linear hidden layer that allows the \ac{NN} to
+obtain good representation.  \textit{Word2vec} removes the hidden layer, making
+it unable able to represent the data as precisely as a \ac{NN} could, but
+allowing it to be trained efficiently on much
+more data  \cite{DBLP:journals/corr/abs-1301-3781}.
+
+\textit{Word2vec} is not a single architecture or model, it is formed by a
+group of related architectures, learning algorithms, optimization 
+approaches and some tricks. The combination of all these characteristic
+allows the model  to learn word representation in a efficient
+way. These reprsentations  capture semantic and syntactic
+similarities as mean of vector offsets. This property allows the learned
+representations to answer complex semantic and syntactic questions by means
+of simple vector operations   \cite{MikolovSCCD13}. This has also
+been used to perform word vector based translation \cite{DBLP:journals/corr/MikolovLS13}.  
+
+Then model can be characterized based on following criteria:
+
+
+\begin{itemize}
+\item \textbf{Architecture}: Skip-gram or \ac{CBOW}.
+\item \textbf{Training Algorithm}: hierarchical softmax  or negative sampling.
+\end{itemize}
+
+In addition to these two main characteristic, the model has other
+hyper-parameter that need to be chosen at training time. These parameter are
+discussed in detail in following sections of this document.
 
 % What is word 2 vec ... !
-
-
 % Summary of the model
 %% Architecture
 %% Algorithm
@@ -79,8 +115,81 @@ A neural probabilistic language model
 %%% Window
 
 
-\subsection{\ac{CBOW} Model}
-\subsection{Skip-Gram Model}
+
+\begin{figure}[h]
+    \centering
+    \caption{Skip-gram and \ac{CBOW} architecture}
+    \label{fig:skgram-cbow-architecture}
+\end{figure}
+
+\section{Word2vec Architectures}
+\label{sec:word2v-architectures}
+
+
+\subsection{Continuous Bag of Word (BOW) Architecture}
+
+This architecture is similar in spirit to the  \ac{FNNLM} described in section
+\ref{subsec:fwd-neural-net-lm} were a context of $n$ is used. However with two main differences. First the
+non-linear hidden layer is removed and second the projection layer is shared for
+all words (not just the projection matrix of word vectors). This means that
+all the words are projected to the same position and their vector averaged.
+Another difference with the presented \ac{FNNLM}  is that words from future are used. 
+The training criterion is to correctly classify the middle word of a window
+of $N$ that is used per train cycle. That is both word from the past and the
+future are used to predict the word in the center of a sentence.
+
+
+\begin{figure}[h]
+    \centering
+    \caption{CBOW Architecture}
+    \label{fig:cbow-architecture-alone}
+\end{figure}
+
+More formally, given a sequence of words with 1-of-$K$ representation $w_1,w_2,w_3, \dots, w_T$ and a window
+of size $n$. Defining $b$ as:
+
+\begin{equation}
+   C_{m}(t) =    \frac{\sum_{-n \leq j \leq n, j \neq 0} { 
+       C_{w_{t+j}}} } {2n}    
+\end{equation}
+
+With $C_{w_{j+1}}$ is the projections of the $w_{t+j}$ by the projection
+matrix. the  objective  \ac{CBOW}  tries to maximize the average log probability:
+
+
+\begin{equation}
+  \label{eq:logprob-cbow}
+   \frac{1}{T} \sum^{T}_{t=1} \text{log} \, p
+     \left( w_t \, |\, C_{m}(t) \right)
+\end{equation}
+
+
+
+
+Similarly as other \ac{NNLM}s, the complexity of this architecture
+is defined by its structure:
+
+\begin{equation}
+  Q = N \times D + D \times  log_2(V)
+\end{equation}
+
+Assuming a for of hierarchical softmax is used to efficiently calculate the
+probability distribution, as described for all the \ac{NNLM}s in section \ref{sec:nnlms-intro}.
+
+
+\subsection{Skip-Gram Architecture}
+\label{sec:skip-gram-architecture}
+
+The Skip-gram architecture is similar to \ac{CBOW}, but it instead of
+predicting the current word based on the context, it tries to maximize
+classification of word based on another word on the same sentence
+\cite{DBLP:journals/corr/abs-1301-3781}.  Each current words is used as input
+to the  a \ac{NN} 
+
+
+
+\section{Word2vec Training Algorithms}
+\label{sec:word2v-tran-algorithms}
 
 
 \section{Optimization Strategies used by Word2vec}
