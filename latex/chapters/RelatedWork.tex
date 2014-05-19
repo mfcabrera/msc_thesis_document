@@ -29,18 +29,46 @@ w_{t-1})$ using a fixed context of size $n-1$, i.e. using  $P(w_t | w_{t-n+1}, \
 
 \section{Neural Network Language Model}
 
-\subsection{Feed forward Neural Network Language Model}
+As its name describes, is a language model based on a \ac{NN}, exploiting their
+ability to learn distributed representations to reduce the impact of the
+curse of dimensionality \cite{Bengio:2008}. In other words, a \ac{NN} is
+used to estimate the probability described  by equation (\ref{eq:lm_probability}) based on a sequence of
+previous words.
+
+The advantage  using  distributed representations  is that they allows
+the model to generalize well to sequences that are not in the set of training
+word sequences, but that are similar in terms of their features. Because neural networks tend to map nearby inputs
+to nearby outputs, the predictions corresponding to word sequences with
+similar features are mapped to similar predictions. \cite{Bengio:2008,Bengio:2003:NPL:944919.944966}
+
+However, Due to the nature the architecture, many of these models suffer
+performance issues the hidden layers and output layer of the \ac{NN} are
+generally the bottleneck.  In order to be able to compare the different
+models in term of their complexity it is necessary then to define the
+complexity of  their architecture. All of these models have a complexity proportional to 
+\cite{DBLP:journals/corr/abs-1301-3781}:
+
+\begin{center}
+\begin{equation} O = E \times T \times Q,   \end{equation}
+\end{center}
+
+where $E$ is number of the training epochs, $T$ is the number of the words in
+the training set and $Q$ depends on each architecture. Common choice is $E$ = 3-50 and $T$ up to one billion.
+All models are trained using stochastic gradient descent and backpropagation
+\cite{Bengio:2003:NPL:944919.944966}\cite{DBLP:journals/corr/abs-1301-3781}.
+
+The following subsection describe each of the most popular  model and their
+associated complexity $Q$.
+
+\subsection{Feedforward Neural Network Language Model}
 \label{subsec:fwd-neural-net-lm}
 
 % Section \ref{sec:relwork-language-models} described the generalities of
 % language models in the context of \ac{NLP}.  In that section we described
 % that the 
 
-INTRODUCTORY COOL TEXT AND FIGURE WITH 
-
-
-In the model introduced in \cite{Bengio:2003:NPL:944919.944966}
-the probabilistic prediction $P(w_t | w_{t-n+1}, \ldots w_{t-1})$ described
+In the \ac{FNNLM} that was introduced by Bengio
+\cite{Bengio:2003:NPL:944919.944966},  the probabilistic prediction $P(w_t | w_{t-n+1}, \ldots w_{t-1})$ described
 in equation (\ref{eq:lm_probability}) is obtained as follows. First, each word $w_{t-i}$ (represented
 with an integer in $[1,N]$) in the  $n-1$-word context is mapped
 to an associated $d$-dimensional feature vector $C_{w_{t-i}}\ ,$ which is
@@ -74,10 +102,6 @@ and by the number of learned word features $d\ .$
     \label{fig:NNLM_architecture}
 \end{figure}
 
-
-
-
-
 The neural network is trained using a gradient-based optimization algorithm
 to maximize the training set \textit{log-likelihood}
 \begin{equation}
@@ -87,6 +111,37 @@ The gradient $\frac{\partial L(\theta)}{\partial \theta}$
 can be computed using the backpropagation algorithm \cite{Bishop:1995:NNP:525960}, extended
 to provide the gradient with respect to $C$ as well as with
 respect to the other parameters. 
+
+\subsubsection{Model Complexity}
+\label{sec:sub:sub:bengio_nnlm_complexity}
+
+Figure \ref{fig:NNLM_architecture} is a graphical description of  the model.
+It consists of three layers, input, projection and output layers. The N
+previous word are encoded using 1-of-$|V|$ encoding, where $|V|$ is the size
+of the vocabulary. $N$ previous word representation are concatenated using a
+shared projection matrix to the projection layer $P$ (dimensionality $N
+\times D$).  This layer is then conected to a hidden layer which is in turn
+used to compute the probability distribution over all the words in the
+vocabulary resulting in an output layer with dimensionality $|V|$. Therefore,
+the computational complexity of each training example is:
+
+\begin{center}
+\begin{equation} Q = N \times D + N \times D \times H + H \times V,   \end{equation}
+\end{center}
+
+With the dominant term is $H \times V$
+\cite{DBLP:journals/corr/abs-1301-3781}. Many solutions are proposed to avoid
+the complexity in the last layer. One alternative is to use  hierarchical
+versions of the softmax \cite{Morin05hierarchicalprobabilistic,6163930}.
+Another is to avoid  normalized models.If binary tree representations are
+used, the number of output units can decrease down to $log_2(V)$. Most
+of the complexity will be then caused by  $N \times D \times H$.
+
+% Of input, projection, hidden and output layers. At the input layer, N previous words are encoded
+% using 1-of-V coding, where V is size of the vocabulary. The input layer is then projected to a
+% projection layer P that has dimensionality N  D, using a shared projection matrix. As only N
+% inputs are active at any given time, composition of the projection layer is a relatively cheap operation.
+
 
 % Note that the gradient on most of $C$
 % is zero (and need not be computed or used) for most of the columns of $C\ :$
@@ -104,8 +159,56 @@ respect to the other parameters.
 % The different  existing architecture will be described on section BLAH of
 % this document.
 
-\subsection{Mikolov Neural Network Model}
+\subsection{Recurrent Neural Net Language Model}
+
+One of the major issues of the \ac{FNNLM}  approach is that
+it has to used a fixed context that need to be specified at training time.
+Therefore, the neural network only can see a limited number of preceding words when
+predicting the next one.  A language model based on recurrent neural networks  do not use a context
+with a size limit.  By using recurrent connection the information cycle
+inside the networks for arbitraily long time. the \ac{RNNLM} proposed by
+Mikolov use the so-called simple
+recurrent neural network model. The network has an input layer $x$, hidden
+layer $s$ (also called context layer or state) and output layer $y$. Input to
+the network in time $t$ is $x(t)$, output is denoted as $y(t)$, and $s(t)$ is
+state of the network (hidden layer). Input vector $x(t)$ is formed by
+concatenating vector $w$ representing current word, and output from neurons in
+context layer $s$ at time $t - 1$. Input, hidden and output layers are then
+computed as follows \cite{conf/interspeech/MikolovKBCK10}:.
+
+\begin{equation} x(t) = (w(t), s(t-1))  \end{equation} 
+
+\begin{equation} s_j(t) = f \left( \sum_{i}{x_i(t)u_{ij}}
+  \right)   \end{equation}
+
+\begin{equation} s_j(t) = g \left( \sum_{j}{s_j(t)v_{kj}}
+  \right)   \end{equation}
+
+
+Where   $f(z)$ is \textit{sigmoid} activation function and $g(z)$  is the
+traditional   \textit{softmax}. $x(t)$ represents the word in time $t$
+encoded using 1-of-$N$ coding and previous function. 
+
+
+% Recurrent neural networks do not use limited size of con- text. By using recurrent connections, information can cycle in
+% side these networks for arbitrarily long time (see [5]). However, it is also often claimed that learning long-term dependencies by stochastic gradient descent can be quite difficult [6].
+% In our work, we have used an architecture that is usually called a simple recurrent neural network or Elman network [7]. This is probably the simplest possible version of recurrent neu- ral network, and very easy to implement and train. The network has an input layer x, hidden layer s (also called context layer or state) and output layer y. Input to the network in time t is x(t), output is denoted as y(t), and s(t) is state of the network (hidden layer). :
+
+
+\begin{figure}[!hptb]
+    \centering
+    \caption{Recurrent Neural Network Language Model Architecture}
+    \label{fig:RNNLM_architecture}
+\end{figure}
+
+
+% A major deficiency of Bengio’s approach is that a feedfor- ward network has to use fixed length context that needs to be specified ad hoc before training. Usually this means that neural networks see only five to ten preceding words when predicting the next one. It is well known that humans can exploit longer context with great success. Also, cache models provide comple- mentary information to neural network models, so it is natural to think about a model that would encode temporal information implicitly for contexts with arbitrary lengths.
+
+
+\subsection{Mikolov's Neural Network Language Model}
 \label{sec:mikolov-neural-net-model}
+
+% \subsection{Mikolov Neural Network Model}
 
 
 

@@ -38,55 +38,21 @@ The rest of the chapter is structured as follows blah!
 
 In order to understand  \textit{Word2vec}'s it is necessary to study the
 models on which it is built upon. Word2vec as both an improvement and
-as well as a simplification of a full-fledged \ac{NNLM}. Therefore, this section introduces
-briefly the most common  architectures and their more important
-characteristics.
+as well as a simplification of a full-fledged \ac{NNLM}.
+% Therefore, this section introduces
+%briefly the most common  architectures and their more important
+%characteristics.
 
 \subsection{Model Complexity}
 
 One of the main reason behind the development of \textit{Word2vec} was the
-need of obtaining good word vector representation with low training complexity cost. In
-order to observe these, it is necessary to show describe the each model's
-complexity as mean of comparison.
-
-As described in the original paper all the model described have a complexity
-proportional to \cite{DBLP:journals/corr/abs-1301-3781}:
-
-\begin{center}
-\begin{equation} O = E \times T \times Q,   \end{equation}
-\end{center}
-
-where $E$ is number of the training epochs, $T$ is the number of the words in
-the training set and $Q$ depends on each architecture. Common choice is $E$ = 3-50 and $T$ up to one billion.
-All models are trained using stochastic gradient descent and backpropagation \cite{Bengio:2003:NPL:944919.944966}\cite{DBLP:journals/corr/abs-1301-3781}.
-
-%\subsection{Feed Forward Neural Net Model}
-
-Section \ref{subsec:fwd-neural-net-lm} described the network language model
-that was originally proposed by Bengio \cite{Bengio:2003:NPL:944919.944966}.
-It consists of three layers, input, projection and output layers. The N
-previous word are encoded using 1-of-$|V|$ encoding, where $|V|$ is the size
-of the vocabulary. 
-
-Of input, projection, hidden and output layers. At the input layer, N previous words are encoded
-using 1-of-V coding, where V is size of the vocabulary. The input layer is then projected to a
-projection layer P that has dimensionality N  D, using a shared projection matrix. As only N
-inputs are active at any given time, composition of the projection layer is a relatively cheap operation.
+need of obtaining good word vector representation with low training complexity cost.
 
 
 
 
-\begin{figure}[h]
-    \centering
-    \caption{Recurrent Neural Network Language Model Architecture}
-    \label{fig:RNNLM_architecture}
-\end{figure}
-
-\subsection{Recurrent Neural Net Language Model}
 
 
-
-\subsection{Mikolov's Language Model}
 
 A neural probabilistic language model
 
