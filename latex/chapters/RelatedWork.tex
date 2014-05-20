@@ -113,6 +113,21 @@ can be computed using the backpropagation algorithm \cite{Bishop:1995:NNP:525960
 to provide the gradient with respect to $C$ as well as with
 respect to the other parameters. 
 
+
+Note that when calculating  $\frac{\partial L(\theta)}{\partial \theta}$ we have:
+
+\begin{equation}
+  \label{eq:nnlm-grad}
+  \frac{\partial }{\partial \theta}\text{log}p_{\theta}^{n}(w) =
+  \frac{\partial }{\partial \theta} e^{a_k}
+
+
+\end{equation}
+ 
+
+
+
+
 \subsubsection{Model Complexity}
 \label{sec:sub:sub:bengio_nnlm_complexity}
 
@@ -134,7 +149,8 @@ With the dominant term is $H \times V$
 \cite{DBLP:journals/corr/abs-1301-3781}. Many solutions are proposed to avoid
 the complexity in the last layer. One alternative is to use  hierarchical
 versions of the softmax \cite{Morin05hierarchicalprobabilistic,6163930}.
-Another is to avoid  normalized models.If binary tree representations are
+The other alternative is to avoid is to avoid  normalized models by finding
+a approximation to find the likelihood gradient \cite{NIPS2013_5165} . If binary tree representations are
 used, the number of output units can decrease down to $log_2(V)$. Most
 of the complexity will be then caused by  $N \times D \times H$.
 

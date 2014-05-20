@@ -61,6 +61,7 @@ The rest of the chapter is structured as follows blah!
 
 
 \section{Word2vec Generalities}
+\label{sec:word2v-generalities}
 
 \textit{Word2vec} is an open source project released in 2013 by the authors.
 its overall architecture has been described in several paper published at the
@@ -146,25 +147,36 @@ future are used to predict the word in the center of a sentence.
 \end{figure}
 
 More formally, given a sequence of words with 1-of-$K$ representation $w_1,w_2,w_3, \dots, w_T$ and a window
-of size $n$. Defining $b$ as:
+of size $n$. Defining $C_m(t)$ as:
 
 \begin{equation}
    C_{m}(t) =    \frac{\sum_{-n \leq j \leq n, j \neq 0} { 
        C_{w_{t+j}}} } {2n}    
 \end{equation}
 
-With $C_{w_{j+1}}$ is the projections of the $w_{t+j}$ by the projection
-matrix. the  objective  \ac{CBOW}  tries to maximize the average log probability:
+The  objective  \ac{CBOW}  tries to maximize the average log probability:
 
 
 \begin{equation}
   \label{eq:logprob-cbow}
    \frac{1}{T} \sum^{T}_{t=1} \text{log} \, p
-     \left( w_t \, |\, C_{m}(t) \right)
+     \left( w_t \, |\, C_{m}(t) \right),
 \end{equation}
 
 
 
+With the probability  $p\left( w_O \, |\, v \right)$  defined as:
+
+\begin{equation}
+  \label{eq:logp-cbow}
+  p(w_O|v) = \frac{\text{exp}\left(C^{'}_{w_o}\,^\top\,v \right)
+  }{\sum^{V}_{w=1} \text{exp} \left( C^{'}_w \,^\top\, v \right)   }  
+\end{equation}
+
+
+Where $C_w$ and $C^{'}_w$ are the input representation (the weights from the input layer to the
+\textit{hidden layer}) and output representation (the weights from
+\textit{hidden layer} to the softmax layer).
 
 Similarly as other \ac{NNLM}s, the complexity of this architecture
 is defined by its structure:
@@ -183,27 +195,143 @@ probability distribution, as described for all the \ac{NNLM}s in section \ref{se
 The Skip-gram architecture is similar to \ac{CBOW}, but it instead of
 predicting the current word based on the context, it tries to maximize
 classification of word based on another word on the same sentence
-\cite{DBLP:journals/corr/abs-1301-3781}.  Each current words is used as input
-to the  a \ac{NN} 
+\cite{DBLP:journals/corr/abs-1301-3781}.  Each  word is used as input
+to the \ac{NN} to predict words within certain range before and after 
+it (i.e. it tries to predict the surrounding words or context). 
+\cite{DBLP:journals/corr/abs-1301-3781}. 
+
+Similarly to the \ac{CBOW}, with a sequence of training words $w_1,w_2,w_3,
+\dots, w_T$ the probability to maximize is give by
 
 
+ \begin{equation}
+  \label{eq:sumprob-cbow}
+   \frac{1}{T} \sum^{T}_{t=1}{\sum_{-r \leq j \leq r, j \neq 0}\text{log} \, p
+     \left( w_{t+j} \, |\, w_t  \right)}
+\end{equation}
+
+with $r$ is the size of the \textit{training context} or window.  Increasing
+this range improves quality of the resulting word vectors but it also
+increases the computational complexity.
+
+Using the softmax function the probability  $p(w_O|w_I)$ is given by:
+
+\begin{equation}
+  \label{eq:logp-skgram}
+  p(w_O|w_I) = \frac{\text{exp}\left(C^{'}_{w_O}\,^\top\,C_{w_I} \right)
+  }{\sum^{V}_{w=1} \text{exp} \left( C^{'}_w \,^\top\, C_{w_I} \right)   }  
+\end{equation}
+
+
+Where $C_w$ and $C^{'}_w$  has the same meaning as in the \ac{CBOW} formulation,  and $V$ is the number of
+words in the vocabulary.
+
+The training complexity of this architecture is proportional to
+\cite{DBLP:journals/corr/abs-1301-3781}:
+
+\begin{equation}
+  Q = R \times (D + D \times log_2 \left(V)\right),  
+\end{equation}
+
+Where R is the maximum distance of words. A random number $r$ in the range $<
+1; R >$ is selected. Then, $r$ words from the history and $r$ words from
+future are used as the correct labels for the current word.
+ 
 
 \section{Word2vec Training Algorithms}
 \label{sec:word2v-tran-algorithms}
+Another of the principal of  \textit{Word2vec} is the training algorithms, in
+fact, the selection of the training algorithm in training time has a large  impact on
+both the quality of the learned vector representation,  and in the
+computational performance.
+
+The formulations for calculating $p(w_i|v)$ and  $p(w_O|w_I)$  ( equations
+(\ref{eq:logp-cbow})  and  (\ref{eq:logp-skgram}) ) are impractical because
+the cost of computing them is proportional to $V$, which is often large.
+Therefore computational efficient alternatives need to be devised in order to
+train this model in real world data sets. Here when the training algorithms
+come into play, as they are alternative to this computationally expensive
+calculation. 
+
+\subsection{Hierarchical Softmax}
+\label{sec:sub-hs}
 
 
-\section{Optimization Strategies used by Word2vec}
-\label{sec:strategies_improve_time}
+An efficient alternative to calculating the full softmax is the hierarchical
+softmax. In the context of \ac{NNLM}s was first introduced by Morin and
+Bengio \cite{Morin05hierarchicalprobabilistic}. Hierarchical softmax is more
+computationally efficient that a normal softmax layer because instead of
+evaluating output nodes $V$ (i.e. each of the words on the output layer) to
+obtain the probability distribution, it only needs to evaluate about
+$\text{log}_2 \left( V \right)$ nodes \cite{MikolovSCCD13}.
 
-\subsection{Huffman Coding}
-\label{sec:huffman_coding}
+This is achieved by  using a binary tree to represent the output layer with
+the $V$ of the vocabulary as its leaves, for each node, explicitly represent
+the relative probabilities of its child nodes. Previous work report several
+strategies to create the binary tree \cite{Mnih08ascalable}, all of them with
+different effects on the performance. The authors of \textit{Word2vec} use a Huffman Tree  to represent the
+hierarchical softmax.
 
-Huffman coding is an entropy  encoding algorithm used for lossless data
-compression.  It was developed by David A. Huffman while he was a Ph.D.
-student at MIT. \cite{huf52}.
+To build the tree, the probabilities are calculated beforehand just counting
+each occurrence of  the word in the text
+and diving it by the total number of words.  With these probabilities the
+Huffman codes are calculated \cite{huf52}, and thus the tree is built. The
+words with high probabilities get shorter codes ending up on top tree. As the
+probabilities of the child nodes can be obtained it is not necessary to visit
+all then children but just take it from that node. Figure
+\ref{fig:huffam-tree-w2v-example} shows a example of a how this Huffman tree
+would look if  created from a imaginary and  highly unlikely corpus. 
 
-Huffan cioding is an algorithm to proce an  optimal symbol code $C$ for a given 
-\emph{pmf} $ p = (p_1,....,p_n) $.  Huffman coding builds a tree orderded by frequency.
+
+% Use this to generate the initial graphviz file: http://huffman.ooz.ie/
+
+
+\begin{figure}[h]
+    \centering
+    \caption{Huffman tree in \textit{Word2vec example}}
+    \label{fig:huffam-tree-w2v-example}
+\end{figure}
+
+More precisely, the tree is used as follows: each word $w$ is reached by an
+appropriate path from the root of the tree (i.e. the Huffman code). Let
+$n(w,j)$ be the $j$-th node on the path from the root to $w$, and let $L(w)$
+be the length of this path. So $n(w,1) = \text{root}$ and $n(w,L(w)) = w$. In
+addition, for any inner node $n$, let $ch(n)$ be an arbitrary fixed child of
+$n$ and let $[\![ x ]\!] $ be 1 if $x$ is true and -1 otherwise. Then the
+hierarchical softmax defines the $p(w_O|w_I)$  is defined by \cite{MikolovSCCD13} : 
+
+
+\begin{equation}
+   \label{eq:hierarchical-softmax-prob}
+  p(w_O|w_I)  = \prod^{L(w)-1}_{j=1}\sigma\left( [\![n(w,j + 1) = ch(n(w,j))   ]\!] \cdot C^{'}_{n(w,j)}  \,^\top\, C_{w_I}   \right) 
+\end{equation}
+Where $\sigma(x) = 1/(1 + \text{exp}(-x)) $.  Thus the cost of computing the
+log-probability and the gradient is proportional to $L(w_O)$ which for a
+binary tree is not greater than $\text{log}(V)$.   $C_{w_{I}}$ is again the
+representation  of word $w_{I}$  but   $  C^{'}_{n(w,j)}
+$ is the projection of the node $n$ on the tree.  So the the number of output
+nodes is also  approximately $\text{log}(V)$.
+
+\subsection{Negative Sampling}
+
+
+% y. This formulation is impractical because the cost of computing
+% ∇ logp(wO|wI) is proportional to W, which is often large (105–107
+% terms).
+
+
+% \section{Optimization Strategies used by Word2vec}
+% \label{sec:strategies_improve_time}
+
+% \subsection{Huffman Coding}
+% \label{sec:huffman_coding}
+
+% Huffman coding is an entropy  encoding algorithm used for lossless data
+% compression.  It was developed by David A. Huffman while he was a Ph.D.
+% student at MIT. \cite{huf52}.
+
+% Huffan cioding is an algorithm to proce an  optimal symbol code $C$ for a given 
+% \emph{pmf} $ p = (p_1,....,p_n) $.  Huffman coding builds a tree orderded by frequency.
 
 
 
