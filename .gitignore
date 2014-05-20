@@ -19,3 +19,4 @@ latex/*.log
 latex/*.aux
 latex/*.pdf
 latex/*.toc
+latex/_region_.prv/*
