@@ -598,31 +598,6 @@ overview of the most important parameters with short description. For a
 complete description of each of them please refer to section [LINK TO SECTION]. 
 
 
-\begin{table}[h]
-   \centering
-   \caption{Summary model training parameters} 
-   \label{tab:word2_vec_parameters}
-   
-   \small
-   \begin{tabular}{ |l|c|p{5cm}| }
-   \hline           
-    Parameter &  Possible Values & Comment \\  \hline           
-    \multirow{2}{*}{Architecture}  & skip-gram  & Slower, better for frequent
-    words. \\ 
-    \cline{2-3}
-    & \ac{CBOW}  &  Faster than skip-gram. \\ \hline
-    \multirow{2}{*}{Training Algorithm}  & \ac{HS}  & Better for infrequent words.   \\ 
-    \cline{2-3}
-    & Negative Sampling & Better for frequent works \\ \hline
-    Sub-sampling  & 1e-3 to 1e-10  &  It  can improve both accuracy and speed for large data
-    sets Useful values are in range \\ \hline
-    Dimensionality  & 10-640 & Higher dimension the better results. 
-    it depends on data availability.  \\ \hline
-    Context (Window size)  & 5 - 15 & The number of word used to predict. \\ \hline
-
-    
-\end{tabular}
-\end{table}
 
 For training  the model the public \emph{C} implementation available of
 \textit{Word2vec} \footnote{\url{https://code.google.com/p/word2vec/}} was

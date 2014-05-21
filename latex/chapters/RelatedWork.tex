@@ -114,18 +114,29 @@ to provide the gradient with respect to $C$ as well as with
 respect to the other parameters. 
 
 
-Note that when calculating  $\frac{\partial L(\theta)}{\partial \theta}$ we have:
+
+The gradient   $\frac{\partial L(\theta)}{\partial
+  \theta}$   is given by  :
+
+
+
+\begin{equation*}
+  \label{eq:nnlm-grad}
+  \frac{\partial }{\partial \theta}\text{log}p_{\theta}^{n}(w_t=k) =
+  \frac{\partial }{\partial \theta} e^{a_k} -  \frac{\partial }{\partial
+    \theta}\text{log} \left( \sum_{l=1}^N e^{a_l} \right)
+ \end{equation*}
 
 \begin{equation}
-  \label{eq:nnlm-grad}
-  \frac{\partial }{\partial \theta}\text{log}p_{\theta}^{n}(w) =
-  \frac{\partial }{\partial \theta} e^{a_k}
-
-
+\label{eq:dlogp-gradient}
+  \frac{\partial }{\partial \theta}\text{log}p_{\theta}^{n}(w_t=k)  =  \frac{\partial }{\partial \theta} e^{a_k}  -   \frac{\partial }{\partial
+    \theta}  \sum_{l=1}^N  p(w_t = l)  \frac{\partial }{\partial
+    \theta}  e^{a_l}   
 \end{equation}
- 
 
 
+As can bee seen from equation (\ref{eq:dlogp-gradient}), the  $\frac{\partial L(\theta)}{\partial
+  \theta}$ is  expensive to calculate because implies a sum over all the scores $e^{a_{k}}$ over all possible words on the vocabulary.
 
 
 \subsubsection{Model Complexity}
@@ -133,19 +144,20 @@ Note that when calculating  $\frac{\partial L(\theta)}{\partial \theta}$ we have
 
 Figure \ref{fig:NNLM_architecture} is a graphical description of  the model.
 It consists of three layers, input, projection and output layers. The N
-previous word are encoded using 1-of-$|V|$ encoding, where $|V|$ is the size
+previous word are encoded using 1-of-$V$ encoding, where $V$ is the size
 of the vocabulary. $N$ previous word representation are concatenated using a
 shared projection matrix to the projection layer $P$ (dimensionality $N
 \times D$).  This layer is then conected to a hidden layer which is in turn
 used to compute the probability distribution over all the words in the
-vocabulary resulting in an output layer with dimensionality $|V|$. Therefore,
+vocabulary resulting in an output layer with dimensionality $V$. Therefore,
 the computational complexity of each training example is:
 
 \begin{center}
 \begin{equation} Q = N \times D + N \times D \times H + H \times V,   \end{equation}
 \end{center}
 
-With the dominant term is $H \times V$
+With the dominant term is $H \times V$, because of the gradient calculation
+described above.
 \cite{DBLP:journals/corr/abs-1301-3781}. Many solutions are proposed to avoid
 the complexity in the last layer. One alternative is to use  hierarchical
 versions of the softmax \cite{Morin05hierarchicalprobabilistic,6163930}.

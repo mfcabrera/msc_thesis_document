@@ -100,12 +100,42 @@ Then model can be characterized based on following criteria:
 
 \begin{itemize}
 \item \textbf{Architecture}: Skip-gram or \ac{CBOW}.
-\item \textbf{Training Algorithm}: hierarchical softmax  or negative sampling.
+\item \textbf{Training Algorithm}: hierarchical softmax  or negative
+  sampling.
+\item \textbf{Additional paramters}: Discussed in section \ref{sec:w2v_other_paramters}
 \end{itemize}
 
-In addition to these two main characteristic, the model has other
-hyper-parameter that need to be chosen at training time. These parameter are
-discussed in detail in following sections of this document.
+
+Table \ref{tab:word2_vec_parameters} summarizes the parameters that  need to be selected at training time
+and affect the resulting word vector representations. Then comment column is
+taken from the description of the paramter on the project webpage\footnote{\url{https://code.google.com/p/word2vec/}}.
+
+
+\begin{table}[h]
+   \centering
+   \caption{Summary model training parameters} 
+   \label{tab:word2_vec_parameters}
+   
+   \small
+   \begin{tabular}{ |l|c|p{5cm}| }
+   \hline           
+    Parameter &  Possible Values & Comment \\  \hline           
+    \multirow{2}{*}{Architecture}  & skip-gram  & Slower, better for frequent
+    words. \\ 
+    \cline{2-3}
+    & \ac{CBOW}  &  Faster than skip-gram. \\ \hline
+    \multirow{2}{*}{Training Algorithm}  & Hierarchical Softmax  & Better for infrequent words.   \\ 
+    \cline{2-3}
+    & Negative Sampling & Better for frequent works \\ \hline
+    Sub-sampling  & 1e-3 to 1e-10  &  It  can improve both accuracy and speed for large data
+    sets Useful values are in range \\ \hline
+    Dimensionality  & 10-640 & Higher dimension the better results. 
+    it depends on data availability.  \\ \hline
+    Context (Window size)  & 5 - 15 & The number of word used to predict. \\ \hline
+
+    
+\end{tabular}
+\end{table}
 
 % What is word 2 vec ... !
 % Summary of the model
@@ -150,6 +180,7 @@ More formally, given a sequence of words with 1-of-$K$ representation $w_1,w_2,w
 of size $n$. Defining $C_m(t)$ as:
 
 \begin{equation}
+\label{eq:cbow-mean}
    C_{m}(t) =    \frac{\sum_{-n \leq j \leq n, j \neq 0} { 
        C_{w_{t+j}}} } {2n}    
 \end{equation}
@@ -176,7 +207,7 @@ With the probability  $p\left( w_O \, |\, v \right)$  defined as:
 
 Where $C_w$ and $C^{'}_w$ are the input representation (the weights from the input layer to the
 \textit{hidden layer}) and output representation (the weights from
-\textit{hidden layer} to the softmax layer).
+\textit{hidden layer} to the softmax layer). 
 
 Similarly as other \ac{NNLM}s, the complexity of this architecture
 is defined by its structure:
@@ -210,7 +241,7 @@ Similarly to the \ac{CBOW}, with a sequence of training words $w_1,w_2,w_3,
      \left( w_{t+j} \, |\, w_t  \right)}
 \end{equation}
 
-with $r$ is the size of the \textit{training context} or window.  Increasing
+with $r$ is the size of the window, i.e. the training context is $2r$.  Increasing
 this range improves quality of the resulting word vectors but it also
 increases the computational complexity.
 
@@ -298,7 +329,7 @@ $n(w,j)$ be the $j$-th node on the path from the root to $w$, and let $L(w)$
 be the length of this path. So $n(w,1) = \text{root}$ and $n(w,L(w)) = w$. In
 addition, for any inner node $n$, let $ch(n)$ be an arbitrary fixed child of
 $n$ and let $[\![ x ]\!] $ be 1 if $x$ is true and -1 otherwise. Then the
-hierarchical softmax defines the $p(w_O|w_I)$  is defined by \cite{MikolovSCCD13} : 
+hierarchical softmax defines the $p(w_O|w_I)$  by \cite{MikolovSCCD13} : 
 
 
 \begin{equation}
@@ -310,21 +341,126 @@ log-probability and the gradient is proportional to $L(w_O)$ which for a
 binary tree is not greater than $\text{log}(V)$.   $C_{w_{I}}$ is again the
 representation  of word $w_{I}$  but   $  C^{'}_{n(w,j)}
 $ is the projection of the node $n$ on the tree.  So the the number of output
-nodes is also  approximately $\text{log}(V)$.
+nodes is also  approximately $\text{log}(V)$. A equivalent model replacing
+$C_{w_I}$ by $v$ is easily constructed for the \ac{CBOW} architecture.
 
 \subsection{Negative Sampling}
+
+An alternative to the hierarchical softmax is \ac{NCE}, which was  introduced in the
+context of language model by Mnih and Teh \cite{citeulike:4416856}. \ac{NCE}
+is in turn based in the concept of importance sampling, which use a known
+distribution to try to approximate the gradient based on samples not from the
+original distribution $p(w_t) $ but from a known distribution $q(x)$ easy to
+sample from.  In other words, instead of fitting the density model, it is
+learned to classify from samples of the data distribution and samples from a
+noise distribution $q(x)$ that is already know. 
+As the objective of \textit{Word2vec} is not to learn a language model but
+useful representation, so authors simplified  to the original \ac{NCE} and
+defined an  alternative formulation named \ac{NEG}: 
+
+\begin{equation}
+  p(w_O|w_I)  =  \text{log}\,\sigma\left(C^{'}_{n(w,j)}  \,^\top\, C_{w_I}
+  \right) + \sum^{k}_k\mathbb{E}_{w_{i}\sim P_{n}(w)}\left[
+    \text{log}\,\sigma\left(-C^{'}_{w_i}  \,^\top\,  C_{w_I} \right)  \right]
+\end{equation}
+
+The main difference between this approach and \ac{NCE}  needs both
+samples and the numerical probabilities of the noise distribution, while negative sampling uses only
+samples \cite{MikolovSCCD13}.  Equivalently to  hierarchical softmax, a formulation from  the \ac{CBOW}
+ architecture can be constructed by replacing the appropriate variables.
+In the \textit{Word2vec} implementation, the
+noise distribution  $P_n(w)$ is the unigram distribution $U(w)$ raised to the
+$3/4rd$. This was selected by the authors empirically given that outperformed
+other alternative distribution such as the unigram and the uniform
+distribution. 
+
+
+
+\section{Other Parameters}
+\label{sec:w2v_other_paramters}
+This section describes the dditional 
+
+
+\subsection{Dimension }
+\label{sec:w2v-param-dim}
+Perhaps the most important parameter after the architecture and the training
+algorithm is the dimension of the learned word vector.  This parameter define
+the projection layer size. Generally speaking the larger the better.
+However, in order to benefit from a larger dimension size, more data need to
+be used, as it  reaches a upper bound based on the availability of the data.
+The author of \textit{Word2vec} report dimension from 100 to 640 on the
+largest dataset used. This, as it was just mention is corpus dependent.
+
+
+\subsection{Window}
+\label{sec:w2v-params-win}
+
+An important parameter that need to be defined at training size is the
+\textit{window} or context size. Generally speaking the context size is two
+times the window. More formaly, the context $R(w_i)$ comes from a window of
+size $r$ around the word:
+
+\begin{equation*}
+R(w_i) =
+w_{i-k},\ldots,w_{i-1},w_{i+1},\ldots,w_{i+k},
+\end{equation*}
+
+
+
+In  the \ac{CBOW} architecture, the window defines the number of words used to
+calculate the continuous bag of word ( equation (\ref{eq:cbow-mean}).  For
+the Skip-gram architecture, the window defines  the number of words that the
+$w_i$ needs to predict from a sentence.  Generally speaking,  larger
+context generally provide better word representation but at expense of
+computation time. However there is not a way to calculate this beforehand,
+and this will depend on the grammatical structure of the source language of
+the corpus used for learning the word representation.
+
+
+\subsection{Subsampling of Frequent Words}
+\label{sec:sub-hs}
+
+In large corpora the most frequent words occur many times (e.g.
+``in'', ``at'', ``the'', etc.). These words  provide  less information value
+than other rare words  \cite{MikolovSCCD13}.  \textit{Word2vec} discards a
+word $w_i$ in the training set with a probability computed by the formula:
+
+\begin{equation}
+  \label{eq:w2v-subsampling}
+  P(w_i)= 1 - \sqrt{\frac{t}{f(w_i)}}
+\end{equation}
+where $f(w_i)$  is the frequency of word $w_i$ and t is a threashold that can
+be specified  by the user at training time. The subsampling of words also
+affect indirectly the size of the window. In addition to the subsampling
+paramter, \textit{Word2vec} offer a parameter called 
+\textit{min-count} which discards all the words that appear less than a
+number of times in all the corpus.   As the subsampling and the removal of
+\textit{min-count} words occur  \emph{before} the actual contex t creation,
+the actual effective window size increase. These include words that are content-full and linearly far from the word in focus, therefore
+making the similarities more topical.
+
+
+\section{Evaluation of the Word Representation}
+\label{sec:w2v-evaluation-word-repr}
+
+
+
+\section{Conclusion}
+
+
+\label{sec:sub-w2v-desc-conclusion}
+
+
+
+
+%define the number of words  from the past and from the 
+
+
 
 
 % y. This formulation is impractical because the cost of computing
 % ∇ logp(wO|wI) is proportional to W, which is often large (105–107
 % terms).
-
-
-% \section{Optimization Strategies used by Word2vec}
-% \label{sec:strategies_improve_time}
-
-% \subsection{Huffman Coding}
-% \label{sec:huffman_coding}
 
 % Huffman coding is an entropy  encoding algorithm used for lossless data
 % compression.  It was developed by David A. Huffman while he was a Ph.D.
