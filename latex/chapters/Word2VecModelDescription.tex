@@ -7,19 +7,19 @@ As described in  previous chapter,  continuous space language  models have
 demonstrated good results across a variety of tasks in the field of NLP.  As pointed out by
 the authors, these continuous word vector representation achieves a level of
 generalization not possible with class traditional $N$-gram based models
-\cite{conf/icassp/MikolovKBGC09}. In addition to the language model,  word vector
-representations are learned in the initial layers of a \ac{NN}. These
+\cite{conf/icassp/MikolovKBGC09}. In addition to the language model, the word vector
+representations are learned in the initial layers of the \ac{NN}. These
 induced representations  have been used successfully to improve the
 performance of existing \ac{NLP} tasks \cite{collobert:2008}
 \cite{Turian:2010:WRS:1858681.1858721}. 
 
-As discussed in section \ref{sec:mikolov-neural-net-model},  One of the way to learn a
+As discussed in section \ref{sec:mikolov-neural-net-model},  one of the way to learn a
 \ac{NNLM} is to learn the word vector using  a \ac{NN} with a single hidden
 layer. Then, these word vectors are used to  train another the final
 \ac{NNLM} \cite{conf/icassp/MikolovKBGC09}.   
 What is particular about this architecture is that they learn the  word
 vectors without  even constructing the complete language model.  This means
-in practice that the two step are performed separately \cite{conf/icassp/MikolovKBGC09}. 
+in practice that the two step can be performed separately \cite{conf/icassp/MikolovKBGC09}. 
 
 This chapter describes in detail a recent approach to efficiently learn
 high-dimensional word representation \cite{DBLP:journals/corr/abs-1301-3781}.
@@ -32,7 +32,13 @@ detail.
 
 % making it  necessary to describe
 %%it properly.  
-The rest of the chapter is structured as follows blah!
+The rest of the chapter is structured as follows: section
+\ref{sec:word2v-generalities} gives a general description of
+\textit{Word2vec}.  Section \ref{sec:word2v-architectures} and
+\ref{sec:word2v-tran-algorithms} describe in more detail the available
+architecture and training algorithms. Finally, section
+\ref{sec:w2v_other_paramters} describe additional important parameters that
+directly affect the generated learned representations.
 
 % \section{Modern Neural Network Language Model Architectures}
 
@@ -63,52 +69,53 @@ The rest of the chapter is structured as follows blah!
 \section{Word2vec Generalities}
 \label{sec:word2v-generalities}
 
-\textit{Word2vec} is an open source project released in 2013 by the authors.
-its overall architecture has been described in several paper published at the
-time of its release
-\cite{DBLP:journals/corr/abs-1301-3781,MikolovSCCD13,conf/naacl/MikolovYZ13}
-and some previous  \cite{mikolovphd2012}.  \textit{Word2vec}'s architecture
+\textit{Word2vec} is an open source project released in 2013 by the Tomas
+Mikolov,  Kai Chen, Greg Corrado, and Jeffrey Dean.  
+Its overall architecture has been described in several paper published at the
+time of its release \cite{DBLP:journals/corr/abs-1301-3781,MikolovSCCD13,conf/naacl/MikolovYZ13}
+and some previous wor \cite{mikolovphd2012}. The source code, sample corpus
+and the dataset used to evaluate the quality of the word vectors  can be downloaded freely from the project's
+ web page\footnote{http://https://code.google.com/p/word2vec/}.
+\textit{Word2vec}'s architecture
 has its origin  in the architecture described back in section 
 \ref{sec:mikolov-neural-net-model} where a \ac{NNLM} is learned separately. 
 First learning the word representation using a \ac{NN} and then learning then
 estimating equation (\ref{eq:lm_probability}) using a $N$-gram neural
-network.  \textit{Word2vec} in that sense is a simpler model given that does not try to
+network.  \textit{Word2vec} in that sense is a simpler model, as it  does not try to
 learn the full probability distribution as a full \ac{NNLM} does. Instead, it
-only focuses on learning good representations of word by  only performing  the first step
-of the aforementioned architecture.  In that sense, \textit{Word2vec} is an
+ focuses on learning good representations of words by  only performing  the first step
+of the aforementioned architecture.  In that sense, it is an
 unsupervised feature learning algorithm.
 
 As  described in section \ref{sec:nnlms-intro}, the complexity of all 
-these models arises from the non-linear hidden layer that allows the \ac{NN} to
-obtain good representation.  \textit{Word2vec} removes the hidden layer, making
-it unable able to represent the data as precisely as a \ac{NN} could, but
-allowing it to be trained efficiently on much
-more data  \cite{DBLP:journals/corr/abs-1301-3781}.
+these models arises from the non-linear layers  that allows the \ac{NN} to
+obtain complex representations.  \textit{Word2vec} removes the hidden layer 
+allowing it to be trained efficiently on much more data  \cite{DBLP:journals/corr/abs-1301-3781}.
 
 \textit{Word2vec} is not a single architecture or model, it is formed by a
 group of related architectures, learning algorithms, optimization 
 approaches and some tricks. The combination of all these characteristic
 allows the model  to learn word representation in a efficient
-way. These reprsentations  capture semantic and syntactic
-similarities as mean of vector offsets. This property allows the learned
-representations to answer complex semantic and syntactic questions by means
-of simple vector operations   \cite{MikolovSCCD13}. This has also
+way. It has been shown that these representations  capture semantic and syntactic
+similarities as mean of vector offsets, allowing the model to answer complex
+semantic and syntactic questions by means 
+of simple vector operations   \cite{MikolovSCCD13}. This property  has also
 been used to perform word vector based translation \cite{DBLP:journals/corr/MikolovLS13}.  
 
-Then model can be characterized based on following criteria:
+\textit{Word2vec} model can be characterized by the following properties:
 
 
 \begin{itemize}
 \item \textbf{Architecture}: Skip-gram or \ac{CBOW}.
-\item \textbf{Training Algorithm}: hierarchical softmax  or negative
-  sampling.
+\item \textbf{Training Algorithm}: hierarchical softmax  or \ac{NEG}.
 \item \textbf{Additional paramters}: Discussed in section \ref{sec:w2v_other_paramters}
 \end{itemize}
 
 
-Table \ref{tab:word2_vec_parameters} summarizes the parameters that  need to be selected at training time
+Table \ref{tab:word2_vec_parameters} summarizes the most important parameters
+that need to be selected at training time
 and affect the resulting word vector representations. Then comment column is
-taken from the description of the paramter on the project webpage\footnote{\url{https://code.google.com/p/word2vec/}}.
+taken from the description  on the project web page.
 
 
 \begin{table}[h]
@@ -126,7 +133,7 @@ taken from the description of the paramter on the project webpage\footnote{\url{
     & \ac{CBOW}  &  Faster than skip-gram. \\ \hline
     \multirow{2}{*}{Training Algorithm}  & Hierarchical Softmax  & Better for infrequent words.   \\ 
     \cline{2-3}
-    & Negative Sampling & Better for frequent works \\ \hline
+    & \ac{NEG} & Better for frequent works \\ \hline
     Sub-sampling  & 1e-3 to 1e-10  &  It  can improve both accuracy and speed for large data
     sets Useful values are in range \\ \hline
     Dimensionality  & 10-640 & Higher dimension the better results. 
@@ -206,8 +213,8 @@ With the probability  $p\left( w_O \, |\, v \right)$  defined as:
 
 
 Where $C_w$ and $C^{'}_w$ are the input representation (the weights from the input layer to the
-\textit{hidden layer}) and output representation (the weights from
-\textit{hidden layer} to the softmax layer). 
+projection layer) and output representation (the weights from
+projection layer to the softmax layer). 
 
 Similarly as other \ac{NNLM}s, the complexity of this architecture
 is defined by its structure:
@@ -265,8 +272,7 @@ The training complexity of this architecture is proportional to
 \end{equation}
 
 Where R is the maximum distance of words. A random number $r$ in the range $<
-1; R >$ is selected. Then, $r$ words from the history and $r$ words from
-future are used as the correct labels for the current word.
+1; R >$ is selected. Then, $r$ words from the history and $r$ words from future are used as the correct labels for the current word.
  
 
 \section{Word2vec Training Algorithms}
@@ -305,7 +311,7 @@ hierarchical softmax.
 
 To build the tree, the probabilities are calculated beforehand just counting
 each occurrence of  the word in the text
-and diving it by the total number of words.  With these probabilities the
+and diving it by the total number of words (the unigram probability).  With these probabilities the
 Huffman codes are calculated \cite{huf52}, and thus the tree is built. The
 words with high probabilities get shorter codes ending up on top tree. As the
 probabilities of the child nodes can be obtained it is not necessary to visit
@@ -338,10 +344,10 @@ hierarchical softmax defines the $p(w_O|w_I)$  by \cite{MikolovSCCD13} :
 \end{equation}
 Where $\sigma(x) = 1/(1 + \text{exp}(-x)) $.  Thus the cost of computing the
 log-probability and the gradient is proportional to $L(w_O)$ which for a
-binary tree is not greater than $\text{log}(V)$.   $C_{w_{I}}$ is again the
+binary tree is not greater than $\text{log}_2(V)$.   $C_{w_{I}}$ is again the
 representation  of word $w_{I}$  but   $  C^{'}_{n(w,j)}
 $ is the projection of the node $n$ on the tree.  So the the number of output
-nodes is also  approximately $\text{log}(V)$. A equivalent model replacing
+nodes is also  approximately $\text{log}_2(V)$. A equivalent model replacing
 $C_{w_I}$ by $v$ is easily constructed for the \ac{CBOW} architecture.
 
 \subsection{Negative Sampling}
@@ -365,7 +371,7 @@ defined an  alternative formulation named \ac{NEG}:
 \end{equation}
 
 The main difference between this approach and \ac{NCE}  needs both
-samples and the numerical probabilities of the noise distribution, while negative sampling uses only
+samples and the numerical probabilities of the noise distribution, while \ac{NEG} uses only
 samples \cite{MikolovSCCD13}.  Equivalently to  hierarchical softmax, a formulation from  the \ac{CBOW}
  architecture can be constructed by replacing the appropriate variables.
 In the \textit{Word2vec} implementation, the
@@ -378,7 +384,8 @@ distribution.
 
 \section{Other Parameters}
 \label{sec:w2v_other_paramters}
-This section describes the dditional 
+This section describes the additional paramters needed by the model and that
+affect the quality of the word vectors.
 
 
 \subsection{Dimension }
@@ -405,16 +412,13 @@ R(w_i) =
 w_{i-k},\ldots,w_{i-1},w_{i+1},\ldots,w_{i+k},
 \end{equation*}
 
-
-
 In  the \ac{CBOW} architecture, the window defines the number of words used to
 calculate the continuous bag of word ( equation (\ref{eq:cbow-mean}).  For
 the Skip-gram architecture, the window defines  the number of words that the
 $w_i$ needs to predict from a sentence.  Generally speaking,  larger
 context generally provide better word representation but at expense of
-computation time. However there is not a way to calculate this beforehand,
-and this will depend on the grammatical structure of the source language of
-the corpus used for learning the word representation.
+computation time. The window  is generally set empirically its  will depend
+on the grammatical structure of the source language of the corpus used and the task at hand.
 
 
 \subsection{Subsampling of Frequent Words}
@@ -429,35 +433,103 @@ word $w_i$ in the training set with a probability computed by the formula:
   \label{eq:w2v-subsampling}
   P(w_i)= 1 - \sqrt{\frac{t}{f(w_i)}}
 \end{equation}
-where $f(w_i)$  is the frequency of word $w_i$ and t is a threashold that can
+where $f(w_i)$  is the frequency of word $w_i$ and t is a threshold that can
 be specified  by the user at training time. The subsampling of words also
 affect indirectly the size of the window. In addition to the subsampling
 paramter, \textit{Word2vec} offer a parameter called 
 \textit{min-count} which discards all the words that appear less than a
 number of times in all the corpus.   As the subsampling and the removal of
-\textit{min-count} words occur  \emph{before} the actual contex t creation,
-the actual effective window size increase. These include words that are content-full and linearly far from the word in focus, therefore
-making the similarities more topical.
+\textit{min-count} words occur  \emph{before} the actual context creation,
+the actual effective window size increase. These include words that are
+content-full and linearly far from the word in focus, therefore making the similarities more topical.
 
 
 \section{Evaluation of the Word Representation}
 \label{sec:w2v-evaluation-word-repr}
 
+In their original paper \cite{DBLP:journals/corr/abs-1301-3781}, the authors
+introduced a comprehensive test that contained five types of semantic
+questions. In the original dataset  there were 8869 semantic and 10675
+syntactic questions. To create this set the authors compiled a list of
+similar word pairs manually and then they generated the list by
+connecting the word pairs. Table~\ref{tab:task_original_en} shows examples 
+examples from each category of tasks. 
+
+To evaluate the quality of the word vectors the question  are answer in the
+following manner: given the word pairs ($a$, $b$) and ($c$, $d$) a question
+is considered to be answered correctly if the for resulting vector $X$ the closest vector measured in
+cosine similarity is  $vector(d)$. $X$ is calculated by applying the following
+operation $X = vector(b) - vector(a) + vector(c)$.  Given two vectors $A$ and $B$, the
+cosine similarity is calculated in the following way: 
+
+$$\text{similarity} = \cos(\theta) = {A \cdot B \over \|A\| \|B\|}$$
+
+
+ For example  for the words
+($``small''$, $''smaller''$ ) and ($''big''$ ,$"bigger"$),
+the $vector("bigger")$ should be the closest to the resulting
+vector $X$. If the representation of the word in
+vector space is good, then it is possible to find the answer using such
+operation \cite{DBLP:journals/corr/abs-1301-3781}.
+
+As discussed in the first part of this work, the word representations
+capture different types of  similarities among words. Therefore, with the
+operation described above,  what is  being
+attempted is to answer the question ``\emph{What is the word that is similar to
+c in the same sense as b is similar to a?}''. 
+
+\renewcommand{\arraystretch}{1.3}
+
+\begin{table}[h]
+
+  \centering
+  \caption{Examples of the original types of syntactic questions in the
+    Semantic-Syntactic Word Relationship test as defined 
+    by \cite{DBLP:journals/corr/abs-1301-3781}. }
+  \label{tab:task_original_en}
+  \small
+  \begin{tabular}{ |l| |c|*{4}{c| |c| c | c }  }
+
+  \hline           
+  Type of Relationship &  \multicolumn{2}{c||}{Word Pair 1} &
+  \multicolumn{2}{c|}{Word Pair 2} \\  \hline           
+  Common capital city & Athens & Greece & Oslo  & Norway \\ 
+  All capital cities  & Astana & Kazakhstan &  Harare & Zimbabwe  \\
+  Currency & Angola & kwanza & Iran & rial \\  
+  City-in-state  & Chicago & Illinois & Stockton & California \\  
+  Man-Woman & brother & sister  & grandson & granddaughter \\  \hline  
+  Adjective to adverb & apparent & apparently & rapid & rapidly  \\  
+  Opposite & possibly & impossibly & ethical & unethical \\  
+  Comparative & great & greater & tough & tougher \\  
+  Superlative & easy & easiest & lucky & luckiest \\  
+  Present participle & think & thinking & read & reading \\  
+  Nationality adjective & Switzerland & Swiss & Cambodia  & Cambodian  \\  
+  Past tense & walking & walked & swimming & swam \\ 
+  Plural nouns  & mouse & mice & dollar & dollars \\  
+  Past verbs & work & works & speak  & speaks  \\  \hline  
+\end{tabular}
+\end{table}
 
 
 \section{Conclusion}
-
-
 \label{sec:sub-w2v-desc-conclusion}
-
+\textit{Word2vec} allow to train word vector representations from  large
+corpus of text in a efficient way. The vector  representations  capture semantic and
+syntactic relationship, relationships that can be explored via simple vector
+operations. In this chapter we described the  architecture, algorithm and techniques
+behind it.  There are two main differences between \textit{Word2vec} and a traditional \ac{NNLM}, first
+it does not care to estimate the actual probability of  a next word given a
+previous context, but only of obtaining good representation. In that sense
+\textit{Word2vec} is not a  language model, but a feature learning algorithm.  Second, it uses
+words not only from the past, as more traditional language models do, but
+also from the future, allowing the model learn complex relationships among
+words.  Finally, it is not a deep architecture. In fact, the architecture only
+contains a layer. This, among other things allows it efficiently train
+representations that are useful to improve existing \ac{NLP} tasks.
 
 
 
 %define the number of words  from the past and from the 
-
-
-
-
 % y. This formulation is impractical because the cost of computing
 % ∇ logp(wO|wI) is proportional to W, which is often large (105–107
 % terms).

@@ -140,39 +140,6 @@ representation for German.
 \section{Task Description}
 \label{sec:task_description}
 
-
-
-In their original paper \cite{DBLP:journals/corr/abs-1301-3781}, the authors
-introduced a comprehensive test that contained five types of semantic
-questions. In the original dataset  there were 8869 semantic and 10675
-syntactic questions. To create this set the authors compiled a list of
-similar word pairs manually and then they generated the list by
-connecting the word pairs. Table~\ref{tab:task_original_en} shows examples 
-examples from each category of tasks. 
-
-To evaluate the quality of the word vectors the question  are answer in the
-following manner: given the word pairs ($a$, $b$) and ($c$, $d$) a question
-is considered to be answered correctly if the for resulting vector $X$ the closest vector measured in
-cosine similarity is  $vector(d)$. $X$ is calculated by applying the following
-operation $X = vector(b) - vector(a) + vector(c)$.  Given two vectors $A$ and $B$, the
-cosine similarity is calculated in the following way: 
-
-$$\text{similarity} = \cos(\theta) = {A \cdot B \over \|A\| \|B\|}$$
-
-
- For example  for the words
-($``small''$, $''smaller''$ ) and ($''big''$ ,$"bigger"$),
-the $vector("bigger")$ should be the closest to the resulting
-vector $X$. If the representation of the word in
-vector space is good, then it is possible to find the answer using such
-operation \cite{DBLP:journals/corr/abs-1301-3781}.
-
-As discussed in the first part of this work, the word representations
-capture different types of  similarities among words. Therefore, with the
-operation described above,  what is  being
-attempted is to answer the question ``\emph{What is the word that is similar to
-c in the same sense as b is similar to a?}''. 
-
 % To compare the quality of different versions of word vectors, previous papers typically use a table
 % showing example words and their most similar words, and understand them intuitively. Although
 % it is easy to show that word France is similar to Italy and perhaps some other countries, it is much
@@ -181,54 +148,25 @@ c in the same sense as b is similar to a?}''.
 % example, word big is similar to bigger in the same sense that small is similar to smaller. Example
 % of another type of relationship can be word pairs big - biggest and small - smallest [20]. We further
 % denote two pairs of words with the same relationship as a question, as we can ask: ”What is the
-% word that is similar to small in the same sense as biggest is similar to big?”
+% word that is similar to small in the same sense as biggest is similar to
+% big?”
 
-In order to evaluate the performance of the word vectors in the same way but in other language a
+Section \ref{sec:w2v-evaluation-word-repr} described that approach of the
+authors of \textit{Word2vec} to evaluate the quality of the word vectors
+learned. In order to evaluate the performance of the word vectors in the same way but in other language a
 similar set of questions  needs to be created. Two approaches might be used
 to accomplish this. The words can be translated, either automatically or by hand, or the dataset can be
 generated from scratch in a similar manner as the original was.  In this work
-the translation was performed by hand using a German - English online dictionary \footnote{\url{http://dict.cc}} as guide and
-verified by two native speakers.
+the translation was performed by hand using a German - English online
+dictionary \footnote{\url{http://dict.cc}} as guide and verified by two native speakers.
 
 Regardless of the method chosen, some tasks of this set are biased towards
 the morphology of English and could not be easily mapped to another language,
-and in particular to German. Therefore a simple translation would not be
+and in particular to German. Therefore, a simple translation would not be
 enough to obtain a equivalent task set for another language. For that reason
 each of the original 14 tasks was analyzed to either adapt it to German or
-discard it completely. 
+discard it completely.  
 
-
-\renewcommand{\arraystretch}{1.3}
-
-\begin{table}[h]
-
-  \centering
-  \caption{Examples of the original types of syntactic questions in the
-    Semantic-Syntactic Word Relationship test as defined 
-    by \cite{DBLP:journals/corr/abs-1301-3781}. }
-  \label{tab:task_original_en}
-  \small
-  \begin{tabular}{ |l| |c|*{4}{c| |c| c | c }  }
-
-  \hline           
-  Type of Relationship &  \multicolumn{2}{c||}{Word Pair 1} &
-  \multicolumn{2}{c|}{Word Pair 2} \\  \hline           
-  Common capital city & Athens & Greece & Oslo  & Norway \\ 
-  All capital cities  & Astana & Kazakhstan &  Harare & Zimbabwe  \\
-  Currency & Angola & kwanza & Iran & rial \\  
-  City-in-state  & Chicago & Illinois & Stockton & California \\  
-  Man-Woman & brother & sister  & grandson & granddaughter \\  \hline  
-  Adjective to adverb & apparent & apparently & rapid & rapidly  \\  
-  Opposite & possibly & impossibly & ethical & unethical \\  
-  Comparative & great & greater & tough & tougher \\  
-  Superlative & easy & easiest & lucky & luckiest \\  
-  Present participle & think & thinking & read & reading \\  
-  Nationality adjective & Switzerland & Swiss & Cambodia  & Cambodian  \\  
-  Past tense & walking & walked & swimming & swam \\ 
-  Plural nouns  & mouse & mice & dollar & dollars \\  
-  Past verbs & work & works & speak  & speaks  \\  \hline  
-\end{tabular}
-\end{table}
 
 \section{Adapting the tasks to the German Language}
 \label{sec:adapt_task_german_lang}
