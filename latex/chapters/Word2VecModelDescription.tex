@@ -152,14 +152,6 @@ taken from the description  on the project web page.
 %%% Subsampling
 %%% Window
 
-
-
-\begin{figure}[h]
-    \centering
-    \caption{Skip-gram and \ac{CBOW} architecture}
-    \label{fig:skgram-cbow-architecture}
-\end{figure}
-
 \section{Word2vec Architectures}
 \label{sec:word2v-architectures}
 
@@ -177,8 +169,9 @@ of $N$ that is used per train cycle. That is both word from the past and the
 future are used to predict the word in the center of a sentence.
 
 
-\begin{figure}[h]
+\begin{figure}[hptb!]
     \centering
+    \includegraphics[width=0.6\textwidth]{images/word2vec-cbow-latex.pdf} 
     \caption{CBOW Architecture}
     \label{fig:cbow-architecture-alone}
 \end{figure}
@@ -238,8 +231,18 @@ to the \ac{NN} to predict words within certain range before and after
 it (i.e. it tries to predict the surrounding words or context). 
 \cite{DBLP:journals/corr/abs-1301-3781}. 
 
-Similarly to the \ac{CBOW}, with a sequence of training words $w_1,w_2,w_3,
-\dots, w_T$ the probability to maximize is give by
+
+\begin{figure}[hptb!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/word2vec-skipgram-latex.pdf} 
+    \caption{CBOW Architecture}
+    \label{fig:skipgram-architecture-alone}
+\end{figure}
+
+
+
+Similarly to  \ac{CBOW}, if a sequence of training words $w_1,w_2,w_3,
+\dots, w_T$ is given, the probability to maximize is give by
 
 
  \begin{equation}

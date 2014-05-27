@@ -99,7 +99,9 @@ and by the number of learned word features $d\ .$
 
 \begin{figure}[h]
     \centering
-    \caption{Feed Forward Neural Network Model Language Model Architecture}
+    \includegraphics[width=0.8\textwidth]{images/bengio-nnlm.pdf}
+    \caption{Feed Forward Neural Network Model Language Model Architecture.
+       $C(i)$ is the $i$-th word feature vector.  \cite{Bengio:2003:NPL:944919.944966}.}
     \label{fig:NNLM_architecture}
 \end{figure}
 
@@ -210,12 +212,13 @@ computed as follows \cite{conf/interspeech/MikolovKBCK10}:.
 \begin{equation} s_j(t) = f \left( \sum_{i}{x_i(t)u_{ij}}
   \right)   \end{equation}
 
-\begin{equation} s_j(t) = g \left( \sum_{j}{s_j(t)v_{kj}}
+\begin{equation}  y_v(t) = g \left( \sum_{j}{s_j(t)h_{kj}}
   \right)   \end{equation}
 
 
 Where   $f(z)$ is \textit{sigmoid} activation function and $g(z)$  is the
-traditional   \textit{softmax}. 
+traditional   \textit{softmax}.  $y_v(t)$ represents the probability of that
+the next word is $W_v$.
 
 Figure \ref{fig:RNNLM_architecture} despicts the architecture of the simple
 recurrent neural network this model is based on. Similar to the \ac{FNNLM},    $w(t)$ represents the word in time $t$ encoded using 1-of-$V$ coding.  $s(t-1)$ represents the output values in the
@@ -225,6 +228,7 @@ trained, the output represent the probability represented by equation (\ref{eq:l
 
 \begin{figure}[hptb!]
     \centering
+    \includegraphics[width=0.6\textwidth]{images/mikolov-rnnlm.pdf} 
     \caption{Recurrent Neural Network Language Model Architecture}
     \label{fig:RNNLM_architecture}
 \end{figure}
@@ -260,6 +264,8 @@ formulation. Thus, most of the complexity comes $H \times H$.
 \subsection{Mikolov's Neural Network Language Model}
 \label{sec:mikolov-neural-net-model}
 
+
+
 Mikolov neural network language model uses additional approach to the one
 described back in section \ref{subsec:fwd-neural-net-lm}.  The neural network
 architecture is split in two steps. In the first one the architecture trains
@@ -272,7 +278,10 @@ other models, the output layer  is a  softmax layer. The nework is trained
 using the standard \textit{backpropagation} algorithm
 \cite{conf/icassp/MikolovKBGC09}. 
 
-The second step consiste of  A $N$-gram network. The network is trained in a
+
+
+
+The second step consists of  A $N$-gram network. The network is trained in a
 similar waym, however the input vector does not encode previous word in
 history using 1-of-$K$ encoding, but is formed using $N-1$ projections from
 the  bigram network. These projections are the learned weights of dimension
@@ -280,11 +289,7 @@ $|D|$ learned by the big-gram network. Figure \ref{fig:mikolov_nnlm_architecture
 two-network architecture 
 
 
-\begin{figure}[hptb!]
-    \centering
-    \caption{Mikolov's Neural Network Language Model Architecture}
-    \label{fig:mikolov_nnlm_architecture}
-\end{figure}
+
 
 
 \subsubsection{Model Complexity}
@@ -310,7 +315,13 @@ improvement can be achieved by using hierarchical formulations of the softmax
 can be used. If it is used, most of the complexity  lies in the  $N \times D \times
 H$ term of $Q_2$.
 
-
+\begin{figure}[hptb!]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/mikolov-fnnl-latex.pdf} 
+    \caption{Mikolov's Neural Network Language Model Architecture}
+    \label{fig:mikolov_nnlm_architecture}
+\end{figure}
+  
 
 % \subsection{Mikolov Neural Network Model}
 
