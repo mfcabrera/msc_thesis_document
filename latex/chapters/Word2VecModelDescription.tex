@@ -3,31 +3,33 @@
 
 
 \section{Introduction}
-As described in  previous chapter,  continuous space language  models have
-demonstrated good results across a variety of tasks in the field of NLP.  As pointed out by
+Continuous space language  models
+learned by a neural network have
+demonstrated good results across a variety of tasks in the field of \ac{NLP}.  As pointed out by
 the authors, these continuous word vector representation achieves a level of
 generalization not possible with class traditional $N$-gram based models
-\cite{conf/icassp/MikolovKBGC09}. In addition to the language model, the word vector
-representations are learned in the initial layers of the \ac{NN}. These
+\cite{conf/icassp/MikolovKBGC09}. In addition to the language model itself,
+the word vector representations are learned in the initial layers of the
+\ac{NN}. These 
 induced representations  have been used successfully to improve the
 performance of existing \ac{NLP} tasks \cite{collobert:2008}
 \cite{Turian:2010:WRS:1858681.1858721}. 
 
 As discussed in section \ref{sec:mikolov-neural-net-model},  one of the way to learn a
-\ac{NNLM} is to learn the word vector using  a \ac{NN} with a single hidden
-layer. Then, these word vectors are used to  train another the final
-\ac{NNLM} \cite{conf/icassp/MikolovKBGC09}.   
+\ac{NNLM} is to learn the word vectors using  a \ac{NN} with a single hidden
+layer. Then, these word vectors are used to  train another \ac{NN}, in this 
+way obtaining   the final \ac{NNLM} \cite{conf/icassp/MikolovKBGC09}.   
 What is particular about this architecture is that they learn the  word
 vectors without  even constructing the complete language model.  This means
-in practice that the two step can be performed separately \cite{conf/icassp/MikolovKBGC09}. 
+that in practice,  the two step can be performed separately \cite{conf/icassp/MikolovKBGC09}. 
 
 This chapter describes in detail a recent approach to efficiently learn
 high-dimensional word representation \cite{DBLP:journals/corr/abs-1301-3781}.
 In other words, focusing only on the first part of the previously described 
 architecture. It has been found that the word vectors learned in this manner,
 not only capture linguistic regularities of words  but also semantic
-relationships. As the word vector generated from this architecture is used in
-through this work, therefore it is necessary to describe this model with more
+relationships. As the word vector generated from this architecture is used 
+through this work, it is necessary to describe this particular model with more
 detail.
 
 % making it  necessary to describe
@@ -37,7 +39,7 @@ The rest of the chapter is structured as follows: section
 \textit{Word2vec}.  Section \ref{sec:word2v-architectures} and
 \ref{sec:word2v-tran-algorithms} describe in more detail the available
 architecture and training algorithms. Finally, section
-\ref{sec:w2v_other_paramters} describe additional important parameters that
+\ref{sec:w2v_other_paramters} describe additional  parameters that
 directly affect the generated learned representations.
 
 % \section{Modern Neural Network Language Model Architectures}
@@ -72,8 +74,9 @@ directly affect the generated learned representations.
 \textit{Word2vec} is an open source project released in 2013 by the Tomas
 Mikolov,  Kai Chen, Greg Corrado, and Jeffrey Dean.  
 Its overall architecture has been described in several paper published at the
-time of its release \cite{DBLP:journals/corr/abs-1301-3781,MikolovSCCD13,conf/naacl/MikolovYZ13}
-and some previous wor \cite{mikolovphd2012}. The source code, sample corpus
+time of its release
+\cite{DBLP:journals/corr/abs-1301-3781,MikolovSCCD13,conf/naacl/MikolovYZ13} 
+and some previous work \cite{mikolovphd2012}. The source code, sample corpus
 and the dataset used to evaluate the quality of the word vectors  can be downloaded freely from the project's
  web page\footnote{http://https://code.google.com/p/word2vec/}.
 \textit{Word2vec}'s architecture
@@ -81,28 +84,29 @@ has its origin  in the architecture described back in section
 \ref{sec:mikolov-neural-net-model} where a \ac{NNLM} is learned separately. 
 First learning the word representation using a \ac{NN} and then learning then
 estimating equation (\ref{eq:lm_probability}) using a $N$-gram neural
-network.  \textit{Word2vec} in that sense is a simpler model, as it  does not try to
-learn the full probability distribution as a full \ac{NNLM} does. Instead, it
- focuses on learning good representations of words by  only performing  the first step
-of the aforementioned architecture.  In that sense, it is an
-unsupervised feature learning algorithm.
+network.  \textit{Word2vec} in that sense, it  is a simpler model, as it  does not
+try to learn the full probability distribution as a full \ac{NNLM} does.
+Instead, it  focuses on learning good representations of words by  only
+performing  the first step  of the aforementioned architecture. %  In that sense, it is an
+% unsupervised feature learning algorithm.
 
 As  described in section \ref{sec:nnlms-intro}, the complexity of all 
 these models arises from the non-linear layers  that allows the \ac{NN} to
-obtain complex representations.  \textit{Word2vec} removes the hidden layer 
-allowing it to be trained efficiently on much more data  \cite{DBLP:journals/corr/abs-1301-3781}.
+obtain complex representations.  \textit{Word2vec} removes the additional
+hidden layer  allowing it to be trained efficiently on much more data  \cite{DBLP:journals/corr/abs-1301-3781}.
 
 \textit{Word2vec} is not a single architecture or model, it is formed by a
 group of related architectures, learning algorithms, optimization 
 approaches and some tricks. The combination of all these characteristic
 allows the model  to learn word representation in a efficient
-way. It has been shown that these representations  capture semantic and syntactic
+way. It has been shown that these representations  capture semantic and
+syntactic 
 similarities as mean of vector offsets, allowing the model to answer complex
 semantic and syntactic questions by means 
 of simple vector operations   \cite{MikolovSCCD13}. This property  has also
 been used to perform word vector based translation \cite{DBLP:journals/corr/MikolovLS13}.  
 
-\textit{Word2vec} model can be characterized by the following properties:
+A model trained with \textit{Word2vec}  can be characterized by the following properties:
 
 
 \begin{itemize}
@@ -156,17 +160,17 @@ taken from the description  on the project web page.
 \label{sec:word2v-architectures}
 
 
-\subsection{Continuous Bag of Word (BOW) Architecture}
+\subsection{Continuous Bag of Word (CBOW) Architecture}
 
 This architecture is similar in spirit to the  \ac{FNNLM} described in section
 \ref{subsec:fwd-neural-net-lm} were a context of $n$ is used. However with two main differences. First the
 non-linear hidden layer is removed and second the projection layer is shared for
 all words (not just the projection matrix of word vectors). This means that
 all the words are projected to the same position and their vector averaged.
-Another difference with the presented \ac{FNNLM}  is that words from future are used. 
+% Another difference with the presented \ac{FNNLM}  is that words from future are used. 
 The training criterion is to correctly classify the middle word of a window
 of $N$ that is used per train cycle. That is both word from the past and the
-future are used to predict the word in the center of a sentence.
+future are used to predict the word in the center of a sentence. 
 
 
 \begin{figure}[hptb!]
@@ -185,7 +189,7 @@ of size $n$. Defining $C_m(t)$ as:
        C_{w_{t+j}}} } {2n}    
 \end{equation}
 
-The  objective  \ac{CBOW}  tries to maximize the average log probability:
+The  objective  \ac{CBOW}  ties to maximize the average log probability:
 
 
 \begin{equation}
@@ -207,7 +211,9 @@ With the probability  $p\left( w_O \, |\, v \right)$  defined as:
 
 Where $C_w$ and $C^{'}_w$ are the input representation (the weights from the input layer to the
 projection layer) and output representation (the weights from
-projection layer to the softmax layer). 
+projection layer to the softmax layer) respectively.   Figure
+\ref{fig:cbow-architecture-alone} shows a graphical representation of
+\ac{CBOW} architecture.
 
 Similarly as other \ac{NNLM}s, the complexity of this architecture
 is defined by its structure:
@@ -225,17 +231,19 @@ probability distribution, as described for all the \ac{NNLM}s in section \ref{se
 
 The Skip-gram architecture is similar to \ac{CBOW}, but it instead of
 predicting the current word based on the context, it tries to maximize
-classification of word based on another word on the same sentence
+classification of a  word based on another word on the same sentence
 \cite{DBLP:journals/corr/abs-1301-3781}.  Each  word is used as input
-to the \ac{NN} to predict words within certain range before and after 
+to the \ac{NN} that  predicts words within certain range before and after 
 it (i.e. it tries to predict the surrounding words or context). 
-\cite{DBLP:journals/corr/abs-1301-3781}. 
+\cite{DBLP:journals/corr/abs-1301-3781}. Figure
+\ref{fig:skipgram-architecture-alone} show depicts this approach graphically.
 
 
 \begin{figure}[hptb!]
     \centering
     \includegraphics[width=0.6\textwidth]{images/word2vec-skipgram-latex.pdf} 
-    \caption{CBOW Architecture}
+    \caption{The Skip-gram architecture. The current word $w(t)$ is used to
+      predict the  surrounding words.}
     \label{fig:skipgram-architecture-alone}
 \end{figure}
 
@@ -244,16 +252,15 @@ it (i.e. it tries to predict the surrounding words or context).
 Similarly to  \ac{CBOW}, if a sequence of training words $w_1,w_2,w_3,
 \dots, w_T$ is given, the probability to maximize is give by
 
-
  \begin{equation}
   \label{eq:sumprob-cbow}
    \frac{1}{T} \sum^{T}_{t=1}{\sum_{-r \leq j \leq r, j \neq 0}\text{log} \, p
      \left( w_{t+j} \, |\, w_t  \right)}
 \end{equation}
 
-with $r$ is the size of the window, i.e. the training context is $2r$.  Increasing
-this range improves quality of the resulting word vectors but it also
-increases the computational complexity.
+with $r$ is the size of the window, i.e. the training context is $2r$.
+Increasing this range improves quality of the resulting word vectors but it
+also increases the computational complexity.
 
 Using the softmax function the probability  $p(w_O|w_I)$ is given by:
 
@@ -264,8 +271,8 @@ Using the softmax function the probability  $p(w_O|w_I)$ is given by:
 \end{equation}
 
 
-Where $C_w$ and $C^{'}_w$  has the same meaning as in the \ac{CBOW} formulation,  and $V$ is the number of
-words in the vocabulary.
+Where $C_w$ and $C^{'}_w$  has the same meaning as in the \ac{CBOW}
+formulation,  and $V$ is the number of words in the vocabulary.
 
 The training complexity of this architecture is proportional to
 \cite{DBLP:journals/corr/abs-1301-3781}:
@@ -280,15 +287,16 @@ Where R is the maximum distance of words. A random number $r$ in the range $<
 
 \section{Word2vec Training Algorithms}
 \label{sec:word2v-tran-algorithms}
-Another of the principal of  \textit{Word2vec} is the training algorithms, in
-fact, the selection of the training algorithm in training time has a large  impact on
-both the quality of the learned vector representation,  and in the
+Another one of the principal  characteristics of  \textit{Word2vec} is the
+available training algorithms. In
+fact, the selection of the training algorithm has a large  impact on
+ the quality of the learned vector representation,  and in the
 computational performance.
 
 The formulations for calculating $p(w_i|v)$ and  $p(w_O|w_I)$  ( equations
 (\ref{eq:logp-cbow})  and  (\ref{eq:logp-skgram}) ) are impractical because
 the cost of computing them is proportional to $V$, which is often large.
-Therefore computational efficient alternatives need to be devised in order to
+Therefore, computational efficient alternatives need to be devised in order to
 train this model in real world data sets. Here when the training algorithms
 come into play, as they are alternative to this computationally expensive
 calculation. 
@@ -298,7 +306,7 @@ calculation.
 
 
 An efficient alternative to calculating the full softmax is the hierarchical
-softmax. In the context of \ac{NNLM}s was first introduced by Morin and
+softmax. In the context of \ac{NNLM}s, it was first introduced by Morin and
 Bengio \cite{Morin05hierarchicalprobabilistic}. Hierarchical softmax is more
 computationally efficient that a normal softmax layer because instead of
 evaluating output nodes $V$ (i.e. each of the words on the output layer) to
@@ -307,20 +315,20 @@ $\text{log}_2 \left( V \right)$ nodes \cite{MikolovSCCD13}.
 
 This is achieved by  using a binary tree to represent the output layer with
 the $V$ of the vocabulary as its leaves, for each node, explicitly represent
-the relative probabilities of its child nodes. Previous work report several
+the relative probabilities of its child nodes. Previous work reports several
 strategies to create the binary tree \cite{Mnih08ascalable}, all of them with
-different effects on the performance. The authors of \textit{Word2vec} use a Huffman Tree  to represent the
-hierarchical softmax.
+different effects on the performance. The authors of \textit{Word2vec} use a
+Huffman Tree  to represent the hierarchical softmax.
 
 To build the tree, the probabilities are calculated beforehand just counting
-each occurrence of  the word in the text
-and diving it by the total number of words (the unigram probability).  With these probabilities the
+each occurrence of  the word in the text 
+and diving it by the total number of words (the unigram probability).  With these probabilities, the
 Huffman codes are calculated \cite{huf52}, and thus the tree is built. The
 words with high probabilities get shorter codes ending up on top tree. As the
-probabilities of the child nodes can be obtained it is not necessary to visit
-all then children but just take it from that node. Figure
+probabilities of the child nodes can be obtained from its parent,  it is not
+necessary to visit all then children but just take it from that node. Figure
 \ref{fig:huffam-tree-w2v-example} shows a example of a how this Huffman tree
-would look if  created from a imaginary and  highly unlikely corpus. 
+would look if created from a imaginary and  highly unlikely corpus. 
 
 
 % Use this to generate the initial graphviz file: http://huffman.ooz.ie/

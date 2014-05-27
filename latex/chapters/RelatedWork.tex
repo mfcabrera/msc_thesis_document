@@ -36,18 +36,18 @@ curse of dimensionality \cite{Bengio:2008}. In other words, a \ac{NN} is
 used to estimate the probability described  by equation (\ref{eq:lm_probability}) based on a sequence of
 previous words.
 
-The advantage  using  distributed representations  is that they allows
+The advantage  using  distributed representations  is that they allow
 the model to generalize well to sequences that are not in the set of training
 word sequences, but that are similar in terms of their features. Because neural networks tend to map nearby inputs
 to nearby outputs, the predictions corresponding to word sequences with
 similar features are mapped to similar predictions. \cite{Bengio:2008,Bengio:2003:NPL:944919.944966}
 
-However, Due to the nature the architecture, many of these models suffer
-performance issues the hidden layers and output layer of the \ac{NN} are
-generally the bottleneck.  In order to be able to compare the different
-models in term of their complexity it is necessary then to define the
-complexity of  their architecture. All of these models have a complexity proportional to 
-\cite{DBLP:journals/corr/abs-1301-3781}:
+However, due to the nature the multilayer architecture common of neutral
+network, \ac{NNLM}  suffer of 
+performance issues, where the hidden layers and the output layer are
+generally the bottleneck. In order to be able to compare the different
+models in term of their computational, it is necessary then to define it in
+term of their architecture. For all the models discussed here, the  complexity proportional to \cite{DBLP:journals/corr/abs-1301-3781}:
 
 \begin{center}
 \begin{equation} O = E \times T \times Q,   \end{equation}
@@ -56,9 +56,9 @@ complexity of  their architecture. All of these models have a complexity proport
 where $E$ is number of the training epochs, $T$ is the number of the words in
 the training set and $Q$ depends on each architecture. Common choice is $E$ = 3-50 and $T$ up to one billion.
 All models are trained using stochastic gradient descent and backpropagation
-\cite{Bengio:2003:NPL:944919.944966}\cite{DBLP:journals/corr/abs-1301-3781}.
+\cite{Bengio:2003:NPL:944919.944966,DBLP:journals/corr/abs-1301-3781}.
 
-The following subsection describe each of the most popular  model and their
+The following section describe each of the most popular models and their
 associated complexity $Q$.
 
 \subsection{Feedforward Neural Network Language Model}
@@ -66,7 +66,7 @@ associated complexity $Q$.
 
 % Section \ref{sec:relwork-language-models} described the generalities of
 % language models in the context of \ac{NLP}.  In that section we described
-% that the 
+% that the  
 
 In the \ac{FNNLM} that was introduced by Bengio
 \cite{Bengio:2003:NPL:944919.944966},  the probabilistic prediction $P(w_t | w_{t-n+1}, \ldots w_{t-1})$ described
@@ -82,7 +82,7 @@ feature vectors:
 \end{equation}
 The probabilistic prediction of the next word, starting from $x$
 is then obtained using a standard artificial neural network architecture
-for probabilistic classification, using the softmax activation function at the output units (Bishop, 1995):
+for probabilistic classification, using the softmax activation function at the output units \cite{Bishop:1995:NNP:525960}:
 \begin{equation}
  P(w_t=k | w_{t-n+1}, \ldots w_{t-1}) = \frac{e^{a_k}}{\sum_{l=1}^N e^{a_l}}
 \end{equation}
@@ -99,7 +99,7 @@ and by the number of learned word features $d\ .$
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/bengio-nnlm.pdf}
+    \includegraphics[width=0.7\textwidth]{images/bengio-nnlm.pdf}
     \caption{Feed Forward Neural Network Model Language Model Architecture.
        $C(i)$ is the $i$-th word feature vector.  \cite{Bengio:2003:NPL:944919.944966}.}
     \label{fig:NNLM_architecture}
@@ -149,7 +149,7 @@ It consists of three layers, input, projection and output layers. The N
 previous word are encoded using 1-of-$V$ encoding, where $V$ is the size
 of the vocabulary. $N$ previous word representation are concatenated using a
 shared projection matrix to the projection layer $P$ (dimensionality $N
-\times D$).  This layer is then conected to a hidden layer which is in turn
+\times D$).  This layer is then connected to a hidden layer which is in turn
 used to compute the probability distribution over all the words in the
 vocabulary resulting in an output layer with dimensionality $V$. Therefore,
 the computational complexity of each training example is:
@@ -166,7 +166,7 @@ versions of the softmax \cite{Morin05hierarchicalprobabilistic,6163930}.
 The other alternative is to avoid is to avoid  normalized models by finding
 a approximation to find the likelihood gradient \cite{NIPS2013_5165} . If binary tree representations are
 used, the number of output units can decrease down to $log_2(V)$. Most
-of the complexity will be then caused by  $N \times D \times H$.
+of the complexity will be then caused by the term  $N \times D \times H$.
 
 % Of input, projection, hidden and output layers. At the input layer, N previous words are encoded
 % using 1-of-V coding, where V is size of the vocabulary. The input layer is then projected to a
@@ -192,12 +192,12 @@ of the complexity will be then caused by  $N \times D \times H$.
 
 \subsection{Recurrent Neural Net Language Model}
 
-One of the major issues of the \ac{FNNLM}  approach is that
+One of the major issues of the \ac{FNNLM} approach is that
 it has to used a fixed context that need to be specified at training time.
-Therefore, the neural network only can see a limited number of preceding words when
-predicting the next one.  A language model based on recurrent neural networks  do not use a context
+Therefore, the neural network only can see a limited number of preceding
+words when predicting the next one.  A language model based on recurrent neural networks  do not use a context
 with a size limit.  By using recurrent connection the information cycle
-inside the networks for arbitraily long time. the \ac{RNNLM} proposed by
+inside the networks for arbitrarily long time. the \ac{RNNLM} proposed by
 Mikolov use the so-called simple
 recurrent neural network model. The network has an input layer $x$, hidden
 layer $s$ (also called context layer or state) and output layer $y$. Input to
@@ -220,11 +220,6 @@ Where   $f(z)$ is \textit{sigmoid} activation function and $g(z)$  is the
 traditional   \textit{softmax}.  $y_v(t)$ represents the probability of that
 the next word is $W_v$.
 
-Figure \ref{fig:RNNLM_architecture} despicts the architecture of the simple
-recurrent neural network this model is based on. Similar to the \ac{FNNLM},    $w(t)$ represents the word in time $t$ encoded using 1-of-$V$ coding.  $s(t-1)$ represents the output values in the
-hidden layer from the previous time step. Therefore $x(t)$, the input, has
-the size of the vocabulary $V$ and of vector $s(t-1)$. After the network is
-trained, the output represent the probability represented by equation (\ref{eq:lm_probability}).  \cite{mikolovphd2012}.
 
 \begin{figure}[hptb!]
     \centering
@@ -233,15 +228,23 @@ trained, the output represent the probability represented by equation (\ref{eq:l
     \label{fig:RNNLM_architecture}
 \end{figure}
 
-The network is trained by  stochastic gradient descent using the
-\textit{backpropagation} algorithm \cite{Bishop:1995:NNP:525960}.
+
+
+Figure \ref{fig:RNNLM_architecture} depicts the architecture of the simple
+recurrent neural network this model is based on. Similar to the \ac{FNNLM},    $w(t)$ represents the word in time $t$ encoded using 1-of-$V$ coding.  $s(t-1)$ represents the output values in the
+hidden layer from the previous time step. Therefore $x(t)$, the input, has
+the size of the vocabulary $V$ and of vector $s(t-1)$. After the network is
+trained, the output represent the probability represented by equation
+(\ref{eq:lm_probability}).  \cite{mikolovphd2012}. The network is trained
+using stochastic gradient descent using the
+\textit{backpropagation} algorithm \cite{conf/interspeech/MikolovKBCK10,Bishop:1995:NNP:525960}.
 
 
 \subsubsection{Model Complexity}
 \label{sec:sub:sub:mikolov_rnnlm_complexity}
 
 Assuming that the hidden layer and the word representation share the same
-dimensionality with the hidden layer, the complexity per training example of the RNN model is
+dimensionality with the hidden layer, the complexity per training example of the \ac{RNNLM} model is
 given by:
 
 
@@ -261,45 +264,38 @@ formulation. Thus, most of the complexity comes $H \times H$.
 % A major deficiency of Bengio’s approach is that a feedfor- ward network has to use fixed length context that needs to be specified ad hoc before training. Usually this means that neural networks see only five to ten preceding words when predicting the next one. It is well known that humans can exploit longer context with great success. Also, cache models provide comple- mentary information to neural network models, so it is natural to think about a model that would encode temporal information implicitly for contexts with arbitrary lengths.
 
 
-\subsection{Mikolov's Neural Network Language Model}
+\subsection{Mikolov Neural Network Language Model}
 \label{sec:mikolov-neural-net-model}
 
 
 
-Mikolov neural network language model uses additional approach to the one
-described back in section \ref{subsec:fwd-neural-net-lm}.  The neural network
-architecture is split in two steps. In the first one the architecture trains
-a bigram neural network. Given a word $w$ from a vocabulary $V$, the neural
+Mikolov neural network language model use a similar  approach to the
+\ac{NNLM} described  \ref{subsec:fwd-neural-net-lm}. However, in this model  the neural
+network architecture is split in two steps. In the first section of  the
+architecture  a bigram neural network is trained. Given a word $w$ from a vocabulary $V$, the neural
 network tries to estimate the the probability distribution of the next word
 in the text. Both the input and output are of size $|V|$, were the words a
-usually is encoded with 1-of-$K$ encoding, with $K=|V|$.  Theres is one hidden layer of
-size $|D|$ has an arbitrary size (reported by the authors  to range from 20-60). As with the
-other models, the output layer  is a  softmax layer. The nework is trained
-using the standard \textit{backpropagation} algorithm
-\cite{conf/icassp/MikolovKBGC09}. 
-
-
-
+usually is encoded with 1-of-$K$ encoding, with $K=|V|$.  There is is one hidden layer of
+size $|D|$. This layer is of  arbitrary size (reported by the authors  to
+range from 20-60). As with other models, the output layer  is a  softmax
+layer. The network is trained  using the standard \textit{backpropagation}
+algorithm \cite{conf/icassp/MikolovKBGC09}. 
 
 The second step consists of  A $N$-gram network. The network is trained in a
-similar waym, however the input vector does not encode previous word in
-history using 1-of-$K$ encoding, but is formed using $N-1$ projections from
+similar way, however the input vector does not encode previous words using 1-of-$K$ encoding, but is formed using $N-1$ projections from
 the  bigram network. These projections are the learned weights of dimension
-$|D|$ learned by the big-gram network. Figure \ref{fig:mikolov_nnlm_architecture} show a schematic of the
-two-network architecture 
-
-
-
+$|D|$ learned by the big-gram network. Figure
+\ref{fig:mikolov_nnlm_architecture} show a schematic of the two-network architecture.
 
 
 \subsubsection{Model Complexity}
 
-As this model is formed by two parts, the model complexity depends wheter the
-full model is desired to be estimated or not. If one is only interested in
-the word representations, i.e. the projections from the big-gram network the
-complexity is reduced  by the simplicity of the model, regardless of the
-quality of the representation obtained.  As reference the full model
-complexity is described: 
+As this model is composed of two parts, the model complexity depends whether
+the full language model is to be learned or not. If one is only interested in
+the word representations, i.e. the projections from the big-gram network,  the
+complexity is reduced to the complexity of the bigram network, regardless of
+the quality of the representation obtained.  The full model
+complexity is given by: 
 
 
 \begin{equation} Q_1 = V \times D + D \times V  \end{equation}
@@ -327,37 +323,37 @@ H$ term of $Q_2$.
 
 
 
-\section{Deep Learning}
-\label{sec:deep_learning}
+% \section{Deep Learning}
+% \label{sec:deep_learning}
 
 
-\section{Represenation of Text}
-\label{sec:rel_represenation_text}
+% \section{Represenation of Text}
+% \label{sec:rel_represenation_text}
 
 
-\subsection{Local Representations}
-\label{sec:rel_local_representation}
+% \subsection{Local Representations}
+% \label{sec:rel_local_representation}
 
-\subsubsection{N-grams}
-\label{sec:sub_ngrams}
+% \subsubsection{N-grams}
+% \label{sec:sub_ngrams}
 
-\subsubsection{Bag-of-words}
-\label{sec:rel_bow}
+% \subsubsection{Bag-of-words}
+% \label{sec:rel_bow}
 
-\subsubsection{1-of-N coding}
-\label{sec:1_of_coding}
+% \subsubsection{1-of-N coding}
+% \label{sec:1_of_coding}
 
-\subsection{Continuous Representations}
-\label{sec:sub_continuous_representation}
+% \subsection{Continuous Representations}
+% \label{sec:sub_continuous_representation}
 
-\subsubsection{Latent Semantic Analysis}
-\label{sec:rel_local_representation}
+% \subsubsection{Latent Semantic Analysis}
+% \label{sec:rel_local_representation}
 
-\subsubsection{Latent Dirichlet Allocation}
-\label{sec:rel_lda}
+% \subsubsection{Latent Dirichlet Allocation}
+% \label{sec:rel_lda}
 
-\subsubsection{Distributed Representations}
-\label{sec:dis_rep}
+% \subsubsection{Distributed Representations}
+% \label{sec:dis_rep}
 
 
 
