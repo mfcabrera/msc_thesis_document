@@ -479,9 +479,9 @@ similar word pairs manually and then they generated the list by
 connecting the word pairs. Table \ref{tab:task_original_en} shows  
 examples from each category of the original tasks. 
 
-To evaluate the quality of the word vectors the question  are answer in the
+To evaluate the quality of the word vectors, questions  are answered in the
 following manner: given the word pairs ($a$, $b$) and ($c$, $d$) a question
-is considered to be answered correctly if the for resulting vector $X$ the closest vector measured in
+is considered to be answered correctly if  for the resulting vector $X$ the closest vector measured in
 cosine similarity is  $vector(d)$. $X$ is calculated by applying the following
 operation $X = vector(b) - vector(a) + vector(c)$.  Given two vectors $A$ and $B$, the
 cosine similarity is calculated in the following way: 
@@ -489,17 +489,19 @@ cosine similarity is calculated in the following way:
 $$\text{similarity} = \cos(\theta) = {A \cdot B \over \|A\| \|B\|}$$
 
 
- For example  for the words
-($``small''$, $''smaller''$ ) and ($''big''$ ,$"bigger"$),
-the $vector("bigger")$ should be the closest to the resulting
-vector $X$. If the representation of the word in
-vector space is good, then it is possible to find the answer using such
-operation \cite{DBLP:journals/corr/abs-1301-3781}.
+As the word representations capture different types of  similarities among
+words, that are expressed in linear relationship among the vectors. With the
+operation described above,  what is  being attempted is to answer the
+question ``\emph{What is the word that is similar to 
+c in the same sense as b is similar to a?}''.
 
-The word representations capture different types of  similarities among words. Therefore, with the
-operation described above,  what is  being
-attempted is to answer the question ``\emph{What is the word that is similar to
-c in the same sense as b is similar to a?}''. 
+For example  for the words ($``small''$, $''smaller''$ ) and ($''big''$ ,$"bigger"$),
+the $vector("bigger")$ should be the closest to the resulting
+vector $X$.   If the representation of the word in
+vector  is good, then it is possible to find the answer to this question
+using  operation \cite{DBLP:journals/corr/abs-1301-3781}.
+
+
 
 \renewcommand{\arraystretch}{1.3}
 
