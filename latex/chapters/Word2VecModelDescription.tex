@@ -28,7 +28,12 @@ high-dimensional word representation \cite{DBLP:journals/corr/abs-1301-3781}.
 In other words, focusing only on the first part of the previously described 
 architecture. It has been found that the word vectors learned in this manner,
 not only capture linguistic regularities of words  but also semantic
-relationships. As the word vector generated from this architecture is used 
+relationships. These regularities can be represented as linear translations.
+For example, the result of a vector calculation $vector(``Madrid'')$ -
+$vector(``Spain'')$ + $vector(``France'')$ is closer to $vector(``Paris'')$ than to any
+other word vector. \cite{DBLP:journals/corr/abs-1301-3781,MikolovSCCD13,conf/naacl/MikolovYZ13}
+
+As the word vector generated from this architecture is used 
 through this work, it is necessary to describe this particular model with more
 detail.
 
@@ -78,7 +83,7 @@ time of its release
 \cite{DBLP:journals/corr/abs-1301-3781,MikolovSCCD13,conf/naacl/MikolovYZ13} 
 and some previous work \cite{mikolovphd2012}. The source code, sample corpus
 and the dataset used to evaluate the quality of the word vectors  can be downloaded freely from the project's
- web page\footnote{http://https://code.google.com/p/word2vec/}.
+ web page\footnote{\url{https://code.google.com/p/word2vec/}}.
 \textit{Word2vec}'s architecture
 has its origin  in the architecture described back in section 
 \ref{sec:mikolov-neural-net-model} where a \ac{NNLM} is learned separately. 
@@ -204,8 +209,8 @@ With the probability  $p\left( w_O \, |\, v \right)$  defined as:
 
 \begin{equation}
   \label{eq:logp-cbow}
-  p(w_O|v) = \frac{\text{exp}\left(C^{'}_{w_o}\,^\top\,v \right)
-  }{\sum^{V}_{w=1} \text{exp} \left( C^{'}_w \,^\top\, v \right)   }  
+  p(w_O|v) = \frac{e^{\left(C^{'}_{w_o}\,^\top\,v \right)}
+  }{\sum^{V}_{w=1} e^{ \left( C^{'}_w \,^\top\, v \right)  } }  
 \end{equation}
 
 
@@ -266,8 +271,8 @@ Using the softmax function the probability  $p(w_O|w_I)$ is given by:
 
 \begin{equation}
   \label{eq:logp-skgram}
-  p(w_O|w_I) = \frac{\text{exp}\left(C^{'}_{w_O}\,^\top\,C_{w_I} \right)
-  }{\sum^{V}_{w=1} \text{exp} \left( C^{'}_w \,^\top\, C_{w_I} \right)   }  
+  p(w_O|w_I) = \frac{e^{\left(C^{'}_{w_O}\,^\top\,C_{w_I} \right)}
+  }{\sum^{V}_{w=1} e^{\left( C^{'}_w \,^\top\, C_{w_I} \right) } }  
 \end{equation}
 
 
@@ -336,7 +341,11 @@ would look if created from a imaginary and  highly unlikely corpus.
 
 \begin{figure}[h]
     \centering
-    \caption{Huffman tree in \textit{Word2vec example}}
+    \includegraphics[width=0.8\textwidth]{images/htree.pdf} 
+    \caption{And example of a Huffman binary tree used to calculate the
+      hierarchical softmax. This is a small imaginary corpus of 8 words. The
+      leaf nodes contain the words, the probability and the Huffman codes.
+      Inner nodes contain just the probabilities of its children. }
     \label{fig:huffam-tree-w2v-example}
 \end{figure}
 
@@ -351,15 +360,19 @@ hierarchical softmax defines the $p(w_O|w_I)$  by \cite{MikolovSCCD13} :
 
 \begin{equation}
    \label{eq:hierarchical-softmax-prob}
-  p(w_O|w_I)  = \prod^{L(w)-1}_{j=1}\sigma\left( [\![n(w,j + 1) = ch(n(w,j))   ]\!] \cdot C^{'}_{n(w,j)}  \,^\top\, C_{w_I}   \right) 
+  p(w|w_I)  = \prod^{L(w)-1}_{j=1}\sigma\left( [\![n(w,j + 1) = ch(n(w,j))   ]\!] \cdot C^{'}_{n(w,j)}  \,^\top\, C_{w_I}   \right) 
 \end{equation}
-Where $\sigma(x) = 1/(1 + \text{exp}(-x)) $.  Thus the cost of computing the
-log-probability and the gradient is proportional to $L(w_O)$ which for a
+Where $\sigma(x) = 1/(1 + \text{exp}(-x)) $. In other words,  when
+calculating the softmax only the nodes on the way to the leaf node
+representing the $w$ are used. And the softmax objective is to predict the
+Huffman code of it (i.e. the size of the Huffman code is the length of the
+path $L(w)$).  Thus, the cost of computing the
+log-probability and the gradient is proportional to $L(w)$ which for a
 binary tree is not greater than $\text{log}_2(V)$.   $C_{w_{I}}$ is again the
 representation  of word $w_{I}$  but   $  C^{'}_{n(w,j)}
 $ is the projection of the node $n$ on the tree.  So the the number of output
 nodes is also  approximately $\text{log}_2(V)$. A equivalent model replacing
-$C_{w_I}$ by $v$ is easily constructed for the \ac{CBOW} architecture.
+$C_{w_I}$ by $v$ is easily constructed for the \ac{CBOW} architecture.  .  
 
 \subsection{Negative Sampling}
 
@@ -388,7 +401,7 @@ samples \cite{MikolovSCCD13}.  Equivalently to  hierarchical softmax, a formulat
 In the \textit{Word2vec} implementation, the
 noise distribution  $P_n(w)$ is the unigram distribution $U(w)$ raised to the
 $3/4rd$. This was selected by the authors empirically given that outperformed
-other alternative distribution such as the unigram and the uniform
+other alternative distributions such as the standard unigram and the uniform
 distribution. 
 
 
@@ -455,7 +468,7 @@ the actual effective window size increase. These include words that are
 content-full and linearly far from the word in focus, therefore making the similarities more topical.
 
 
-\section{Evaluation of the Word Representation}
+\section{Evaluation of the Word Representations}
 \label{sec:w2v-evaluation-word-repr}
 
 In their original paper \cite{DBLP:journals/corr/abs-1301-3781}, the authors
@@ -463,8 +476,8 @@ introduced a comprehensive test that contained five types of semantic
 questions. In the original dataset  there were 8869 semantic and 10675
 syntactic questions. To create this set the authors compiled a list of
 similar word pairs manually and then they generated the list by
-connecting the word pairs. Table~\ref{tab:task_original_en} shows examples 
-examples from each category of tasks. 
+connecting the word pairs. Table \ref{tab:task_original_en} shows  
+examples from each category of the original tasks. 
 
 To evaluate the quality of the word vectors the question  are answer in the
 following manner: given the word pairs ($a$, $b$) and ($c$, $d$) a question
@@ -483,8 +496,7 @@ vector $X$. If the representation of the word in
 vector space is good, then it is possible to find the answer using such
 operation \cite{DBLP:journals/corr/abs-1301-3781}.
 
-As discussed in the first part of this work, the word representations
-capture different types of  similarities among words. Therefore, with the
+The word representations capture different types of  similarities among words. Therefore, with the
 operation described above,  what is  being
 attempted is to answer the question ``\emph{What is the word that is similar to
 c in the same sense as b is similar to a?}''. 
