@@ -1,0 +1,45 @@
+/* 
+  Huffman Tree DOT graph.
+
+  DOT Reference :  http://www.graphviz.org/doc/info/lang.html
+                   http://en.wikipedia.org/wiki/DOT_language
+  Timestamp     :  1401213702 
+  Phrase        :  'CCCCCCCCCCPPPPTTYYAR'
+
+  Generated on http://huffman.ooz.ie/
+  */
+
+/* 
+  Huffman Tree DOT graph.
+
+  DOT Reference :  http://www.graphviz.org/doc/info/lang.html
+                   http://en.wikipedia.org/wiki/DOT_language
+  Timestamp     :  1401217483 
+  Phrase        :  'CCCCCPPTTYYYARRIOOKK'
+
+  Generated on http://huffman.ooz.ie/
+*/
+
+digraph G {
+    edge [label=0];
+    graph [ranksep=0];
+    O [shape=record, label="{{or|0.1}|000}"];
+    P [shape=record, label="{{power|0.1}|001}"];
+    A [shape=record, label="{{after|0.05}|0100}"];
+    I [shape=record, label="{{inclusion|0.05}|0101}"];
+    K [shape=record, label="{{know|0.1}|011}"];
+    AIK [label=0.2];
+    C [shape=record, label="{{common|0.25}|10}"];
+    Y [shape=record, label="{{you|0.15}|110}"];
+    R [shape=record, label="{{record|0.1}|1110}"];
+    T [shape=record, label="{{towards|0.1}|1111}"];
+    RT [label=0.2];
+    1.0 -> 0.4 -> 0.2 -> O;
+    AIK -> 0.1 -> A;
+    0.6 -> C;
+    0.35 -> Y;
+    RT -> R;0.2 -> P [label=1];
+    0.1 -> I [label=1];
+    0.4 -> AIK -> K [label=1];
+    1.0 -> 0.6 -> 0.35 -> RT -> T [label=1];
+}
