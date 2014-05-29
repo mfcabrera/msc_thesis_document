@@ -1,14 +1,128 @@
-  
-\chapter{Related Work}
+
+\chapter{Representation of Text and Applications}
 \label{chap:related_work}
 
-\section{Natural Language Processing}
-\label{sec:rel_nlp}
+\section{Deep Learning and Representation Learning}
+ \label{sec:deep_learning}
 
-\section{Language Models}
+\section{Statistical Natural Language Processing}
+\label{sec:rel_nlp}
+Natural language processing \ac{NLP} is a field of computer science,
+artificial intelligence, and linguistics that studies efficient mechanisms to
+provide natural language understanding and generation  machines. 
+Statistical \ac{NLP} comprises all quantitative approaches to automated
+language processing, including probabilistic modeling, information theory,
+information theory and linear algebra \cite{Manning:1999:FSN:311445}.  Modern
+\ac{NLP}  techniques,  make also use of  machine learning and other data
+driven techniques.
+
+Major tasks of \ac{NLP} include  \ac{POS} (detecting part of speech in a
+sentence), \ac{NER}  (Determining which items of a sentence map to proper
+names, e.g. person, location, etc.),   Sentiment Analysis (Extracting
+subjective information usually from a set of documents), among other. 
+In some cases, sets of related tasks are grouped into subfields that are often
+considered separately from \ac{NLP}. \ac{IR} is concerned with storing,
+searching, and retrieving information, in particular  information stored as
+text. Although considered a separate field, many tasks of \ac{IR} such a
+\ac{TC} relies on \ac{NLP} methods. Thus, there is an overlap between the two
+fields for several tasks.
+
+
+
+\section{Represenations of Text}
+ \label{sec:rel_represenation_text}
+  Many of the tasks of \ac{NLP} and \ac{IR} deal with textual data. Therefore
+  the way  of representing this information is of key importance and affect
+  directly the performance of the methods.  For  Statistical and machine
+  learning techniques, these representations become the input features of
+  such algorithms. Thus, using appropriate representation  becomes really
+  important as the suitability of the representation  depends on the specific
+  task.
+  
+  Text can be represented at several abstraction level.  The most of the
+  common work at the document level, representing the complete document as a
+  mathematical object (e.g. a vector). Other representation work based on
+  sequence of words extracted from a text, i.e. $n$-grams or at word level
+  (i.e. word vector embedding). Based on the characteristics of the
+  representation they can be classified as local or continuous. 
+ 
+  
+
+\subsection{Local Representations}
+ \label{sec:rel_local_representation}
+ Local representation is a vector of features which characterize the
+ meaning of the symbol. These  features  are mutually exclusive. That is, each feature
+ represent a unique characteristic.
+ 
+ \subsubsection{$N$-grams}
+ \label{sec:sub_ngrams}
+
+A $n$-gram is a sequence of $n$ items from given text corpus. The items can
+be phonemes, syllabes, letters or words. In this  work, the term
+\textit{$n$-gram} refers only   to  word $n$-grams.
+An $n$-gram of size 1 is referred to as a "unigram"; size 2 is a "bigram";
+size 3 is a "trigram". Larger sizes are sometimes referred to by the value of
+n. As the frequency of the $n$-grams are of interest for statistical
+modeling, these representation are usually accompanied by the number of
+occurrences on a specific corpus. 
+
+
+This representation  have been used successful used in language modeling (see section
+\ref{sec:relwork-language-models}). N-gram based language models has the dominant approach for
+ language modeling since the 1980's \cite{Bengio:2008}.
+
+
+% Note that in a simple n-gram language model, the probability of a word, conditioned on some number of previous words (one word in a bigram model, two words in a trigram model, etc.) can be described as following a categorical distribution (often imprecisely called a "multinomial distribution").
+
+ \subsubsection{Bag-of-words (BOW)}
+ \label{sec:rel_bow}
+
+In the \ac{BOW} model, documents are represented by the words composing them.
+Each document of a corpus is assigned a vector of dimensionality $V$, where $V$ is the
+vocabulary of that corpus. Each component of this vector has a associated word of
+the vocabulary. The values of each of the component can be binary, i.e. representing the
+word occurrence or absence in the document, or a more sophisticated metric
+such as \ac{tf-idf} \cite{Salton88term-weightingapproaches}.
+
+Term frequency $tf_j$  is the number of times that a word $j$ appear in a
+document $d$. The document frequency  $df_{j}$  is the number of documents
+the term $j$ appears in all the corpus.  With these two values,  \ac{tf-idf}  for a  word $j$ is  calculated as follows:
+
+\begin{equation*}
+  \label{eq:tf-idf}
+  \text{tf-idf}_{j}=tf_{j}(d)\centerdot log(\frac{N}{df_{j}}),\,\,\,\,\forall
+  j \in V
+\end{equation*}
+
+This representation of text does not take  into account the actual order of the words inside the document. Despite
+of that, it has  performed well in many \ac{IR} tasks (e.g. search, \ac{TC},
+etc.) \cite{Sebastiani02}. Variations and extension of this technique are
+still used in modern \ac{IR} systems.
+
+ \subsubsection{1-of-N coding}
+ \label{sec:1_of_coding}
+
+ \subsection{Continuous Representations}
+ \label{sec:sub_continuous_representation}
+
+ \subsubsection{Latent Semantic Analysis}
+ \label{sec:rel_local_representation}
+
+ \subsubsection{Latent Dirichlet Allocation}
+ \label{sec:rel_lda}
+
+ \subsubsection{Distributed Representations}
+ \label{sec:dis_rep}
+
+
+
+Section blah blah will talk about directly and indirectly learn distributed
+representation of text using neural networks.
+
+\section{Statistical Language Models}
 \label{sec:relwork-language-models}
 
-A statistical language model assigns assigns a probability to a sequence of m
+A statistical language model assigns a probability to a sequence of m
 words $P(w_1,\ldots,w_m)$ by means of a probability distribution. 
 This probability can be obtained from the probability of
 each word given the context of words preceding it using the chain rule of probability \cite{Bengio:2008}:
@@ -26,6 +140,16 @@ w_{t-1})$ using a fixed context of size $n-1$, i.e. using  $P(w_t | w_{t-n+1}, \
 
 \section{N-Grams based language models}
 \label{sec:n-gram-lm}
+
+% The other way around, building language models from huge amounts of data (hundreds
+% of billion words or more) is also a very challenging task, and has received recently a lot
+% of attention [26]. The problems that arise include smoothing, as well as compression
+% techniques, because it is practically impossible to store the full n-gram models estimated
+% from such amount of data in computer memory. While amount of text that is available
+% on the Internet is ever-increasing and computers are getting faster and memory bigger, we
+% cannot hope to build a database of all possible sentences that can ever be said.
+
+
 
 \section{Neural Network Language Models}
 \label{sec:nnlms-intro}
@@ -61,6 +185,8 @@ All models are trained using stochastic gradient descent and backpropagation
 The following section describe each of the most popular models and their
 associated complexity $Q$.
 
+
+PUT RELATION TO WORK TO VEC HERE
 \subsection{Feedforward Neural Network Language Model}
 \label{subsec:fwd-neural-net-lm}
 

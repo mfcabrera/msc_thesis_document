@@ -50,16 +50,11 @@
 
 \begin{document}
 
-
-
-
-
-
 	\frontmatter
 	
 	
 	\input{components/cover}
-%	\clearemptydoublepage
+%	\clearemptydoublepage 
 %	
 %	\input{components/titlepage}
 	
@@ -88,11 +83,13 @@
 		%Introduction and Background Theory
 		%
 		% ---------------------------------------------------------------------------
-		\part[Introduction and Theory]{Introduction and Related Work}
+		\part[Introduction and Theory]{Introduction and Theory}
 		\label{part:introAndBackgroundTheory}
-	%	\input{chapters/Introduction}
+
+                \input{chapters/Introduction}
                 \input{chapters/RelatedWork}
-        %        \input{chapters/RelDocumentClassification}
+        %       \input{chapters/RelDocumentClassification}
+
 		\input{chapters/Word2VecModelDescription}
                 
                 
@@ -108,6 +105,8 @@
 		\label{part:secondP}
                 \input{chapters/GermanWord2Vec}
 		\input{chapters/Word2VecDocumentClassification}
+
+                \input{chapters/Conclusion}
 		
 		% ---------------------------------------------------------------------------
 		%
