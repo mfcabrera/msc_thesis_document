@@ -13,7 +13,7 @@ provide natural language understanding and generation  machines.
 Statistical \ac{NLP} comprises all quantitative approaches to automated
 language processing, including probabilistic modeling, information theory,
 information theory and linear algebra \cite{Manning:1999:FSN:311445}.  Modern
-\ac{NLP}  techniques,  make also use of  machine learning and other data
+\ac{NLP}  techniques,  make also use of  machine learning, data mining  and other data
 driven techniques.
 
 Major tasks of \ac{NLP} include  \ac{POS} (detecting part of speech in a
@@ -48,7 +48,7 @@ fields for several tasks.
  
   
 
-\subsection{Local Representations}
+\section{Local Representations}
  \label{sec:rel_local_representation}
  Local representation is a vector of features which characterize the
  meaning of the symbol. These  features  are mutually exclusive. That is, each feature
@@ -58,7 +58,7 @@ fields for several tasks.
  \label{sec:sub_ngrams}
 
 A $n$-gram is a sequence of $n$ items from given text corpus. The items can
-be phonemes, syllabes, letters or words. In this  work, the term
+be phonemes, syllables, letters or words. In this  work, the term
 \textit{$n$-gram} refers only   to  word $n$-grams.
 An $n$-gram of size 1 is referred to as a "unigram"; size 2 is a "bigram";
 size 3 is a "trigram". Larger sizes are sometimes referred to by the value of
@@ -74,7 +74,7 @@ This representation  have been used successful used in language modeling (see se
 
 % Note that in a simple n-gram language model, the probability of a word, conditioned on some number of previous words (one word in a bigram model, two words in a trigram model, etc.) can be described as following a categorical distribution (often imprecisely called a "multinomial distribution").
 
- \subsubsection{Bag-of-words (BOW)}
+ \subsection{Bag-of-words (BOW)}
  \label{sec:rel_bow}
 
 In the \ac{BOW} model, documents are represented by the words composing them.
@@ -88,7 +88,7 @@ Term frequency $tf_j$  is the number of times that a word $j$ appear in a
 document $d$. The document frequency  $df_{j}$  is the number of documents
 the term $j$ appears in all the corpus.  With these two values,  \ac{tf-idf}  for a  word $j$ is  calculated as follows:
 
-\begin{equation*}
+ja dann Ich denke dass \begin{equation*}
   \label{eq:tf-idf}
   \text{tf-idf}_{j}=tf_{j}(d)\centerdot log(\frac{N}{df_{j}}),\,\,\,\,\forall
   j \in V
@@ -99,25 +99,88 @@ of that, it has  performed well in many \ac{IR} tasks (e.g. search, \ac{TC},
 etc.) \cite{Sebastiani02}. Variations and extension of this technique are
 still used in modern \ac{IR} systems.
 
- \subsubsection{1-of-N coding}
+ \subsection{1-of-N coding}
  \label{sec:1_of_coding}
 
- \subsection{Continuous Representations}
- \label{sec:sub_continuous_representation}
+ This is a word level representation. It is also called \textit{one hot
+   representation}. The feature vector has the same length as the size of the
+ vocabulary of the corpus, and  one dimension is on.  This representation is
+ commonly used as an input for language models based on neural networks (see
+ section \ref{sec:nnlms-intro}.)
+
+
+ \section{Continuous Representations of Words}
+
+\label{sec:sub_continuous_representation}
+ Continuous representation  of words  can be divided between distributional and
+ distributed representations. 
+
+\subsection{Distributional Word Representations}
+
+Distributional representation are based on the idea that a lot of
+information can be obtained by representing a word by means of its neighbors.
+Distributional word representations are based 
+upon a cooccurrence matrix $F$ of size $V \times C$.  Each row of $F$ is the
+initial representation of a word $w$, and each column is some context
+\cite{Turian:2010:WRS:1858681.1858721}. The context  are generally windows of
+ words surrounding $w$. Each value of the context  represented using a type of
+frequency count such as \ac{tf-idf}. Commonly used techniques for obtaining distributed
+representations  are \ac{LSA} \cite{Dumais:1988:ULS:57167.57214} and \ac{LDA}
+\cite{Blei:2003:LDA:944919.944937}.
+
 
  \subsubsection{Latent Semantic Analysis}
- \label{sec:rel_local_representation}
+ \label{sec:rel_sa}
+\ac{LSA} is the application of \ac{SVD} to a matrix where each row a document
+represented using the \ac{BOW} model.
+ \ac{LSA} induce in this way  distributional representations over F in which
+each column is a document context \cite{Turian:2010:WRS:1858681.1858721}.  
+One drawback of this technique is that,  for large databases the SVD
+calculation becomes intractable, since the computation is extremely
+expensive.
 
  \subsubsection{Latent Dirichlet Allocation}
  \label{sec:rel_lda}
+\ac{LDA} is a generative probabilistic model of a corpus and the
+idea behind it is that the documents are represented as weighted relevancy
+vectors over latent topics, where a topic is characterized by a distribution over
+words \cite{Blei:2003:LDA:944919.944937}.
+Learning the various distributions (the set of topics, their associated word
+probabilities, the topic of each word, and the particular topic mixture of
+each document) is the objective of applying this topic modeling.
 
- \subsubsection{Distributed Representations}
+Similar to \ac{LSA} the result of \ac{LDA} is a lower dimensional
+representation of the document. In particular, LDA
+reduces the  to a fixed set of values  (i.e. a vector),  based on the
+probability distribution of the words in the documents.
+
+ \subsection{Distributed Representations}
  \label{sec:dis_rep}
+A distributed representation is a concept that is central to connectionism.
+In a connectionist network, a distributed representation occurs when some
+concept or meaning is represented by the network, but that meaning is
+represented by a pattern of activity across a number of processing units
+(e.g. neurons in a neural network). 
+
+At the word level, distributed word representation assign a real-valued vector
+to each word. The difference with local representations, is that there a single
+feature does not represent a single concept or relationship. Instead, these
+relationships are share the dimensions. In other words, there is not a
+single concept associated to each of component of a distributed
+representation. These makes a interpretation of word vector features
+particularly hard.
+
+Distributed representation of words can be obtained from various neural
+network based language models. Section \ref{sec:nnlms-intro} discuss them
+with more detail.
+
+% these are generally learned by neural network, where one of the layer of the
+% network 
+
+% Section blah blah will talk about directly and indirectly learn distributed
+% representation of text using neural networks.
 
 
-
-Section blah blah will talk about directly and indirectly learn distributed
-representation of text using neural networks.
 
 \section{Statistical Language Models}
 \label{sec:relwork-language-models}
@@ -138,7 +201,7 @@ w_{t-1})$ using a fixed context of size $n-1$, i.e. using  $P(w_t | w_{t-n+1}, \
 
 
 
-\section{N-Grams based language models}
+\section{$N$-Grams based language models}
 \label{sec:n-gram-lm}
 
 % The other way around, building language models from huge amounts of data (hundreds
