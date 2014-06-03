@@ -4,6 +4,73 @@
 
 \section{Deep Learning and Representation Learning}
  \label{sec:deep_learning}
+Performance of machine learning methods relies heavily on the choices of the
+data representation or features used to train the algorithm. Therefore,
+chosing the right feature set is crucial when developing new machine learning
+based solutions. These step, generally part of a more complex processing
+pipeline is called feature engineering.
+Althought important, feature engineering is expensive in term of labor needed
+to perform it successfully, requiring  generally  expert knowledge of the application
+domain.  
+
+In order to expand the applicability and speeding up the
+development of machine learning based systems, it would be desirable to
+depend less on feature engineering by devising algorithms  that could extract
+meaningful  information from raw input, turning into features that could be
+used with different purposes.
+
+Feature learning or representation learning is a set of techniques in machine
+learning that learn a transformation of these raw inputs to a representation that
+can be effectively exploited in a supervised learning task such as
+classification \cite{DBLP:journals/corr/abs-1206-5538}. 
+
+Many of these representation  are learned by using several layers of
+non-linearities. Hence the name of \textit{Deep Learning}. However, depth is
+not a requirement to learn useful representation. In fact, the model used in
+this work to obtain word representations  can be considered as shallow.
+However, the ideas behind it were inspired from deep architectures.
+
+
+In the context of \ac{NLP} distributed representation for textual data were
+introduced by Hinton \cite{hinton:learndistrep} and first applied to
+statistical language model by Bengio et al. \cite{Bengio:2008} through his
+neural network based language model. Collobert  et al.\cite{collobert:2008}, Mhin et
+al \cite{Mnih08ascalable} and
+Mikolov et al.  \cite{conf/interspeech/MikolovKBCK10,conf/icassp/MikolovKBGC09} have further
+new  architectures for tackling the same problem. All These models are based on learning a distributed
+representation of words.
+
+
+
+%  In order to expand the scope
+% and ease of applicability of machine learning, it would be
+% highly desirable to make learning algorithms less dependent
+% on feature engineering, so that novel applications could be
+% constructed faster, and more importantly, to make progress
+% towards Articial Intelligence (AI).
+
+
+% *Avoid manual time consuming human work
+% ***  Need for distributional and distributed representation
+%       (Talk about what is everything)
+%       Because distubuted represenation deal with the curse of dimensionality
+%       (In orden to generalize properly in High dimensional space you need
+%       representative examples for all relevant variations)
+%       Alternatives to that are: 
+%       - "Manual Feature Design".
+%       - Assuming a smooth target
+%       - Kernel methods (Linear in term of kernel based data points) - Get
+%         into that.
+%       - Unsupervised feature and weight learning.
+     
+% *** Using unlabeled data... most of the data we have access too is unlabeled. 
+% *** Having multiple layers of representation (are more obvious for Computer layers)
+% *** Why now?
+%     Until 2006 were not able to torain to do something useful.
+%     - New methods for doing unsiupervised learning. (RBM, AutoEnconders,
+%       Constratctive Estimation)
+%     - More efficient parameter stimation methods.
+%     - Better understangin of model regularization.
 
 \section{Statistical Natural Language Processing}
 \label{sec:rel_nlp}
@@ -160,7 +227,7 @@ A distributed representation is a concept that is central to connectionism.
 In a connectionist network, a distributed representation occurs when some
 concept or meaning is represented by the network, but that meaning is
 represented by a pattern of activity across a number of processing units
-(e.g. neurons in a neural network). 
+(e.g. neurons in a neural network) \cite{hinton:learndistrep}. 
 
 At the word level, distributed word representation assign a real-valued vector
 to each word. The difference with local representations, is that there a single
