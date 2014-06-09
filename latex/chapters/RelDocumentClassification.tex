@@ -8,7 +8,7 @@ In opposition to the machine learning typical multi-class classification
 task which aims at attributing one class among the possible ones to each
 example, documents in a text categorization task may belong to several
 categories. 
-%Sebastiani 
+%Sebastiani Ind
 % "Sebastiani02"
 
 
@@ -27,17 +27,18 @@ More formally the task is to approximate a unknown target function
 
 So far only the binary case has been discussed, however in many realistic
 settings there are many possible (mutually exclusive or not) categories in
-which a document can be classified.  There are two main ways to  tackle
+which a document can be classified. In these stitutation 
+
+ There are two main ways to  tackle
 such problem: 1-vs-All and All-vs-All. 
 
 \textbf{TODO: INSERT THE INFORMATION FROM SCIKIT-LEARN PAGES - e.g.
   DESCRIPTION OF 1-vs-All and All vs all}
 
 \ac{TC} relies  heavily on  models that have been developed originally for \ac{IR}.
- the reason of this is that TC is a content based document management task,
+ the reason of this is that \ac{TC} is a content based document management task,
  and such it shares many characteristics with other IR tasks such as text
- search, specifically \ac{IR}-style indexing using one of the models mentioned  in 
- [REFERENCE] SECTION MODELS OF TEXT
+ search, specifically \ac{IR}-style document representation  using \ac{BOW} model described in section \ref{sec:rel_bow}.
 
 
 

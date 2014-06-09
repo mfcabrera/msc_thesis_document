@@ -1,6 +1,8 @@
 
-\chapter{Representation of Text and Applications}
+\chapter{Related Work}
 \label{chap:related_work}
+
+This chapter introduces the basic concepts necessary to understand the models and tools  used in this work. Section \ref{sec:deep_learning} introduces basic concepts of deep learning and representation learning. After that, Section \ref{sec:rel_nlp} describes basics of text representation and  statistical language modeling are also discussed. Section \ref{sec:nnlms-intro} Describing in detail some existing  models based on neural networks. The reason for this, is that  \textit{Word2vec}, the continuos word vector representation  model used in this work,  relies heavily on concept developed by these architectures. Thus, understanding the inner working of previous and related architecture  will help to understand the rationale and motivation behind \textit{Word2vec}. Finally, as one the application of word vector representation explored is document or text classification, the basics concepts to document classification are also introduced.
 
 \section{Deep Learning and Representation Learning}
  \label{sec:deep_learning}
@@ -11,9 +13,7 @@ based solutions. These step, generally part of a more complex processing
 pipeline is called feature engineering.
 Althought important, feature engineering is expensive in term of labor needed
 to perform it successfully, requiring  generally  expert knowledge of the application
-domain.  
-
-In order to expand the applicability and speeding up the
+domain.  In order to expand the applicability and speeding up the
 development of machine learning based systems, it would be desirable to
 depend less on feature engineering by devising algorithms  that could extract
 meaningful  information from raw input, turning into features that could be
@@ -23,22 +23,54 @@ Feature learning or representation learning is a set of techniques in machine
 learning that learn a transformation of these raw inputs to a representation that
 can be effectively exploited in a supervised learning task such as
 classification \cite{DBLP:journals/corr/abs-1206-5538}. 
-
 Many of these representation  are learned by using several layers of
-non-linearities. Hence the name of \textit{Deep Learning}. However, depth is
-not a requirement to learn useful representation. In fact, the model used in
-this work to obtain word representations  can be considered as shallow.
-However, the ideas behind it were inspired from deep architectures.
+non-linearities, were each layer learns increasingly complex level of
+representation. Hence the name of \textit{Deep Learning}. However, high depth is
+not a requirement to learn useful representation. Depending on the tasks
+relatively shallow architectures produce useful representations.
+
+One important  concept in representation learning  is the concept of
+\textit{distributed representations}.  A distributed representation is a representation  where $k$ 
+out of $N$ representation elements or feature values can be independently
+varied, e.g., they are not mutually exclusive. Each concept is represented by
+having $k$ features being turned on or active, while each feature is involved
+in representing many concepts \cite{DBLP:journals/corr/abs-1206-5538}.
+There are many reasons for which having automatically learning distributed representations are
+desirable to have.  First,  distributed representations fight the curse of
+dimensionality by capturing a huge number of possible input configurations in
+reasonably sized learned representations. These representations often offer
+similarity models than can be useful to improve existing algorithms.   Second,  handcrafting features is
+time consuming. Feature engineering often generates over-specified and
+incomplete representation, requiring to repeat work when switching tasks or
+domains. Finally, many machine learning techniques require labeled data.
+However, in most of the domains the majority of data is unlabeled.
+Therefore, most information must be acquired unsupervised. By learning
+representations based on unlabeled data, these information can be harnessed
+to learn classification decisions.
 
 
-In the context of \ac{NLP} distributed representation for textual data were
-introduced by Hinton \cite{hinton:learndistrep} and first applied to
-statistical language model by Bengio et al. \cite{Bengio:2008} through his
-neural network based language model. Collobert  et al.\cite{collobert:2008}, Mhin et
-al \cite{Mnih08ascalable} and
-Mikolov et al.  \cite{conf/interspeech/MikolovKBCK10,conf/icassp/MikolovKBGC09} have further
-new  architectures for tackling the same problem. All These models are based on learning a distributed
-representation of words.
+
+% In fact, the model used in
+%this work to obtain word representations  can is not particulary deep,
+%however two layers are used to obtain trh
+%However, the ideas behind it were inspired from deep architectures.
+
+
+% One way to obtain distributed representation of symbolic data is through the
+% usage of neural network. Each layer of a neural network learns  through its
+% weights representation useful for the following layer.
+
+
+
+%PARAGRAPH INTRODUCING DISTRIBUTED REPRESENTATION
+
+% A distributed representation is a concept that is central to connectionism.
+% In a connectionist network, 
+%A distributed representation occurs when some
+%concept or meaning is represented by a  network, but that meaning is
+% represented by a pattern of activity across a number of processing units
+% (e.g. neurons in a neural network) 
+
 
 
 
@@ -111,7 +143,7 @@ fields for several tasks.
   mathematical object (e.g. a vector). Other representation work based on
   sequence of words extracted from a text, i.e. $n$-grams or at word level
   (i.e. word vector embedding). Based on the characteristics of the
-  representation they can be classified as local or continuous. 
+  representations they can be classified as local or continuous. 
  
   
 
@@ -155,7 +187,7 @@ Term frequency $tf_j$  is the number of times that a word $j$ appear in a
 document $d$. The document frequency  $df_{j}$  is the number of documents
 the term $j$ appears in all the corpus.  With these two values,  \ac{tf-idf}  for a  word $j$ is  calculated as follows:
 
-ja dann Ich denke dass \begin{equation*}
+\begin{equation*}
   \label{eq:tf-idf}
   \text{tf-idf}_{j}=tf_{j}(d)\centerdot log(\frac{N}{df_{j}}),\,\,\,\,\forall
   j \in V
@@ -223,23 +255,31 @@ probability distribution of the words in the documents.
 
  \subsection{Distributed Representations}
  \label{sec:dis_rep}
-A distributed representation is a concept that is central to connectionism.
-In a connectionist network, a distributed representation occurs when some
-concept or meaning is represented by the network, but that meaning is
-represented by a pattern of activity across a number of processing units
-(e.g. neurons in a neural network) \cite{hinton:learndistrep}. 
+The need advantages of  learning and using  distributed representation were already discussed in section \ref{sec:deep_learning}.
 
 At the word level, distributed word representation assign a real-valued vector
-to each word. The difference with local representations, is that there a single
-feature does not represent a single concept or relationship. Instead, these
-relationships are share the dimensions. In other words, there is not a
-single concept associated to each of component of a distributed
-representation. These makes a interpretation of word vector features
-particularly hard.
+to each word. As with other distributed representations, the  difference with local representations lies  is that there a single 
+feature does not represent a single concept or relationship.
 
-Distributed representation of words can be obtained from various neural
-network based language models. Section \ref{sec:nnlms-intro} discuss them
-with more detail.
+In the context of \ac{NLP},  distributed representations for textual data were
+introduced by Hinton \cite{hinton:learndistrep}. 
+ Bengio et al. \cite{Bengio:2008} combined distributed representations with neural network probability prediction  to apply them  to
+statistical language model by through his
+neural network based language model. Collobert  et al.\cite{collobert:2008}, Mhin et
+al \cite{Mnih08ascalable} and
+Mikolov et al.  \cite{conf/interspeech/MikolovKBCK10,conf/icassp/MikolovKBGC09} have further developed similar architectures focusing in improving the performance and estimation accuracy. Section \ref{sec:nnlms-intro} discusses some of these models with more detail.
+
+
+% Distributed representation of words can be obtained from various neural
+% network based language models and models inspired on them. 
+
+
+% A distributed representation is a concept that is central to connectionism.
+% In a connectionist network, a distributed representation occurs when some
+% concept or meaning is represented by the network, but that meaning is
+% represented by a pattern of activity across a number of processing units
+% (e.g. neurons in a neural network) \cite{hinton:learndistrep}. 
+
 
 % these are generally learned by neural network, where one of the layer of the
 % network 
@@ -270,6 +310,18 @@ w_{t-1})$ using a fixed context of size $n-1$, i.e. using  $P(w_t | w_{t-n+1}, \
 
 \section{$N$-Grams based language models}
 \label{sec:n-gram-lm}
+
+The most frequently used language models are based on the n-gram statistics, which are basically word co-occurrence frequencies\cite{Manning:1999:FSN:311445} . The maximum likelihood estimate of probability of word $A$ in context $H$ is then computed
+
+
+\begin{equation}
+\label{eq:ngram-prob}
+  P(A|H) = \frac{C(HA)}{C(H)}
+\end{equation}
+where $C(HA)$ is the number of times that the $HA$ sequence of words has occurred in the training data. The context $H$ can consist of several words, for the usual trigram models $|H| = 2$. For $H = 0$ , the model is called unigram. Unigram nmodel only model the word probability and does not take into account historical information \cite{Manning:1999:FSN:311445,mikolovphd2012}. 
+
+
+As many of these probability estimates are going to be zero (for all words that were not seen in the training data in a particular context H), smoothing needs to be applied. This works by redistributing probabilities between seen and unseen (zero-frequency) events, by exploiting the fact that some estimates, mostly those based on single observations, are greatly over-estimated. 
 
 % The other way around, building language models from huge amounts of data (hundreds
 % of billion words or more) is also a very challenging task, and has received recently a lot
