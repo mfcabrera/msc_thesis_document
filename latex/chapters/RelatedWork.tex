@@ -2,25 +2,40 @@
 \chapter{Related Work}
 \label{chap:related_work}
 
-This chapter introduces the basic concepts necessary to understand the models and tools  used in this work. Section \ref{sec:deep_learning} introduces basic concepts of deep learning and representation learning. After that, Section \ref{sec:rel_nlp} describes basics of text representation and  statistical language modeling are also discussed. Section \ref{sec:nnlms-intro} Describing in detail some existing  models based on neural networks. The reason for this, is that  \textit{Word2vec}, the continuos word vector representation  model used in this work,  relies heavily on concept developed by these architectures. Thus, understanding the inner working of previous and related architecture  will help to understand the rationale and motivation behind \textit{Word2vec}. Finally, as one the application of word vector representation explored is document or text classification, the basics concepts to document classification are also introduced.
+This chapter introduces the basic concepts necessary to understand the models
+and tools  used in this work. Section \ref{sec:deep_learning} introduces
+basic concepts of deep learning and representation learning. After that, in
+sections  \ref{sec:rel_nlp} to \ref{sec:sub_continuous_representation}
+the basics of natural language processing and text representation  are
+discussed. Sections \ref{sec:relwork-language-models} and \ref{sec:n-gram-lm} introduce statistical
+language modeling and the classical $N$-gram based approach. Section explores 
+\ref{sec:nnlms-intro}  in detail some of the existing language  models based
+on neural networks. The reason for this, is that continuous word vector
+representation model used in this work, namely \textit{Word2vec}, relies
+heavily on concept developed by these architectures. Thus, understanding the
+working of previous these models  will help to understand the rationale and
+motivation behind \textit{Word2vec}. Finally, as one the application of word
+vector representation explored is document or text classification, the basics
+concepts to document classification also introduced in section \ref{sec:rel_text_categorization}.
 
 \section{Deep Learning and Representation Learning}
  \label{sec:deep_learning}
 Performance of machine learning methods relies heavily on the choices of the
 data representation or features used to train the algorithm. Therefore,
-chosing the right feature set is crucial when developing new machine learning
-based solutions. These step, generally part of a more complex processing
-pipeline is called feature engineering.
-Althought important, feature engineering is expensive in term of labor needed
-to perform it successfully, requiring  generally  expert knowledge of the application
-domain.  In order to expand the applicability and speeding up the
-development of machine learning based systems, it would be desirable to
+choosing the right feature set is crucial when developing  machine learning
+ systems. This step, generally part of a more complex processing
+pipeline, is called feature engineering.
+Although important, feature engineering is expensive in term of labor needed
+to perform it successfully. Feature engineering generally requires   expert
+knowledge of the application domain.  In order to expand the applicability
+and speeding up the development of machine learning based systems, it would
+be desirable to 
 depend less on feature engineering by devising algorithms  that could extract
-meaningful  information from raw input, turning into features that could be
-used with different purposes.
+meaningful  information from raw input, turning this information into
+features that could be used with different purposes.
 
 Feature learning or representation learning is a set of techniques in machine
-learning that learn a transformation of these raw inputs to a representation that
+learning that learn a transformation from these raw inputs to a representation that
 can be effectively exploited in a supervised learning task such as
 classification \cite{DBLP:journals/corr/abs-1206-5538}. 
 Many of these representation  are learned by using several layers of
@@ -39,13 +54,13 @@ There are many reasons for which having automatically learning distributed repre
 desirable to have.  First,  distributed representations fight the curse of
 dimensionality by capturing a huge number of possible input configurations in
 reasonably sized learned representations. These representations often offer
-similarity models than can be useful to improve existing algorithms.   Second,  handcrafting features is
-time consuming. Feature engineering often generates over-specified and
-incomplete representation, requiring to repeat work when switching tasks or
-domains. Finally, many machine learning techniques require labeled data.
-However, in most of the domains the majority of data is unlabeled.
+similarity models than can be useful to improve existing algorithms.
+Second,  handcrafting features is time consuming, and it often generates
+over-specified and incomplete representation, requiring to repeat work when
+switching tasks or  domains. Finally, many machine learning techniques
+require labeled data.  However, in most of the domains the majority of data is unlabeled.
 Therefore, most information must be acquired unsupervised. By learning
-representations based on unlabeled data, these information can be harnessed
+representations based on unlabeled data, this information can be harnessed
 to learn classification decisions.
 
 
@@ -104,7 +119,7 @@ to learn classification decisions.
 %     - More efficient parameter stimation methods.
 %     - Better understangin of model regularization.
 
-\section{Statistical Natural Language Processing}
+\section{Natural Language Processing}
 \label{sec:rel_nlp}
 Natural language processing \ac{NLP} is a field of computer science,
 artificial intelligence, and linguistics that studies efficient mechanisms to
@@ -112,19 +127,19 @@ provide natural language understanding and generation  machines.
 Statistical \ac{NLP} comprises all quantitative approaches to automated
 language processing, including probabilistic modeling, information theory,
 information theory and linear algebra \cite{Manning:1999:FSN:311445}.  Modern
-\ac{NLP}  techniques,  make also use of  machine learning, data mining  and other data
+\ac{NLP}  techniques,  make also use of  machine learning, data mining  and others data
 driven techniques.
 
 Major tasks of \ac{NLP} include  \ac{POS} (detecting part of speech in a
 sentence), \ac{NER}  (Determining which items of a sentence map to proper
 names, e.g. person, location, etc.),   Sentiment Analysis (Extracting
-subjective information usually from a set of documents), among other. 
+subjective information usually from a set of documents), among others. 
 In some cases, sets of related tasks are grouped into subfields that are often
 considered separately from \ac{NLP}. \ac{IR} is concerned with storing,
 searching, and retrieving information, in particular  information stored as
 text. Although considered a separate field, many tasks of \ac{IR} such a
 \ac{TC} relies on \ac{NLP} methods. Thus, there is an overlap between the two
-fields for several tasks.
+fields in several applications.
 
 
 
@@ -304,8 +319,22 @@ each word given the context of words preceding it using the chain rule of probab
 \end{equation}
 
 Most probabilistic language models  approximate $P(w_t | w_1, w_2, \ldots
-w_{t-1})$ using a fixed context of size $n-1$, i.e. using  $P(w_t | w_{t-n+1}, \ldots w_{t-1})\ ,$.
+w_{t-1})$ using a fixed context of size $n-1$, i.e. using  $P(w_t |
+w_{t-n+1}, \ldots w_{t-1})$.
 
+Language model has applications in fields such speech recognition and data
+compression, where the model tries to predict the next word in a speech
+sequence. In the field of \ac{IR} language model are used generally 
+to rank documents based on the probability that a language model would
+generate terms  from a specific query \cite{Manning:1999:FSN:311445}.
+
+Although not in an extensive way, this section covers existing statistical language
+models. In particular, The dominant $N$-gram based model and models that
+serve as basis for \textit{Word2vec} are discussed.
+%  models that are related to \textit{Word2vec} are
+%covered %
+%Although this work only discusses statistical language model, there are
+%other approaches to language modeling including  
 
 
 \section{$N$-Grams based language models}
@@ -318,10 +347,15 @@ The most frequently used language models are based on the n-gram statistics, whi
 \label{eq:ngram-prob}
   P(A|H) = \frac{C(HA)}{C(H)}
 \end{equation}
-where $C(HA)$ is the number of times that the $HA$ sequence of words has occurred in the training data. The context $H$ can consist of several words, for the usual trigram models $|H| = 2$. For $H = 0$ , the model is called unigram. Unigram nmodel only model the word probability and does not take into account historical information \cite{Manning:1999:FSN:311445,mikolovphd2012}. 
 
+where $C(HA)$ is the number of times that the $HA$ sequence of words has
+occurred in the training data. The context $H$ can consist of several words,
+for the usual trigram models $|H| = 2$. For $H = 0$ , the model is called
+unigram. The unigram model only models the word probability on the corpus,
+and does not take into account historical information
+\cite{Manning:1999:FSN:311445, mikolovphd2012}. 
 
-As many of these probability estimates are going to be zero (for all words that were not seen in the training data in a particular context H), smoothing needs to be applied. This works by redistributing probabilities between seen and unseen (zero-frequency) events, by exploiting the fact that some estimates, mostly those based on single observations, are greatly over-estimated. 
+As many of these probability estimates are going to be zero (for all words that were not seen in the training data in a particular context $H$), smoothing needs to be applied. This works by redistributing probabilities between seen and unseen (zero-frequency) events, by exploiting the fact that some estimates, mostly those based on single observations, are greatly over-estimated. 
 
 % The other way around, building language models from huge amounts of data (hundreds
 % of billion words or more) is also a very challenging task, and has received recently a lot
@@ -331,6 +365,39 @@ As many of these probability estimates are going to be zero (for all words that 
 % on the Internet is ever-increasing and computers are getting faster and memory bigger, we
 % cannot hope to build a database of all possible sentences that can ever be said.
 
+\section{Maximum Entropy Language Models}
+\label{sec:max-ent-lm}
+
+\ac{ME} model is an exponential model with the following form :
+
+\begin{equation}
+  \label{eq:max-ent-prob}
+   P(w|h) = \frac{e^{a_w}}{Z(h)}
+\end{equation}
+
+with $a_w$ defined as:
+
+\begin{equation}
+  \label{eq:max-ent-pro-sub1}
+  a_w = \sum_{i}{\lambda_i f_i(w,h)} 
+\end{equation}
+
+where $w$ is a word in a context $h$ and $Z(h)$ is  the normalization factor:
+
+\begin{equation}
+  \label{eq:max-ent-prob-sub2}
+  Z(h) = \sum_{w_i \in V}{e^{\sum{\lambda_{j} f_j(w,h)}}} 
+\end{equation}
+
+Where $f_i(w,h)$ are  the feature functions based on the word and its
+context. Therefore, the problem of training a  \ac{ME} consiste of  find the
+weights  $lambda_i$ and select the features $f_i$, which are not learned from
+the data. Usually features for this models are $n$-grams. \ac{ME} models can
+be seen as simple neural network without a hidden layer and can be trained
+using stochastic gradient descent \cite{Bishop:1995:NNP:525960, mikolovphd2012}.
+
+
+%\sum_{l=1}^N e^{a_l}
 
 
 \section{Neural Network Language Models}
@@ -368,7 +435,8 @@ The following section describe each of the most popular models and their
 associated complexity $Q$.
 
 
-PUT RELATION TO WORK TO VEC HERE
+%%PUT RELATION TO WORK TO VEC HERE
+
 \subsection{Feedforward Neural Network Language Model}
 \label{subsec:fwd-neural-net-lm}
 

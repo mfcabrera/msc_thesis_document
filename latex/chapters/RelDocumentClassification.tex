@@ -27,13 +27,24 @@ More formally the task is to approximate a unknown target function
 
 So far only the binary case has been discussed, however in many realistic
 settings there are many possible (mutually exclusive or not) categories in
-which a document can be classified. In these stitutation 
+which a document can be classified. In this situation there are two approaches
+to deal with the problem, namely \textit{One-vs-All} and \textit{One-vs-One}. 
 
- There are two main ways to  tackle
-such problem: 1-vs-All and All-vs-All. 
+In the \textit{One-vs-All} strategy, one classifier is trained per class. For
+each classifier, the class is fitted against other classed. Only $n$ 
+classifiers are needed $n$ the number of classes. This makes the approach computationally efficient.
 
-\textbf{TODO: INSERT THE INFORMATION FROM SCIKIT-LEARN PAGES - e.g.
-  DESCRIPTION OF 1-vs-All and All vs all}
+In the \textit{One-vs-One} strategie  one classifier is constructed per paior
+of classes and the class with more votes is selected. This approach needs
+$n(n-1)/2$ classifiers, meaning a $O(n^2)$ training complexity. However,  as
+each classifier only works with only two of the classes at a time, each
+classifier is trained with a subset of the available data, which might be useful for
+classifiers that do not scale well with the number of samples.
+
+% This strategy, also known as one-vs-all, is implemented in OneVsRestClassifier. The strategy consists in fitting one classifier per class. For each classifier, the class is fitted against all the other classes. In addition to its computational efficiency (only n_classes classifiers are needed), one advantage of this approach is its interpretability. Since each class is represented by one and one classifier only, it is possible to gain knowledge about the class by inspecting its corresponding classifier. This is the most commonly used strategy and is a fair default choice.
+
+%  There are two main ways to  tackle
+% such problem: 1-vs-All and All-vs-All. 
 
 \ac{TC} relies  heavily on  models that have been developed originally for \ac{IR}.
  the reason of this is that \ac{TC} is a content based document management task,
@@ -45,7 +56,7 @@ such problem: 1-vs-All and All-vs-All.
 \subsection{Performance Measures}
 \label{sec:sub_performance_measures}
 
-One question that arises after reading the definition of TC is how to measure
+One question that arises after reading the definition of \ac{TC} is how to measure
  the how well the classifier function  $\breve{\Phi}$ (the approximation or hypothesis) matches the unknown target function  $\Phi$
  (effectiveness).  This is generally measured in terms of the classic IR
  metrics of precision  $P$  and recall  $R$ but adapted to the specific case
@@ -53,15 +64,42 @@ One question that arises after reading the definition of TC is how to measure
  $d_{x}$  is classified under the category  $c_{i}$  the classification is
  correct:
 
- $$P(\breve{\Phi}(d_{x},c_{i})=T\,\,|\,\, P(\Phi(d_{x},c_{i})=T))$$
+ \begin{equation*}
+P(\breve{\Phi}(d_{x},c_{i})=T\,\,|\,\, P(\Phi(d_{x},c_{i})=T))
+\end{equation*}
+
 
 
  Analogously  $R$  is defined as the probability that if a random document 
  $d_{x}$ is ought to be classified under  $c_{i}$,  this decision is taken
  by the classifier function: 
 
- $$P(\Phi(d_{x},c_{i})=T\,\,|\,\, P(\breve{\Phi}(d_{x},c_{i})=T))$$
- 
+ \begin{equation*}
+ P(\Phi(d_{x},c_{i})=T\,\,|\,\, P(\breve{\Phi}(d_{x},c_{i})=T))
+\end{equation*}
+
+or the binary case of document categorization, \textit{precision}  and \textit{recall}
+can be expressed mathematically using the numbers of true positive ($TP$), false positive
+($FP$), true negative ($TN$) and false negative ($TN$) documents
+classified. The true of false value means that the classification
+was performed correctly or not, and the positive or negative define
+whether it belonged to the evaluated category or not. 
+
+With these definitions  at hands precision $P$ and recall $R$ are defined as:
+
+
+\begin{eqnarray}
+P=\frac{TP}{TP+FP} & ,\, & R=\frac{TP}{TP+FN}\end{eqnarray}
+
+Another commonly used metric in the field is the  $F_1$ score can be
+interpreted as a weighted average of the precision and recall, where an $F_1$
+score reaches its best value at 1 and worst score at 0. Formally:
+
+\begin{equation}
+  F_1=\frac{2RP}{P+R}
+\end{equation}
+
+% http://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification
 
 
 
