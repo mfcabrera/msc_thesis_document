@@ -99,7 +99,24 @@ score reaches its best value at 1 and worst score at 0. Formally:
   F_1=\frac{2RP}{P+R}
 \end{equation}
 
-% http://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification
+For the case of multiple classes, the notion of \textit{precision}, \textit{recall} and $F_1$-score can be applied to each label independently. There are however ways to combine the results to obtain a global performance metric including \textit{micro}-averanging, \textit{macro}-averanging  and \textit{weighted} \cite{Sebastiani02}. As the problem explored in this work is unbalanced,  unless stated otherwise, \textit{weighted}  approach is used to reporting the results. As its name indicates, this approach takes intoxb account the class umbalance by weighting the per-class result by the number of samples  when obtaining the global performance measures. More formally $P$, $R$ and $F_1$ are defined as:
+
+
+\begin{equation*}
+P_{weighted}=\frac{1}{\sum_{t \in L^|y_t|} } \sum_{l \in L} \frac{TP_l}{TP_l+FP_l} 
+\end{equation*}
+
+\begin{equation*}
+  R_{weighted} = \frac{1}{\sum_{t \in L^|y_t|} } \sum_{l \in L} \frac{TP_l}{TP_l+FN_l}
+\end{equation*}
+
+
+\begin{equation}
+  F_{1_{weighted}}=\sum_{l \in L}\frac{2R_lP_l}{P_l+R_l}
+\end{equation}
+Where $L$ is the number of classes and $y_l$ is the set true sample-label pairs.
+
+% http://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification 
 
 
 

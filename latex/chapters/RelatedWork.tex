@@ -308,9 +308,11 @@ Mikolov et al.  \cite{conf/interspeech/MikolovKBCK10,conf/icassp/MikolovKBGC09} 
 \label{sec:relwork-language-models}
 
 A statistical language model assigns a probability to a sequence of m
-words $P(w_1,\ldots,w_m)$ by means of a probability distribution. 
-This probability can be obtained from the probability of
-each word given the context of words preceding it using the chain rule of probability \cite{Bengio:2008}:
+words $P(w_1,\ldots,w_m)$.  In most statistical language model it is assumed that the probability of $i$-th word $w_t$ only depends on the sequence of the $n-1$ previous word.  Using this assumption, the probability $P(w_1,\ldots,w_m)$ can be approximate by \cite{Bengio:2008}: 
+% 
+%This probability can be obtained from the probability of
+%each word given the context of words preceding it using the chain rule of probability 
+
 
 \begin{equation}
 \label{eq:lm_probability}
@@ -326,11 +328,10 @@ Language model has applications in fields such speech recognition and data
 compression, where the model tries to predict the next word in a speech
 sequence. In the field of \ac{IR} language model are used generally 
 to rank documents based on the probability that a language model would
-generate terms  from a specific query \cite{Manning:1999:FSN:311445}.
+generate terms from a specific query \cite{Manning:1999:FSN:311445}.
 
-Although not in an extensive way, this section covers existing statistical language
-models. In particular, The dominant $N$-gram based model and models that
-serve as basis for \textit{Word2vec} are discussed.
+Although not in an extensively , this section covers existing statistical language models. In particular, The dominant $N$-gram based model and models that
+serve as basis for the architecture of  \textit{Word2vec} are discussed.
 %  models that are related to \textit{Word2vec} are
 %covered %
 %Although this work only discusses statistical language model, there are
@@ -403,7 +404,7 @@ using stochastic gradient descent \cite{Bishop:1995:NNP:525960, mikolovphd2012}.
 \section{Neural Network Language Models}
 \label{sec:nnlms-intro}
 
-As its name describes, is a language model based on a \ac{NN}, exploiting their
+As its name describes,  \ac{NNLM} are  language models based on Neural Networks, exploiting their
 ability to learn distributed representations to reduce the impact of the
 curse of dimensionality \cite{Bengio:2008}. In other words, a \ac{NN} is
 used to estimate the probability described  by equation (\ref{eq:lm_probability}) based on a sequence of
@@ -416,10 +417,10 @@ to nearby outputs, the predictions corresponding to word sequences with
 similar features are mapped to similar predictions. \cite{Bengio:2008,Bengio:2003:NPL:944919.944966}
 
 However, due to the nature the multilayer architecture common of neutral
-network, \ac{NNLM}  suffer of 
+network, \ac{NNLM}  suffer from  
 performance issues, where the hidden layers and the output layer are
 generally the bottleneck. In order to be able to compare the different
-models in term of their computational, it is necessary then to define it in
+models in term of their computational complexity, it is necessary then to define it in
 term of their architecture. For all the models discussed here, the  complexity proportional to \cite{DBLP:journals/corr/abs-1301-3781}:
 
 \begin{center}
@@ -431,7 +432,7 @@ the training set and $Q$ depends on each architecture. Common choice is $E$ = 3-
 All models are trained using stochastic gradient descent and backpropagation
 \cite{Bengio:2003:NPL:944919.944966,DBLP:journals/corr/abs-1301-3781}.
 
-The following section describe each of the most popular models and their
+The following section describe each of the most representative  models and their
 associated complexity $Q$.
 
 
@@ -444,14 +445,17 @@ associated complexity $Q$.
 % language models in the context of \ac{NLP}.  In that section we described
 % that the  
 
-In the \ac{FNNLM} that was introduced by Bengio
-\cite{Bengio:2003:NPL:944919.944966},  the probabilistic prediction $P(w_t | w_{t-n+1}, \ldots w_{t-1})$ described
-in equation (\ref{eq:lm_probability}) is obtained as follows. First, each word $w_{t-i}$ (represented
-with an integer in $[1,N]$) in the  $n-1$-word context is mapped
-to an associated $d$-dimensional feature vector $C_{w_{t-i}}\ ,$ which is
-column $w_{t-i}$ of parameter matrix $C\ .$ Vector $C_k$
-contains the learned features for word $k\ .$
-Let vector $x$ denote the concatenation of these $n-1$
+In the \ac{FNNLM} introduced by Bengio
+\cite{Bengio:2003:NPL:944919.944966},  the probabilistic prediction $P(w_t | w_{t-n+1}, \ldots w_{t-1})$ 
+in equation (\ref{eq:lm_probability}) is obtained as follows. 
+First, each word $w_t$ is associated to a one-hot verctor of dimension $V$ with an entry at postion $t$, and zeros otherwise.  Then each vector is mapped to a $d$-dim feature vector $C_{w_t}$. The feature vectors $C_w$ are interpreted as the columns of a parameter matrix $C$, which represents the linear transformation between the $V$-dimensional one-hot vectors and the $d$-dim feature vectors. 
+
+%First, each word $w_{t-i}$ (represented
+%with an integer in $[1,N]$) in the  $n-1$-word context is mapped
+%$$to an associated $d$-dimensional feature vector $C_{w_{t-i}}\ ,$ which is
+%$column $w_{t-i}$ of parameter matrix $C\ .$ 
+Vector $C_{w_{k}}$ contains the learned features for word $k\ .$
+Let the  vector $x$ denote the concatenation of these $n-1$
 feature vectors:
 \begin{equation}
   x = (C_{w_{t-n+1},1}, \ldots, C_{w_{t-n+1},d}, C_{w_{t-n+2},1}, \ldots C_{w_{t-2},d}, C_{w_{t-1},1}, \ldots C_{w_{t-1},d}).
@@ -467,9 +471,9 @@ where
  a_k = b_k + \sum_{i=1}^h W_{ki} \tanh(c_i + \sum_{j=1}^{(n-1)d} V_{ij} x_j)
 \end{equation}
 where the vectors $b,c$ and matrices $W,V$ are also
-parameters (in addition to matrix $C$). Let us denote
+parameters of the \ac{NN}  (in addition to matrix $C$). Let us denote
 $\theta$ for the concatenation of all the parameters.
-The capacity of the model is controlled by the number of hidden units $h$
+The complexity of the model is controlled by the number of hidden units $h$
 and by the number of learned word features $d\ .$ 
 
 
@@ -500,44 +504,46 @@ The gradient   $\frac{\partial L(\theta)}{\partial
 
 \begin{equation*}
   \label{eq:nnlm-grad}
-  \frac{\partial }{\partial \theta}\text{log}p_{\theta}^{n}(w_t=k) =
+  \frac{\partial }{\partial \theta}\text{log}P_{\theta}^{n}(w_t=k) =
   \frac{\partial }{\partial \theta} e^{a_k} -  \frac{\partial }{\partial
     \theta}\text{log} \left( \sum_{l=1}^N e^{a_l} \right)
  \end{equation*}
 
 \begin{equation}
 \label{eq:dlogp-gradient}
-  \frac{\partial }{\partial \theta}\text{log}p_{\theta}^{n}(w_t=k)  =  \frac{\partial }{\partial \theta} e^{a_k}  -   \frac{\partial }{\partial
-    \theta}  \sum_{l=1}^N  p(w_t = l)  \frac{\partial }{\partial
+  \frac{\partial }{\partial \theta}\text{log}P_{\theta}^{n}(w_t=k)  =  \frac{\partial }{\partial \theta} e^{a_k}  -   \frac{\partial }{\partial
+    \theta}  \sum_{l=1}^N  P(w_t = l)  \frac{\partial }{\partial
     \theta}  e^{a_l}   
 \end{equation}
 
 
-As can bee seen from equation (\ref{eq:dlogp-gradient}), the  $\frac{\partial L(\theta)}{\partial
+The calculation  $\frac{\partial L(\theta)}{\partial
   \theta}$ is  expensive to calculate because implies a sum over all the scores $e^{a_{k}}$ over all possible words on the vocabulary.
 
 
 \subsubsection{Model Complexity}
 \label{sec:sub:sub:bengio_nnlm_complexity}
 
-Figure \ref{fig:NNLM_architecture} is a graphical description of  the model.
+Figure \ref{fig:NNLM_architecture} is a graphical depiction of  the model.
 It consists of three layers, input, projection and output layers. The N
 previous word are encoded using 1-of-$V$ encoding, where $V$ is the size
-of the vocabulary. $N$ previous word representation are concatenated using a
+of the vocabulary. $N$ previous word representation to $w_t$  are concatenated using a
 shared projection matrix to the projection layer $P$ (dimensionality $N
 \times D$).  This layer is then connected to a hidden layer which is in turn
 used to compute the probability distribution over all the words in the
-vocabulary resulting in an output layer with dimensionality $V$. Therefore,
-the computational complexity of each training example is:
+vocabulary resulting in an output layer with dimensionality $V$.
+
+\subsubsection{Model Complexity}
+\label{sec:sub:sub:bengio_nnlm_complexity}
+Based on the description above, the computational complexity of each training example is:
 
 \begin{center}
 \begin{equation} Q = N \times D + N \times D \times H + H \times V,   \end{equation}
 \end{center}
 
-With the dominant term is $H \times V$, because of the gradient calculation
-described above.
-\cite{DBLP:journals/corr/abs-1301-3781}. Many solutions are proposed to avoid
-the complexity in the last layer. One alternative is to use  hierarchical
+The  dominant term is $H \times V$, because of the gradient calculation
+described  in  the previous section \cite{DBLP:journals/corr/abs-1301-3781}. That is, the bottleneck of this architecture reside on the last layer because in order to obtain normalized probability via the \textit{softmax} layer is necessary to evaluate model for each word in he vocabulary.
+Many solutions are proposed to avoid the complexity in the last layer. One possibility is to use  hierarchical
 versions of the softmax \cite{Morin05hierarchicalprobabilistic,6163930}.
 The other alternative is to avoid is to avoid  normalized models by finding
 a approximation to find the likelihood gradient \cite{NIPS2013_5165} . If binary tree representations are
@@ -569,12 +575,12 @@ of the complexity will be then caused by the term  $N \times D \times H$.
 \subsection{Recurrent Neural Net Language Model}
 
 One of the major issues of the \ac{FNNLM} approach is that
-it has to used a fixed context that need to be specified at training time.
-Therefore, the neural network only can see a limited number of preceding
-words when predicting the next one.  A language model based on recurrent neural networks  do not use a context
-with a size limit.  By using recurrent connection the information cycle
-inside the networks for arbitrarily long time. the \ac{RNNLM} proposed by
-Mikolov use the so-called simple
+it uses a fixed context that needs to be specified at training time.
+% Therefore, the neural network only can see a limited number of preceding
+% words when predicting the next one.  
+A language model based on recurrent neural networks  does not use a context
+with a size limit. This is achieved by  using recurrent connections inside the network for arbitrarily long time. The \ac{RNNLM} proposed by
+Mikolov use the so-called simple 
 recurrent neural network model. The network has an input layer $x$, hidden
 layer $s$ (also called context layer or state) and output layer $y$. Input to
 the network in time $t$ is $x(t)$, output is denoted as $y(t)$, and $s(t)$ is
@@ -607,13 +613,13 @@ the next word is $W_v$.
 
 
 Figure \ref{fig:RNNLM_architecture} depicts the architecture of the simple
-recurrent neural network this model is based on. Similar to the \ac{FNNLM},    $w(t)$ represents the word in time $t$ encoded using 1-of-$V$ coding.  $s(t-1)$ represents the output values in the
+recurrent neural network. Similar to the \ac{FNNLM},    $w(t)$ represents the word in time $t$ encoded using 1-of-$V$ coding.  $s(t-1)$ represents the output values in the
 hidden layer from the previous time step. Therefore $x(t)$, the input, has
 the size of the vocabulary $V$ and of vector $s(t-1)$. After the network is
-trained, the output represent the probability represented by equation
-(\ref{eq:lm_probability}).  \cite{mikolovphd2012}. The network is trained
-using stochastic gradient descent using the
-\textit{backpropagation} algorithm \cite{conf/interspeech/MikolovKBCK10,Bishop:1995:NNP:525960}.
+trained, the output represent the probability  in  equation
+(\ref{eq:lm_probability})  \cite{mikolovphd2012}. % The network is trained
+% using stochastic gradient descent using the
+% \textit{backpropagation} algorithm \cite{conf/interspeech/MikolovKBCK10,Bishop:1995:NNP:525960}.
 
 
 \subsubsection{Model Complexity}
@@ -640,15 +646,15 @@ formulation. Thus, most of the complexity comes $H \times H$.
 % A major deficiency of Bengio’s approach is that a feedfor- ward network has to use fixed length context that needs to be specified ad hoc before training. Usually this means that neural networks see only five to ten preceding words when predicting the next one. It is well known that humans can exploit longer context with great success. Also, cache models provide comple- mentary information to neural network models, so it is natural to think about a model that would encode temporal information implicitly for contexts with arbitrary lengths.
 
 
-\subsection{Mikolov Neural Network Language Model}
+\subsection{Neural Network Language Model Proposed by Mikolov}
 \label{sec:mikolov-neural-net-model}
 
 
 
-Mikolov neural network language model use a similar  approach to the
-\ac{NNLM} described  \ref{subsec:fwd-neural-net-lm}. However, in this model  the neural
+The \ac{NNLM} proposed by Mikolov use a similar  approach to the
+\ac{NNLM} described  in section \ref{subsec:fwd-neural-net-lm}. However, in  Mikolov's  model  the neural
 network architecture is split in two steps. In the first section of  the
-architecture  a bigram neural network is trained. Given a word $w$ from a vocabulary $V$, the neural
+architecture  a bigram  neural network is trained. Given a word $w$ from a vocabulary $V$, the neural
 network tries to estimate the the probability distribution of the next word
 in the text. Both the input and output are of size $|V|$, were the words a
 usually is encoded with 1-of-$K$ encoding, with $K=|V|$.  There is is one hidden layer of
@@ -657,7 +663,8 @@ range from 20-60). As with other models, the output layer  is a  softmax
 layer. The network is trained  using the standard \textit{backpropagation}
 algorithm \cite{conf/icassp/MikolovKBGC09}. 
 
-The second step consists of  A $N$-gram network. The network is trained in a
+The second step consists of a  $N$-gram network. That is a network that tries to predict $w_t$ based on previous $N-1$ words. 
+The network is trained in a 
 similar way, however the input vector does not encode previous words using 1-of-$K$ encoding, but is formed using $N-1$ projections from
 the  bigram network. These projections are the learned weights of dimension
 $|D|$ learned by the big-gram network. Figure
@@ -666,11 +673,9 @@ $|D|$ learned by the big-gram network. Figure
 
 \subsubsection{Model Complexity}
 
-As this model is composed of two parts, the model complexity depends whether
-the full language model is to be learned or not. If one is only interested in
+As this model is composed of two parts, we then split the complexity definition in two parts . If one is only interested in
 the word representations, i.e. the projections from the big-gram network,  the
-complexity is reduced to the complexity of the bigram network, regardless of
-the quality of the representation obtained.  The full model
+complexity is reduced to the complexity of the bigram network $Q_1$.  The full model
 complexity is given by: 
 
 
@@ -683,8 +688,7 @@ complexity is given by:
 
 With $Q_1$ and $Q_2$ the complexity of the bigram network and the $N$-gram
 network respectively. Although not mentioned by the authors, efficiency
-improvement can be achieved by using hierarchical formulations of the softmax
-can be used. If it is used, most of the complexity  lies in the  $N \times D \times
+improvement can be achieved by using hierarchical formulations of the softmax. If used, most of the complexity  lies in the  $N \times D \times
 H$ term of $Q_2$.
 
 \begin{figure}[hptb!]
