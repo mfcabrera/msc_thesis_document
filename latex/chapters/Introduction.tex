@@ -1,8 +1,33 @@
 \chapter{Introduction}
 \label{chapter:Introduction}
-WORK IN PROGRESS
 
-From the early days of computers, people have dreamed about machines with intelligence. Computer able to exhibit complex behaviour and able to solve tasks assigned by users.
+
+From the early days of computers, people have dreamed about machines with intelligence. Computers able to exhibit complex behaviour and able to solve tasks assigned by users. If we assume that this problem is too difficult to solve immediately,  we can think of several step that will lead towards the development of inteligent machines. One of the first task to solve  is the one of language understanding, i.e. giving the machine to process and understand human language. This by definition is a hard tasks even for humans beings, as  natural language is inherently ambiguous.
+
+Current computational language modeling techniques are based on statistical measurements and hardcoded rules. Although they perform fairly well in several tasks, they are far from achiving human like results in many natural language processing problems.
+One way to try to achieve human like behavior in a machine is to emulate the way of human brain work. This was the main idea behind the initial use of neural networks in the early days  of artificial intelligence. The last decade has seen a revival of this trend via the so-called field \textit{Deep Learning}. \textit{Deep Learning} tries to learn useful high level representation of data using raw data via hierarchical architectures . This is similar in principle to the theories of brain development proposed by the cognitive neuroscientists in the early 1990s. 
+
+In the field of natural language processing, most of the research  has focused on  trying to obtain words representation that allow to extract meaning from unlabeled text, mostly in English language.  However,  English lack of the morphological complexity exhibited by other Germanic and non-Germanic languages such as German and Spanish. Therefore is of interest to evaluate what information can extract these models from morphological richer languages. 
+
+
+%There are t
+
+% 
+%The goal of this thesis is to describe new techniques that have been developed to overcome the simple n-gram models that still %remain basically state-of-the-art today. To prove usefulness of the new approaches, empirical results on several standard data %sets will be extensively described. Finally, approaches and techniques that can possibly lead to automatic language learning %by computers will be discussed, together with a simple plan how this could be achieved.
+
+
+% current language modeling techniques  are based on 
+% - Language understanding via language modelling.
+% One way to simiulate this behaviour The Turing test was designed by 
+
+% - Alan Turing and the machine (re-write Mikolov thing)
+% - Emulating the using neural computation
+% - This important because the implications
+% - most of the work has been done in english where other languges exists and their differences 
+% - Amount of data of data avaitlable on the web
+% - Unlabaled thus impoortant to learn from unlabeled data.
+% - Text categorization
+% - Better language model will lead us to better understanding of human by the machine.
 
 
 % From the first day of existence of the computers, people were dreaming about artificial intelligence - machines that would produce complex behaviour to reach goals specified by human users. Possibility of existence of such machines has been controversial, and many philosophical questions were raised - whether the intelligence is not unique only to humans, or only to animals etc. Very influential work of Alan Turing did show that any computable problem can be computed by Universal Turing Machine - thus, assuming that the human mind can be described by some algorithm, Turing Machine is powerful enough to represent it.
@@ -12,18 +37,23 @@ From the early days of computers, people have dreamed about machines with intell
 \section{Motivation and Objectives}
 
 \label{sec:motivation}
-WORK IN POGRESS
+
+The goal of this thesis is to describe deep learning approaches to learn word features,  performing a empirical study of the performance of such representation in the German language and evaluating the applicability of such methods in existing problems, in particular the field of automated text categorization. 
+
+There are two  main motivation behind this objective. First, it is interesting to evaluate word representation of languages other than English. This allow measure to some degree the generalization power and the ability to extract useful features of these models. Second, most of the textual data being created is unlabeled. Thus, developing pipelines that allow to take advantage of the large amount of existing raw data (e.g. in Internet) is necessary to improve existing system based on processing human language.
+
+For that purpose a empirical evaluation of the \textit{Word2vec} model for learning word vector representation is done. \textit{Word2vec} has been chosen because has shown to learn extremely rich relationships between words. In the applicaiton area, the field of automatic document classification of German language document has been chosen. The reason for this is two-fold. On one had, few work has been done in applying such features in the general area document classification. Second, given the nature of the data set chosen,  for which limited amount of document is available, offer the perfect chance to evaluate the information obtained from unlabeled data. 
+
+%%- natural language and therefore word vector embeddings model has been mostly evalutated using english as the basic language
+% - how these perform on toher languages other than english with more complex grammar and sytax is nonethelss important.
+
+% - word2vec has shown to generate interesting word vector maininigting linear relationships. However, up to this date no applications of these word vector model besides some experiments with translation. 
+% - This word explores a previous approach to document classificaion using word word vectors but with two particularities. One the exsitince of an already classifier based on handcrafted features, second the language of work is German, that is a highly inflective language. 
 
 
-- natural language and therefore word vector embeddings model has been mostly evalutated using english as the basic language
-- how these perform on toher languages other than english with more complex grammar and sytax is nonethelss important.
-
-- word2vec has shown to generate interesting word vector maininigting linear relationships. However, up to this date no applications of these word vector model besides some experiments with translation. 
-- This word explores a previous approach to document classificaion using word word vectors but with two particularities. One the exsitince of an already classifier based on handcrafted features, second the language of work is German, that is a highly inflective language. 
 
 
 No text without motivation
-
 
 \section{Structure of the Thesis}
 \label{sec:structure-thesis}
