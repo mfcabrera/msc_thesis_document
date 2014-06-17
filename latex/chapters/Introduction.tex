@@ -5,9 +5,9 @@
 From the early days of computers, people have dreamed about machines with intelligence. Computers able to exhibit complex behaviour and able to solve tasks assigned by users. If we assume that this problem is too difficult to solve immediately,  we can think of several step that will lead towards the development of inteligent machines. One of the first task to solve  is the one of language understanding, i.e. giving the machine to process and understand human language. This by definition is a hard tasks even for humans beings, as  natural language is inherently ambiguous.
 
 Current computational language modeling techniques are based on statistical measurements and hardcoded rules. Although they perform fairly well in several tasks, they are far from achiving human like results in many natural language processing problems.
-One way to try to achieve human like behavior in a machine is to emulate the way of human brain work. This was the main idea behind the initial use of neural networks in the early days  of artificial intelligence. The last decade has seen a revival of this trend via the so-called field \textit{Deep Learning}. \textit{Deep Learning} tries to learn useful high level representation of data using raw data via hierarchical architectures . This is similar in principle to the theories of brain development proposed by the cognitive neuroscientists in the early 1990s. 
+One way to try to achieve human like behavior in a machine is to emulate the way of human brain work. This is the main idea behind the initial use of neural networks in the early days  of artificial intelligence in the 60s and 70s. The last decade has seen a revival of this trend via  \textit{Deep Learning}. \textit{Deep Learning} tries to learn useful high level representation of data using raw data via hierarchical architectures. This is similar in principle to the theories of brain development proposed by the cognitive neuroscientists in the early 1990s. 
 
-In the field of natural language processing, most of the research  has focused on  trying to obtain words representation that allow to extract meaning from unlabeled text, mostly in English language.  However,  English lack of the morphological complexity exhibited by other Germanic and non-Germanic languages such as German and Spanish. Therefore is of interest to evaluate what information can extract these models from morphological richer languages. 
+In the field of natural language processing, most of the research  has focused on  trying to obtain words representation that allow to extract meaning from unlabeled text, mostly in English language.  However,  English lack of the morphological complexity exhibited by other Germanic and non-Germanic languages such as German and Spanish. Therefore, it  is of interest to evaluate what information can extract these models from morphological richer languages. Even if these models have achieved to generate representation containing  interesting relationships among words, there are not still a clear way to use them for improving many existing tasks.
 
 
 %There are t
@@ -40,9 +40,20 @@ In the field of natural language processing, most of the research  has focused o
 
 The goal of this thesis is to describe deep learning approaches to learn word features,  performing a empirical study of the performance of such representation in the German language and evaluating the applicability of such methods in existing problems, in particular the field of automated text categorization. 
 
-There are two  main motivation behind this objective. First, it is interesting to evaluate word representation of languages other than English. This allow measure to some degree the generalization power and the ability to extract useful features of these models. Second, most of the textual data being created is unlabeled. Thus, developing pipelines that allow to take advantage of the large amount of existing raw data (e.g. in Internet) is necessary to improve existing system based on processing human language.
+There are two  main motivation behind this objective. First, it is interesting to evaluate word representation of languages other than English. This allow measure to some degree the generalization power and the ability to extract useful features of these models. Second,  most of the existing data existing is unlabeled. Internet is full of textual information without metainformation. Thus, developing pipelines that allow to take advantage of large amount of available data  is necessary to improve existing systems that some how process natural language.  
 
-For that purpose a empirical evaluation of the \textit{Word2vec} model for learning word vector representation is done. \textit{Word2vec} has been chosen because has shown to learn extremely rich relationships between words. In the applicaiton area, the field of automatic document classification of German language document has been chosen. The reason for this is two-fold. On one had, few work has been done in applying such features in the general area document classification. Second, given the nature of the data set chosen,  for which limited amount of document is available, offer the perfect chance to evaluate the information obtained from unlabeled data. 
+For that purpose a empirical evaluation of the \textit{Word2vec} on German
+language corpus has been chosen. \textit{Word2vec} is a tool that by means of
+a neural network allow to learn vector representation of words.
+\textit{Word2vec} is used  because it has shown to produce representations
+that contain rich relationships among words . In the applicaiton area, the
+field of automatic document classification of German language document has
+been selected. The reason for this is two-fold. On one had, the amount  work
+has been done in applying such representation  in the general area of
+automated document classification is limited. On the other hand, the nature
+of the data set chosen,  from which limited amount of document is available,
+offer the perfect chance to evaluate the performance obtained by using
+features learned from unlabeled data.
 
 %%- natural language and therefore word vector embeddings model has been mostly evalutated using english as the basic language
 % - how these perform on toher languages other than english with more complex grammar and sytax is nonethelss important.
@@ -51,12 +62,20 @@ For that purpose a empirical evaluation of the \textit{Word2vec} model for learn
 % - This word explores a previous approach to document classificaion using word word vectors but with two particularities. One the exsitince of an already classifier based on handcrafted features, second the language of work is German, that is a highly inflective language. 
 
 
-
-
-No text without motivation
-
 \section{Structure of the Thesis}
 \label{sec:structure-thesis}
+
+The theoretical foundation required for the understanding of this thesis is
+described in chapter \ref{chap:related_work}. This chapter also gives an
+overview about related work in the of language modeling and text
+representations.  In particular, it describes the model that led to the
+development of \textit{Word2vec}.
+ Chapter \ref{chap:word2vec_description} describe in detail the architecture
+ \textit{Word2vec}. Afterwards chapter \ref{chapter:wor2vec_german} describe
+ an emprical evaluation of the \textit{Word2vec} model on a German language
+ corpus.  Chapter \ref{chap:rel_word2vec_doc_classification} explores the
+ application  
+4 guide through the development process of the WAF. Chapter 5 discusses an evaluation of different wifi AP localization techniques. Finally, in chapter 6 the thesis is concluded and an outlook for future work is given.
 No text without a structure
 
 % \section{Claims of the Thesis}
