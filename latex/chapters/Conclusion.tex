@@ -2,4 +2,71 @@
 \chapter{Conclusion and Future Work}
 \label{chap:conclusion_future_work}
 
-And the conclusion alter.
+This master thesis studied the behavior of distributed representation learned by the \textit{Word2vec} model on German language data. It also evaluated and compared the learned distributed representations  against traditional handcrafted features for the classification of German language business document.
+The evaluation of the word vector features included not only the analytically evaluation of the obtained word representations, but also the construction of a set  semantic and syntactic question in the German akin to the  one existing already for the English language. This is useful because it will allow other word vector model to evaluate the performance in the German language. The evaluation also yielded interesting results regarding the different factors affecting the performance of the \textit{Word2vec} model. For instance,  the impact of the semantic information contained in the corpus e learning the model. In particular, when building word representations that are topical smaller corpus of  text containing  with richer semantic relationships  are preferable to large amounts of text with no specific context. 
+The study of the word vector representation showed that although the model
+captured  semantic relationships correctly, for the syntactic tasks it was  not as successful. This can be explained by the morphological complexity of the German language in comparison to English. So, in order to capture properly these relationships it is necessary also to give the model more information about the morphological structure of the language.
+
+In the context of document classification, the learned word vector
+representations did   not outperform the state of the art  \ac{tf-idf}
+features. However, they  did perform better than the handcrafted features on
+the German language business document used for the evaluation. However, the
+difference between  the performance measures is not large. This is relevant
+if the amount of data used to train the model is taken into account. By
+comparison,  the trained model by Google on the Google News dataset used
+terabytes of Google news data. The model trained on Gini dataset contained
+less than 100MB of information and yet they performed fairly similar. This
+suggests that with more relevant data it is possible to learn better
+representations, thus improving the performance of 
+the document classifier. It is important to make emphasis on the word
+\textit{relevant},  as a model trained on the German Wikipedia was also used
+yielding good results as well but not outperforming either the  \ac{tf-idf}
+features or the model learned on business documents.   However, this is a
+good example of transfer learning were an unrelated dataset is used to learn
+features that can be used to tackle a completely  different problem.
+
+
+The features used to classify document were
+just the averaged sum of word vector representation of the used documents.
+Although it is reported that for long documents this will not yield good
+results \cite{MikolovSCCD13},  for this particular problem they performed well 
+well. Yet, more sophisticated word representation for long documents are needed in
+order to account for the importance of words and the context.
+ Recent work goes in this direction by obtaining 
+fixed-length distributed representation of sentences and documents via an
+unsupervised learning algorithm similar to \textit{Word2vec}, but in addition
+having a paragraph matrix which represents the missing information from the
+current context and act as memory of the topic of the paragraph
+\cite{2014arXiv1405.4053L}. However, this only work so far for short
+sentences / documents. Thus, techniques for obtaining distributed
+representation of long documents are yet to be developed. 
+
+Finally, given the nature of distributed representation, once the
+unsupervised learning of the features is complete, further supervised fine-tuning can be
+achieved using the specific tasks objective as evaluation function. This
+particular problem has not been yet tackled for  word vector representations
+in the context document classification, let alone for paragraph or long document representations.
+
+% compared to the dataset used to learn the word vectors of 
+
+
+% More results of the word vector
+% Results from the document classification tasks
+% Future of these techniques:
+% Document representation
+% ove the learned word vectors after  the unsupervised 
+% chaining SVM 
+ 
+
+% In this master thesis a framework for wifi data analysis was designed and implemented, providing tools for the localization of wifi APs, for continuous monitoring of statistical key parameters, and for the visualization of wifi related data. Different localization techniques where evaluated for their performance. The best performing algorithm, based on “Trilateration”, outperforms other state-of-the-art solutions with position es- timation accuracies between 6.75-47.10 meters and a median localization accuracy of 25.35 meters. The evaluation was based on a representative but limited dataset. The achieved state-of-the-art results may improve, given that the MeasrDroid data will em- body a bigger set of measurements, provided by a higher number of users. Also the position estimation errors are degraded by a high number of measurement errors in- duced by mobile phone hardware and real world abstractions. The position estimation can be further improved by embedding models better representing real world condi- tions and by collecting measurements from devices with better radio hardware.
+% The statistical monitoring provides up-to-date and easily understandable representa- tions of important statistical key parameters, supporting the supervision of the systems state. The wifi visualization module provides sophisticated visual representation of the localized wifi APs in a geographic information system. Alltogether, the WAF provides a versatile toolset for the analysis of wifi related data.
+% The work of this master thesis was only the first step towards continuously intercon- nected wifi networks. There is still a lot of work to be done. The evaluation conducted in this thesis was based only on a limited ground truth. For a thorough evaluation the ground truth has to be extended. Currently it comprises about 300 wifis, covering only 20% of localized wifi APs on average. Promising sources to extend the ground truth are the currently started home hot-spot program from Kabel Deutschland [33] or the upcoming home hot-spot program from the Deutsche Telekom [36].
+% Further work has also to be done in the evaluation of localization techniques. This work only evaluated a small subset of possible techniques. Other approaches like prob- abilistic models or fingerprinting can possibly yield comparable or even better results.
+% The WAF itself provides a huge set of possibilities for extensions. The wifi visual- ization module can be extended for example towars a wifi sensitive navigation system, which gives directions from a point A to a point B while providing the best wifi AP cov- erage along the way. Another possibility would be to extend the WAF to include GSM
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../main.tex"
+%%% End:

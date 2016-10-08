@@ -8,16 +8,13 @@ basic concepts of deep learning and representation learning. After that, in
 sections  \ref{sec:rel_nlp} to \ref{sec:sub_continuous_representation}
 the basics of natural language processing and text representation  are
 discussed. Sections \ref{sec:relwork-language-models} and \ref{sec:n-gram-lm} introduce statistical
-language modeling and the classical $N$-gram based approach. Section explores 
-\ref{sec:nnlms-intro}  in detail some of the existing language  models based
+language modeling and the classical $N$-gram based approach. Finally,
+Section \ref{sec:nnlms-intro} explores 
+  in detail some of the existing language  models based
 on neural networks. The reason for this, is that continuous word vector
 representation model used in this work, namely \textit{Word2vec}, relies
-heavily on concept developed by these architectures. Thus, understanding the
-working of previous these models  will help to understand the rationale and
-motivation behind \textit{Word2vec}. Finally, as one the application of word
-vector representation explored is document or text classification, the basics
-concepts to document classification also introduced in section \ref{sec:rel_text_categorization}.
-
+heavily on concept developed by these architectures. Thus, understanding  previous models  will help to understand the rationale and
+motivation behind \textit{Word2vec}. 
 \section{Deep Learning and Representation Learning}
  \label{sec:deep_learning}
 Performance of machine learning methods relies heavily on the choices of the
@@ -25,43 +22,42 @@ data representation or features used to train the algorithm. Therefore,
 choosing the right feature set is crucial when developing  machine learning
  systems. This step, generally part of a more complex processing
 pipeline, is called feature engineering.
-Although important, feature engineering is expensive in term of labor needed
+Although an important step, feature engineering is expensive in term of labor needed
 to perform it successfully. Feature engineering generally requires   expert
 knowledge of the application domain.  In order to expand the applicability
 and speeding up the development of machine learning based systems, it would
 be desirable to 
-depend less on feature engineering by devising algorithms  that could extract
+depend less on feature engineering by employing algorithms  that could extract
 meaningful  information from raw input, turning this information into
-features that could be used with different purposes.
+features to be  used  in different machine learning settings.
 
 Feature learning or representation learning is a set of techniques in machine
 learning that learn a transformation from these raw inputs to a representation that
 can be effectively exploited in a supervised learning task such as
 classification \cite{DBLP:journals/corr/abs-1206-5538}. 
-Many of these representation  are learned by using several layers of
+These representations  are learned by using several layers of
 non-linearities, were each layer learns increasingly complex level of
-representation. Hence the name of \textit{Deep Learning}. However, high depth is
+representation.  However, high depth is
 not a requirement to learn useful representation. Depending on the tasks
-relatively shallow architectures produce useful representations.
+relatively shallow architectures produce useful features.
 
 One important  concept in representation learning  is the concept of
 \textit{distributed representations}.  A distributed representation is a representation  where $k$ 
-out of $N$ representation elements or feature values can be independently
-varied, e.g., they are not mutually exclusive. Each concept is represented by
-having $k$ features being turned on or active, while each feature is involved
+out of $N$ representation elements or feature values cannot  be independently
+varied, e.g., they are not mutually exclusive. K features being turned on or
+active represent each concept while each feature is involved 
 in representing many concepts \cite{DBLP:journals/corr/abs-1206-5538}.
 There are many reasons for which having automatically learning distributed representations are
-desirable to have.  First,  distributed representations fight the curse of
-dimensionality by capturing a huge number of possible input configurations in
+desirable to have.  First,  distributed representations enable to fight the \textit{ curse of
+dimensionality} by capturing a huge number of possible input configurations in
 reasonably sized learned representations. These representations often offer
-similarity models than can be useful to improve existing algorithms.
+similarity models that can be useful to improve existing algorithms.
 Second,  handcrafting features is time consuming, and it often generates
-over-specified and incomplete representation, requiring to repeat work when
-switching tasks or  domains. Finally, many machine learning techniques
-require labeled data.  However, in most of the domains the majority of data is unlabeled.
-Therefore, most information must be acquired unsupervised. By learning
+over-specified and incomplete representation, requiring repeating  work when
+switching tasks or  domains. Finally, many supervised  machine learning techniques
+require labeled data while in domains the majority of data is unlabeled.  By learning
 representations based on unlabeled data, this information can be harnessed
-to learn classification decisions.
+to learn powerful classifiers.
 
 
 
@@ -127,7 +123,7 @@ provide natural language understanding and generation  machines.
 Statistical \ac{NLP} comprises all quantitative approaches to automated
 language processing, including probabilistic modeling, information theory,
 information theory and linear algebra \cite{Manning:1999:FSN:311445}.  Modern
-\ac{NLP}  techniques,  make also use of  machine learning, data mining  and others data
+\ac{NLP}  techniques make  use of  machine learning, data mining  and others data
 driven techniques.
 
 Major tasks of \ac{NLP} include  \ac{POS} (detecting part of speech in a
@@ -138,7 +134,7 @@ In some cases, sets of related tasks are grouped into subfields that are often
 considered separately from \ac{NLP}. \ac{IR} is concerned with storing,
 searching, and retrieving information, in particular  information stored as
 text. Although considered a separate field, many tasks of \ac{IR} such a
-\ac{TC} relies on \ac{NLP} methods. Thus, there is an overlap between the two
+\ac{TC} rely on \ac{NLP} methods. Thus, there is an overlap between the two
 fields in several applications.
 
 
@@ -146,7 +142,7 @@ fields in several applications.
 \section{Represenations of Text}
  \label{sec:rel_represenation_text}
   Many of the tasks of \ac{NLP} and \ac{IR} deal with textual data. Therefore
-  the way  of representing this information is of key importance and affect
+  the way  of representing this information is of key importance and affects
   directly the performance of the methods.  For  Statistical and machine
   learning techniques, these representations become the input features of
   such algorithms. Thus, using appropriate representation  becomes really
@@ -164,26 +160,23 @@ fields in several applications.
 
 \section{Local Representations}
  \label{sec:rel_local_representation}
- Local representation is a vector of features which characterize the
- meaning of the symbol. These  features  are mutually exclusive. That is, each feature
- represent a unique characteristic.
- 
- \subsubsection{$N$-grams}
+A local representation is a vector of features that characterize the meaning
+of the symbol. These features are mutually exclusive. That is, each feature
+represents a unique characteristic.
+
+\subsection{$N$-grams}
  \label{sec:sub_ngrams}
 
-A $n$-gram is a sequence of $n$ items from given text corpus. The items can
+An $n$-gram is a sequence of $n$ items from given text corpus. The items can
 be phonemes, syllables, letters or words. In this  work, the term
 \textit{$n$-gram} refers only   to  word $n$-grams.
 An $n$-gram of size 1 is referred to as a "unigram"; size 2 is a "bigram";
 size 3 is a "trigram". Larger sizes are sometimes referred to by the value of
-n. As the frequency of the $n$-grams are of interest for statistical
-modeling, these representation are usually accompanied by the number of
-occurrences on a specific corpus. 
-
-
-This representation  have been used successful used in language modeling (see section
-\ref{sec:relwork-language-models}). N-gram based language models has the dominant approach for
- language modeling since the 1980's \cite{Bengio:2008}.
+n. As the frequencies of the $n$-grams are of interest for statistical
+modeling, the number of occurrences usually accompanies these
+representations. This representation  have been used successful used in language modeling (see section
+\ref{sec:relwork-language-models}). N-gram based language models have been  the dominant approach for
+ language modeling since the 1980s \cite{Bengio:2008}.
 
 
 % Note that in a simple n-gram language model, the probability of a word, conditioned on some number of previous words (one word in a bigram model, two words in a trigram model, etc.) can be described as following a categorical distribution (often imprecisely called a "multinomial distribution").
@@ -191,16 +184,16 @@ This representation  have been used successful used in language modeling (see se
  \subsection{Bag-of-words (BOW)}
  \label{sec:rel_bow}
 
-In the \ac{BOW} model, documents are represented by the words composing them.
-Each document of a corpus is assigned a vector of dimensionality $V$, where $V$ is the
-vocabulary of that corpus. Each component of this vector has a associated word of
+Bag of Word is a document level representation in which each document of a corpus is assigned a vector of dimensionality $V$, where $V$ is the
+vocabulary of that corpus. Each component of this vector has an associated word of
 the vocabulary. The values of each of the component can be binary, i.e. representing the
 word occurrence or absence in the document, or a more sophisticated metric
 such as \ac{tf-idf} \cite{Salton88term-weightingapproaches}.
 
-Term frequency $tf_j$  is the number of times that a word $j$ appear in a
+
+Term frequency $tf_j$  is the number of times that a word $j$ appears in a
 document $d$. The document frequency  $df_{j}$  is the number of documents
-the term $j$ appears in all the corpus.  With these two values,  \ac{tf-idf}  for a  word $j$ is  calculated as follows:
+the term $j$ appears in the entire corpus.  With these two values,  \ac{tf-idf}  for a  word $j$ is  calculated as follows:
 
 \begin{equation*}
   \label{eq:tf-idf}
@@ -208,7 +201,7 @@ the term $j$ appears in all the corpus.  With these two values,  \ac{tf-idf}  fo
   j \in V
 \end{equation*}
 
-This representation of text does not take  into account the actual order of the words inside the document. Despite
+With $N$ the total number of documents in the document set.  This representation of text does not take  into account the actual order of the words inside the document. Despite
 of that, it has  performed well in many \ac{IR} tasks (e.g. search, \ac{TC},
 etc.) \cite{Sebastiani02}. Variations and extension of this technique are
 still used in modern \ac{IR} systems.
@@ -218,7 +211,8 @@ still used in modern \ac{IR} systems.
 
  This is a word level representation. It is also called \textit{one hot
    representation}. The feature vector has the same length as the size of the
- vocabulary of the corpus, and  one dimension is on.  This representation is
+ vocabulary of the corpus. All the features or dimensions are zero but one.
+ Representing a unique word of the vocabulary.            This representation is
  commonly used as an input for language models based on neural networks (see
  section \ref{sec:nnlms-intro}.)
 
@@ -231,14 +225,15 @@ still used in modern \ac{IR} systems.
 
 \subsection{Distributional Word Representations}
 
-Distributional representation are based on the idea that a lot of
+Distributional representations are based on the idea that a lot of
 information can be obtained by representing a word by means of its neighbors.
-Distributional word representations are based 
-upon a cooccurrence matrix $F$ of size $V \times C$.  Each row of $F$ is the
+Distributional representation are generally used to obtain document level representations.
+Distributional word representations are based upon a cooccurrence matrix $F$
+of size $V \times C$.  Each row of $F$ is the 
 initial representation of a word $w$, and each column is some context
-\cite{Turian:2010:WRS:1858681.1858721}. The context  are generally windows of
+\cite{Turian:2010:WRS:1858681.1858721}. The context is  generally windows of
  words surrounding $w$. Each value of the context  represented using a type of
-frequency count such as \ac{tf-idf}. Commonly used techniques for obtaining distributed
+frequency count such as \ac{tf-idf}. Commonly used techniques for obtaining distributional
 representations  are \ac{LSA} \cite{Dumais:1988:ULS:57167.57214} and \ac{LDA}
 \cite{Blei:2003:LDA:944919.944937}.
 
@@ -246,8 +241,8 @@ representations  are \ac{LSA} \cite{Dumais:1988:ULS:57167.57214} and \ac{LDA}
  \subsubsection{Latent Semantic Analysis}
  \label{sec:rel_sa}
 \ac{LSA} is the application of \ac{SVD} to a matrix where each row a document
-represented using the \ac{BOW} model.
- \ac{LSA} induce in this way  distributional representations over F in which
+represented using the \ac{BOW} model. In this way
+ \ac{LSA} induce   distributional representations over F in which
 each column is a document context \cite{Turian:2010:WRS:1858681.1858721}.  
 One drawback of this technique is that,  for large databases the SVD
 calculation becomes intractable, since the computation is extremely
@@ -270,14 +265,12 @@ probability distribution of the words in the documents.
 
  \subsection{Distributed Representations}
  \label{sec:dis_rep}
-The need advantages of  learning and using  distributed representation were already discussed in section \ref{sec:deep_learning}.
-
-At the word level, distributed word representation assign a real-valued vector
-to each word. As with other distributed representations, the  difference with local representations lies  is that there a single 
+The  advantages of  learning and using  distributed representation were already discussed in section \ref{sec:deep_learning}.
+At the word level, distributed word representations assign a real-valued vector
+to each word. As with other distributed representations, the  difference with
+local representations lies  is that the representation mechanism, i.e. a single 
 feature does not represent a single concept or relationship.
-
-In the context of \ac{NLP},  distributed representations for textual data were
-introduced by Hinton \cite{hinton:learndistrep}. 
+In the context of \ac{NLP}, Hinton  \cite{hinton:learndistrep} introduced distributed representations for textual data. 
  Bengio et al. \cite{Bengio:2008} combined distributed representations with neural network probability prediction  to apply them  to
 statistical language model by through his
 neural network based language model. Collobert  et al.\cite{collobert:2008}, Mhin et
@@ -308,7 +301,10 @@ Mikolov et al.  \cite{conf/interspeech/MikolovKBCK10,conf/icassp/MikolovKBGC09} 
 \label{sec:relwork-language-models}
 
 A statistical language model assigns a probability to a sequence of m
-words $P(w_1,\ldots,w_m)$.  In most statistical language model it is assumed that the probability of $i$-th word $w_t$ only depends on the sequence of the $n-1$ previous word.  Using this assumption, the probability $P(w_1,\ldots,w_m)$ can be approximate by \cite{Bengio:2008}: 
+words $P(w_1,\ldots,w_m)$.  In most statistical language model it is assumed
+that the probability of $i$-th word $w_t$ only depends on the sequence of the
+$n-1$ previous word.  Using this assumption, the probability
+$P(w_1,\ldots,w_m)$ can be calculated by \cite{Bengio:2008}: 
 % 
 %This probability can be obtained from the probability of
 %each word given the context of words preceding it using the chain rule of probability 
@@ -330,7 +326,8 @@ sequence. In the field of \ac{IR} language model are used generally
 to rank documents based on the probability that a language model would
 generate terms from a specific query \cite{Manning:1999:FSN:311445}.
 
-Although not in an extensively , this section covers existing statistical language models. In particular, The dominant $N$-gram based model and models that
+Although not in an extensively , this section covers existing statistical
+language models. In particular, the dominant $n$-gram based model and other  models that
 serve as basis for the architecture of  \textit{Word2vec} are discussed.
 %  models that are related to \textit{Word2vec} are
 %covered %
@@ -341,7 +338,10 @@ serve as basis for the architecture of  \textit{Word2vec} are discussed.
 \section{$N$-Grams based language models}
 \label{sec:n-gram-lm}
 
-The most frequently used language models are based on the n-gram statistics, which are basically word co-occurrence frequencies\cite{Manning:1999:FSN:311445} . The maximum likelihood estimate of probability of word $A$ in context $H$ is then computed
+The most frequently used language models are based on the n-gram statistics,
+which are basically word co-occurrence
+frequencies \cite{Manning:1999:FSN:311445} . The maximum likelihood estimate
+of probability of word $A$ in context $H$ is then estimated by:
 
 
 \begin{equation}
@@ -392,8 +392,9 @@ where $w$ is a word in a context $h$ and $Z(h)$ is  the normalization factor:
 
 Where $f_i(w,h)$ are  the feature functions based on the word and its
 context. Therefore, the problem of training a  \ac{ME} consiste of  find the
-weights  $lambda_i$ and select the features $f_i$, which are not learned from
-the data. Usually features for this models are $n$-grams. \ac{ME} models can
+weights  $\lambda_i$ and select the features $f_i$, which are not learned from
+the data. Usually, the features functions $f(w,h)$ for these  models are
+$n$-grams probabilities. \ac{ME} models can
 be seen as simple neural network without a hidden layer and can be trained
 using stochastic gradient descent \cite{Bishop:1995:NNP:525960, mikolovphd2012}.
 
@@ -406,7 +407,7 @@ using stochastic gradient descent \cite{Bishop:1995:NNP:525960, mikolovphd2012}.
 
 As its name describes,  \ac{NNLM} are  language models based on Neural Networks, exploiting their
 ability to learn distributed representations to reduce the impact of the
-curse of dimensionality \cite{Bengio:2008}. In other words, a \ac{NN} is
+\textit{curse of dimensionality} \cite{Bengio:2008}. In other words, a \ac{NN} is
 used to estimate the probability described  by equation (\ref{eq:lm_probability}) based on a sequence of
 previous words.
 
@@ -414,7 +415,7 @@ The advantage  using  distributed representations  is that they allow
 the model to generalize well to sequences that are not in the set of training
 word sequences, but that are similar in terms of their features. Because neural networks tend to map nearby inputs
 to nearby outputs, the predictions corresponding to word sequences with
-similar features are mapped to similar predictions. \cite{Bengio:2008,Bengio:2003:NPL:944919.944966}
+similar features are mapped to similar predictions \cite{Bengio:2008,Bengio:2003:NPL:944919.944966}.
 
 However, due to the nature the multilayer architecture common of neutral
 network, \ac{NNLM}  suffer from  
@@ -427,12 +428,12 @@ term of their architecture. For all the models discussed here, the  complexity p
 \begin{equation} O = E \times T \times Q,   \end{equation}
 \end{center}
 
-where $E$ is number of the training epochs, $T$ is the number of the words in
+$E$ is number of the training epochs (i.e.  number of upasses through the entire training set) , $T$ is the number of the words in
 the training set and $Q$ depends on each architecture. Common choice is $E$ = 3-50 and $T$ up to one billion.
 All models are trained using stochastic gradient descent and backpropagation
 \cite{Bengio:2003:NPL:944919.944966,DBLP:journals/corr/abs-1301-3781}.
 
-The following section describe each of the most representative  models and their
+The following section describes each of the most representative  models and their
 associated complexity $Q$.
 
 
@@ -473,8 +474,8 @@ where
 where the vectors $b,c$ and matrices $W,V$ are also
 parameters of the \ac{NN}  (in addition to matrix $C$). Let us denote
 $\theta$ for the concatenation of all the parameters.
-The complexity of the model is controlled by the number of hidden units $h$
-and by the number of learned word features $d\ .$ 
+The number of hidden units $h$
+and the number of learned word features $d$  control the  complexity of the model.
 
 
 \begin{figure}[h]
@@ -526,8 +527,8 @@ The calculation  $\frac{\partial L(\theta)}{\partial
 
 Figure \ref{fig:NNLM_architecture} is a graphical depiction of  the model.
 It consists of three layers, input, projection and output layers. The N
-previous word are encoded using 1-of-$V$ encoding, where $V$ is the size
-of the vocabulary. $N$ previous word representation to $w_t$  are concatenated using a
+previous words are encoded using 1-of-$V$ encoding, where $V$ is the size
+of the vocabulary. $N$ previous word representations to $w_t$  are concatenated using a
 shared projection matrix to the projection layer $P$ (dimensionality $N
 \times D$).  This layer is then connected to a hidden layer which is in turn
 used to compute the probability distribution over all the words in the
@@ -580,14 +581,14 @@ it uses a fixed context that needs to be specified at training time.
 % words when predicting the next one.  
 A language model based on recurrent neural networks  does not use a context
 with a size limit. This is achieved by  using recurrent connections inside the network for arbitrarily long time. The \ac{RNNLM} proposed by
-Mikolov use the so-called simple 
+Mikolov uses the so-called simple 
 recurrent neural network model. The network has an input layer $x$, hidden
 layer $s$ (also called context layer or state) and output layer $y$. Input to
 the network in time $t$ is $x(t)$, output is denoted as $y(t)$, and $s(t)$ is
 state of the network (hidden layer). Input vector $x(t)$ is formed by
 concatenating vector $w$ representing current word, and output from neurons in
 context layer $s$ at time $t - 1$. Input, hidden and output layers are then
-computed as follows \cite{conf/interspeech/MikolovKBCK10}:.
+computed as follows \cite{conf/interspeech/MikolovKBCK10}:
 
 \begin{equation} x(t) = (w(t), s(t-1))  \end{equation} 
 
@@ -616,7 +617,7 @@ Figure \ref{fig:RNNLM_architecture} depicts the architecture of the simple
 recurrent neural network. Similar to the \ac{FNNLM},    $w(t)$ represents the word in time $t$ encoded using 1-of-$V$ coding.  $s(t-1)$ represents the output values in the
 hidden layer from the previous time step. Therefore $x(t)$, the input, has
 the size of the vocabulary $V$ and of vector $s(t-1)$. After the network is
-trained, the output represent the probability  in  equation
+trained, the output represents the probability  in  equation
 (\ref{eq:lm_probability})  \cite{mikolovphd2012}. % The network is trained
 % using stochastic gradient descent using the
 % \textit{backpropagation} algorithm \cite{conf/interspeech/MikolovKBCK10,Bishop:1995:NNP:525960}.
@@ -668,16 +669,14 @@ The network is trained in a
 similar way, however the input vector does not encode previous words using 1-of-$K$ encoding, but is formed using $N-1$ projections from
 the  bigram network. These projections are the learned weights of dimension
 $|D|$ learned by the big-gram network. Figure
-\ref{fig:mikolov_nnlm_architecture} show a schematic of the two-network architecture.
+\ref{fig:mikolov_nnlm_architecture} shows a schematic of the two-network architecture.
 
 
 \subsubsection{Model Complexity}
 
-As this model is composed of two parts, we then split the complexity definition in two parts . If one is only interested in
-the word representations, i.e. the projections from the big-gram network,  the
-complexity is reduced to the complexity of the bigram network $Q_1$.  The full model
-complexity is given by: 
-
+As this model is composed of two parts, we then split the complexity
+definition in two . One for the calculation of the bigram representation and
+one for the final probability estimation:
 
 \begin{equation} Q_1 = V \times D + D \times V  \end{equation}
 
@@ -694,7 +693,7 @@ H$ term of $Q_2$.
 \begin{figure}[hptb!]
     \centering
     \includegraphics[width=1.0\textwidth]{images/mikolov-fnnl-latex.pdf} 
-    \caption{Mikolov's Neural Network Language Model Architecture}
+    \caption{Architecture of the \ac{NNLM} proposed by Mikolov.}
     \label{fig:mikolov_nnlm_architecture}
 \end{figure}
   

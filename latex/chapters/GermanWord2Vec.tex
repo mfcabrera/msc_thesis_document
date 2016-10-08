@@ -33,7 +33,7 @@ the German language.
 Although  evidence that word vector representations might work
 well in other languages other than English has been presented
 \cite{DBLP:journals/corr/MikolovLS13}, at the time of writing, there are not
-in depth studies on this subject.  Also, there are not related work  presenting syntactic or
+in depth studies on this subject.  Also, there are not related works  presenting syntactic or
 semantic relationship evaluation similar to the
 ones performed by \cite{DBLP:journals/corr/abs-1301-3781} but using a corpus
 in a language other than English. 
@@ -41,7 +41,7 @@ in a language other than English.
 Previous work has shown that  n-gram back-off language models, the state of the art
 technique, does not perform  as well for inflectional languages as they work
 for English \cite{conf/icassp/MikolovKBGC09}. Inflectional languages tend to
-overlay many morphemes to denote gramathical, syntactic or 
+overlay many morphemes to denote grammatical, syntactic or 
 semantic changes to a word. For example, in German, \textit{gelb} means
 \textit{yellow} and \textit{(der) Baum} translates to \textit{tree}. However, in
 order to say ``\textit{yellow treee}'' in German, it is necessary to inflect the
@@ -55,7 +55,7 @@ improve  and simplify many \ac{NLP} applications in
 these languages as they have been shown to do in
 English \cite{collobert:2008,Turian:2010:WRS:1858681.1858721}.
 Consequently, making the evaluation of the quality of the word vectors in
-inflecitve languages very attractive.
+inflective languages very attractive.
 
 In this chapter the applicability of of word vector representation to German
 language is studied. The main idea is to evaluate how the word vectors
@@ -175,7 +175,7 @@ dictionary \footnote{\url{http://dict.cc}} as guide and verified by two German n
 Regardless of the method chosen, some tasks of this set are biased towards
 the morphology of English and could not be easily mapped to another language,
 and in particular to German. Therefore, a simple translation would not be
-enough to obtain a equivalent task set for another language. For that reason
+enough to obtain an equivalent task set for another language. For that reason
 each of the original 14 tasks was analyzed to either adapt it to German or
 discard it completely.  
 
@@ -186,29 +186,29 @@ discard it completely.
 Many of  word pairs  from the original  semantic-syntactic tasks  are language
 dependent. In order to adapt them to German,  each of type of question was
 evaluated.  Some of them could  be easily adapted to German
-just by translating the respective word. However, some of the them either do
+just by translating the respective word. However, some of them either do
 not make sense  from the morphology point of view,  or they simply do not
 apply for German. From the original 14 types of questions, the German version 
-contains created in this work only contains 10. A equivalent set was also
+contains created in this work only contains 10. An equivalent set was also
 constructed in parallel for  English by removing the part that could not be
-adapted. Thism,  with the purpose of performing a comparison. Below each of the tasks are described
+adapted. This was done  with the purpose of performing a comparison. Below each of the tasks are described
 in detail along with steps performed to adapt it to  German when it was possible.
 
 \subsection{Common Capital and City and All Capital}
 \label{sec:sub_sec_common_capital_country}
 
-This group of questions try to solve analogies between country and capitals.
+This group of questions tries  to solve analogies between country and capitals.
 The vector model is asked the semantic relationship \emph{Capital Country}.
 For example:  ``\emph{What is the word that is similar to
 Germany in the same sense as Paris is similar to France?}''. The model should
 produce a vector close to ``\emph{Berlin}''. The
 difference between the two subsets is that common capital contains
- the 22 most ``\textit{common}'' country - capital word pairs. However the
- criteria for the selection is not defined by the authors of the set. The
+ the 22 most ``\textit{common}'' countries - capital word pairs. However, the
+ author did not describe the criteria used to select countries of the set. The
  other subset of word pairs contains country - capital pairs of less known countries such
  as \textit{Ghana  -  Accra} and  \textit{Harare -  Zimbabwe}.
 
-For this task the adaptation was done by simply translating the names from
+This task was adapted by simply translating the names from
 the English ones to their German counterparts. 
 
 \subsection{Currency}
@@ -223,7 +223,7 @@ Wikipedia\footnote{\url{http://de.wikipedia.org}}  as source for the information
 
 \subsection{City in State}
 \label{sec:sub_sec_city_in_state}
-This group of questions try evaluate the semantic relationship between a city
+This group of questions tries to  evaluate the semantic relationship between a city
 and a state for cities in the United States of America.  However, the
 objective of the experiment is to have a standard,  almost
 language independent comparable test set for the word vectors generated by
@@ -231,7 +231,7 @@ language independent comparable test set for the word vectors generated by
 specific language corpus  are not relevant and
 will not provide good information about the quality of the vectors. For this
 reason, the complete task  was removed from the dataset. An alternative could
-have been to replace it with a similar tasks (e.g. using cities in Germany / Austria). In this case however, a
+have been to replace it with a similar task (e.g. using cities in Germany / Austria). In this case however, a
 comparison with another language would have been impossible as the
 information sources might not contain the  information required or even the
 words themselves.
@@ -301,7 +301,7 @@ German directly. However, there are some caveats. First, English has many
 more words for representing the same semantic concept than German.  English
 belongs to the family of Germanic languages, therefore shares the common structure
 and grammar. However, many words have been borrowed from Latin, which expands
-the vocabulary, that in many cases replaced the words of Germanic origin. 
+the vocabulary, in many cases replacing  the words of Germanic origin. 
 For example, the word \textit{tall}  comes from Old Germanic and  the
 word \textit{large} comes from Latin. Both words could be translated to
 German as \textit{hoch}. However, the English word  \textit{high} of German
@@ -362,8 +362,8 @@ represent the same concept, thus low correct answer rate are expected in this
 task.  
 The plural nouns task models the relationship of a word and its plural form
 (e.g. \textit{tree} - \textit{trees}).
-German has many more words which their plural is the same as the singular. 
-This is a factor that will affect the test results  as same word is never taken as a
+German has many more words that their plural form  is the same as the singular. 
+This is a factor that will affect the results of the evaluation,  as the same word is never taken as a
 valid answer in this task.
 
 
@@ -411,9 +411,7 @@ performed in other to generate a set for the German language.
     
 In parallel to these changes, the English version was also modified to match
 this new set of tasks so a comparison could be performed in a reasonable
-equivalent manner.  
-
-Table \ref{tab:task_deutsch_modified} shows an example of the taks in German.
+equivalent manner.  Table \ref{tab:task_deutsch_modified} shows an example of the taks in German.
 Only the tasks that were kept are shown.
 
 
@@ -450,7 +448,7 @@ Only the tasks that were kept are shown.
 \label{sec:german_eng_experiments}
 
 This section describes the experimental set-up used to evaluate the German
-Word2vec model. The objective of these experiments is two answer several
+Word2vec model. The objective of these experiments is to answer several
 question regarding the performance of Word2vec the applicability of Word2vec
 on languages different than  English,  in particular for German.  In
 particular:
@@ -486,7 +484,7 @@ available the pre-trained 300-dimensional  word vector  from  Google's internal
 dataset containing 3 million words and phrases.
 
 The closest open dataset available with such variety in German is the
-Wikipedia. The English  as well ass the German Wikipedia are for the experiments.  It is
+Wikipedia. The English  as well as the German Wikipedia are used for the experiments.  It is
 important to notice, that as it happens with most of the information
 available in World Wide Web, The majority of is in English, and as discussed
 before, the amount of data available affects the quality  of the trained word embeddings. 
@@ -521,8 +519,8 @@ performed
 \end{itemize}
 
 
-To perform these changes a modified version of a Perl script originally
-designed to perform these tasks (for the English Wikipedia) was used
+To perform these changes, a Perl script originally
+designed to perform these tasks (for the English Wikipedia) was adapted.
 \footnote{\url{http://mattmahoney.net/dc/textdata.html}}. This script is
 linked on Word2vec's Google code project site\footnote{\url{https://code.google.com/p/word2vec/}}.
 
@@ -560,7 +558,7 @@ from this model in the tasks described before.
 
 There are many parameters that can be modified in order to adjust the model
 to  perform better on both the  semantic and syntactic tasks. The
-selection of these  parameters affect not only the accuracy of the model but
+selection of these  parameters affects not only the accuracy of the model but
 also the training speed.  Table \ref{tab:word2_vec_parameters} shows an
 overview of the most important parameters with short description. For a
 complete description of each of them please refer to section \ref{chap:word2vec_description}.
@@ -601,7 +599,7 @@ model.
 The four possible combinations of architecture and models were evaluated
 quickly using this approach. For that, a dimensionality of 300 was chosen with
 a fixed window of 10. Table \ref{tab:initial_w2v_comparison} shows the result
-of this tests. The best architecture and algorithm combination is
+of these tests. The best architecture and algorithm combination is
 Skip-gram and \ac{NEG} for this training setup.
 
 % Initially, in order to train faster the
@@ -847,12 +845,12 @@ reasoning task.
 In this section models trained using the English language Wikipedia and the
 German Wikipedia  are compared. It is clear that from the linguistic
 point of view it does not make sense to compare two language models for
-different languages and in that same idea word vector representations. 
-However, the purpose of this section is to assess to the extend of the
-possibilities, the behavior the word vector model on languages with different
-degrees of syntactic complexity. For that, we measure the quality of the word
-vector obtained from a  German language  dataset compared to the ones trained
-with an  English corpus, namely the Wikipedia.
+different languages. That is also truth for  word vector representations. 
+However, the purpose of this section is to assess to the  possible extend the
+behavior the word vector model  on languages with different
+degrees of syntactic complexity. For that, the quality of the word
+vector  obtained from a  German language  dataset is compared to  ones trained
+on an English corpus, namely the Wikipedia.
 
 Although in section \ref{sec:adapt_task_german_lang} we described the
 creation of a  equivalent analogical reasoning task for the German language,
@@ -875,7 +873,7 @@ These word vectors were trained with about billion of words and phrases.
 
 Table \ref{tab:language_comparisson} shows  the best model for each language in each
 category. Both German and English behave fairly similar per category, giving
-the impression that the model work in a similar manner in German language.
+the impression that the model works in a similar manner in German language.
 However for the syntactic task  the performance is  different when
 compared with other languages. In particular for the superlative and the
 present-participle  the performance is low compared to other categories in
@@ -890,7 +888,7 @@ than the ones from Wikipedia, for some tasks the performance is better for the
 later. That suggest that is not only the size but the \emph{content} of the
 text might have important effect on the performance. Content  in these context
 means if the text contains the semantic or syntactic relationships  that the
-test set expects. In other words, less data containing appropiate  semantic and/or
+test set expects. In other words, less data containing appropriate  semantic and/or
 syntactic relationships might be better for training than a big corpus with
 no context. Another example of this will be shown in chapter
 \ref{chap:rel_word2vec_doc_classification}, where  word vectors generated
@@ -935,7 +933,7 @@ dataset. This section explores how preprocessing, in particular stemming,  affec
 quality of the word vectors. 
  
 
-In many \ac{NLP} applications, in particular, \ac{IR} related tasks,  text preprocessing is a common, if not
+In many \ac{NLP} applications, in particular, \ac{IR} related tasks;  text preprocessing is a common, if not
 necessary, step to obtain good results. Given highly inflective nature of
 German is natural to expect improvement in
 certain analogical reasoning tasks.  One of the most common preprocessing steps in NLP is stemming (i.e. grouping
@@ -1004,7 +1002,7 @@ The first modification aims to remove the plural (already affecting the
 outcome of the syntactic task) and the declension of adjectives and nouns.
 The second modification runs a full Potter stemmer algorithm. The last was an
 additional experiment aimed to verify that performing some modification to the
-training dataset would allow the model to perform better in certain task.
+training dataset would allow the model to perform better in certain tasks.
 
 Note that all modifications, although probably helping in some of the tasks
 would undoubtedly incur in loss of performance in another. For example, if
@@ -1015,9 +1013,8 @@ Table \ref{tab:stemming_comparisson} shows the results of training the word vect
 using the  best parameters on this modified dataset.  The rows show the
 performance per section of the set of tasks. The \textit{Questions Seen} row
 shows the amount of question that after the pre-processing can be answered
-because the word still exitst on the vocabulary. 
-Both of the stemmings based on the Porter stemmer hurt the performance of the
-of the classifier. In particular the full stemming causes the model to only
+because the word still exists on the vocabulary. 
+Both of the stemming based on the Porter stemmer hurt the performance of the classifier. In particular the full stemming causes the model to only
 achieve as little as 5.74\% accuracy and only seeing 7.71\% of the total
 questions. Surprisingly enough, the preprocessing that consisted of removing
 the declension of adjectives  ending in \textit{sch} not only
@@ -1050,10 +1047,10 @@ logical reasoning tasks were constructed. These German language tasks were
 based on the English tasks used in the original work. 
 The result shows that the model performs well in German, although the complexity of the
 language causes certain tasks to underperform when compared to the equivalent
-tasks in English. However the comparison is not  balanced, as there is more
+tasks in English. However, the comparison is not  balanced, as there is more
 training data available in English than in German. The size of available corpus is a key factor on obtaining good representations.
 
-Another important outcome of this  empirical exploration, is that the specifics
+Another important outcome of this  empirical exploration is that the specifics
 of the text affect the quality of the word vectors. The
 relationship of the text and the objective task is important.  For example,
 when comparing the English word vectors training from  Wikipedia with the

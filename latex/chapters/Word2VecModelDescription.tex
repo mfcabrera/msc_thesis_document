@@ -6,7 +6,7 @@
 Continuous space language  models
 learned by a neural network have
 demonstrated good results across a variety of tasks in the field of \ac{NLP}.  As pointed out by
-the authors, these continuous word vector representation achieves a level of
+the authors, these continuous word vector representations achieve a level of
 generalization not possible with  traditional $N$-gram based models
 \cite{conf/icassp/MikolovKBGC09}. In addition to the language model itself,
 the word vector representations are learned in the initial layers of the
@@ -21,7 +21,7 @@ layer. Then, these word vectors are used to  train another \ac{NN}, in this
 way   the final \ac{NNLM} is learned \cite{conf/icassp/MikolovKBGC09}.   
 What is particular about this architecture is that the  word  vectors are learned
  without  even constructing the complete language model.  This means
-that in practice,  the two step can be performed separately \cite{conf/icassp/MikolovKBGC09}. 
+that in practice,  the two steps can be performed separately \cite{conf/icassp/MikolovKBGC09}. 
 
 This chapter describes  a recent approach to efficiently learn
 high-dimensional word representation \cite{DBLP:journals/corr/abs-1301-3781}.  It has been found that the word vectors learned in this manner, 
@@ -42,7 +42,7 @@ The rest of the chapter is structured as follows: section
 \textit{Word2vec}.  Section \ref{sec:word2v-architectures} and
 \ref{sec:word2v-tran-algorithms} describe in more detail the available
 architecture and training algorithms. Finally, section
-\ref{sec:w2v_other_paramters} describe additional  parameters that
+\ref{sec:w2v_other_paramters} describes additional  parameters that
 directly affect the generated learned representations.
 
 % \section{Modern Neural Network Language Model Architectures}
@@ -93,14 +93,14 @@ performing  the first step  of the aforementioned architecture. %  In that sense
 % unsupervised feature learning algorithm.
 
 As  described in section \ref{sec:nnlms-intro}, the complexity of all 
-these models arises from the non-linear layers  that allows the \ac{NN} to
-obtain complex representations.  \textit{Word2vec} removes the additional
+these models arises from the non-linear layers  that allow the \ac{NN} to
+obtain  representations.  \textit{Word2vec} removes the additional
 hidden layer  allowing it to be trained efficiently on much more data  \cite{DBLP:journals/corr/abs-1301-3781}.
 
 \textit{Word2vec} is not a single architecture or model, it is formed by a
 group of related architectures, learning algorithms, optimization 
-approaches and some tricks. The combination of all these characteristic
-allows the model  to learn word representation in a efficient
+approaches and some tricks. The combination of all of these characteristics
+allows the model  to learn word representation in an efficient
 way. It has been shown that these representations  capture semantic and
 syntactic 
 similarities as mean of vector offsets, allowing the model to answer complex
@@ -114,7 +114,7 @@ In the \textit{Word2vec} project the following parameters can be chosen:
 
 \begin{itemize}
 \item \textbf{Architecture}: Skip-gram or \ac{CBOW}.
-\item \textbf{Training Algorithm}: hierarchical softmax  or \ac{NEG}.
+\item \textbf{Training Algorithm}: \ac{HS}  or \ac{NEG}.
 \item \textbf{Additional paramters}: Discussed in section \ref{sec:w2v_other_paramters}
 \end{itemize}
 
@@ -139,14 +139,15 @@ taken from the description  on the project web page.
     words. \\ 
     \cline{2-3}
     & \ac{CBOW}  &  Faster than skip-gram. \\ \hline
-    \multirow{2}{*}{Training Algorithm}  & Hierarchical Softmax  & Better for infrequent words.   \\ 
+    \multirow{2}{*}{Training Algorithm}  & \ac{HS}  & Better for infrequent words.   \\ 
     \cline{2-3}
     & \ac{NEG} & Better for frequent works \\ \hline
     Sub-sampling  & 1e-3 to 1e-10  &  It  can improve both accuracy and speed for large data
     sets Useful values are in range \\ \hline
-    Dimensionality  & 10-640 & Higher dimension the better results. 
+    Dimensionality  & 10-640 & Higher dimensions generally provide better results. 
     it depends on data availability.  \\ \hline
-    Context (Window size)  & 5 - 15 & The number of word used to predict. \\ \hline
+    Context (Window size)  & 5 - 15 & The number of word used to predict.
+    Larger windows generate more topical relationships. \\ \hline
 
     
 \end{tabular}
@@ -167,10 +168,10 @@ taken from the description  on the project web page.
 \subsection{Continuous Bag of Word (CBOW) Architecture}
 
 This architecture is similar in spirit to the  \ac{FNNLM} described in section
-\ref{subsec:fwd-neural-net-lm} were a context of $n$ words is used. However with two main differences. First the
+\ref{subsec:fwd-neural-net-lm} were a context of $n$ words is used,  with two main differences. First the
 non-linear hidden layer is removed and second the projection layer is shared for
 all words (not just the projection matrix of word vectors). This means that
-all the words are projected onto the same position on the hidden layer,  and their vector averaged.
+all the words are projected onto the same position on the hidden layer,  and their vectors averaged.
 % Another difference with the presented \ac{FNNLM}  is that words from future are used. 
 The training criterion is to correctly classify the middle word of a window
 of $N$ that is used per train cycle. That is, words from the past and the
@@ -193,7 +194,7 @@ of size $n$. Defining $C_m(t)$ as:
        C_{w_{t+j}}} } {2n}    
 \end{equation}
 
-The  objective  \ac{CBOW}  ties to maximize the average log probability:
+The  \ac{CBOW} architecture  tries to maximize the average log probability:
 
 
 \begin{equation}
@@ -234,9 +235,7 @@ probability distribution, as described for all the \ac{NNLM}s in section \ref{se
 \label{sec:skip-gram-architecture}
 
 The Skip-gram architecture is similar to \ac{CBOW}, but it instead of
-predicting the current word based on the context, it tries to maximize
-classification of a  word based on another word on the same sentence
-\cite{DBLP:journals/corr/abs-1301-3781}.  Each  word is used as input
+predicting the current word based on the context. Each  word is used as input
 to the \ac{NN} that  predicts words within certain range before and after 
 it (i.e. it tries to predict the surrounding words or context). 
 \cite{DBLP:journals/corr/abs-1301-3781}. Figure
@@ -291,10 +290,9 @@ Where R is the maximum distance of words. A random number $r$ in the range $<
 
 \section{Word2vec Training Algorithms}
 \label{sec:word2v-tran-algorithms}
-Another one of the principal  characteristics of  \textit{Word2vec} is the
-available training algorithms. In
-fact, the selection of the training algorithm has a large  impact on
- the quality of the learned vector representation,  and in the
+The availability of different training algorithms is other  the principal
+characteristics of  \textit{Word2vec}. In fact, the selection of the training algorithm has a large  impact on
+ the quality of the learned vector representation,  and on the
 computational performance.
 
 The formulations for calculating $p(w_i|v)$ and  $p(w_O|w_I)$  ( equations
@@ -309,9 +307,10 @@ calculation.
 \label{sec:sub-hs}
 
 
-An efficient alternative to calculating the full softmax is the hierarchical
-softmax. In the context of \ac{NNLM}s, it was first introduced by Morin and
-Bengio \cite{Morin05hierarchicalprobabilistic}. Hierarchical softmax is more
+An efficient alternative to calculating the full softmax is the Hierarchical
+Softmax. Morin and
+Bengio \cite{Morin05hierarchicalprobabilistic} were the first to introduce
+this technique  in the context of \ac{NNLM}s. Hierarchical Softmax (\ac{HS}) is more
 computationally efficient that a normal softmax layer because instead of
 evaluating output nodes $V$ (i.e. each of the words on the output layer) to
 obtain the probability distribution, it only needs to evaluate about
@@ -341,7 +340,7 @@ would look if created from a imaginary and  highly unlikely corpus.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{images/htree.pdf} 
-    \caption{And example of a Huffman binary tree used to calculate the
+    \caption{An example of a Huffman binary tree used to calculate the
       hierarchical softmax. This is a small imaginary corpus of 8 words. The
       leaf nodes contain the words, the probability and the Huffman codes.
       Inner nodes contain just the probabilities of its children. }
@@ -399,7 +398,7 @@ samples \cite{MikolovSCCD13}.  Equivalently to  hierarchical softmax, a formulat
  architecture can be constructed by replacing the appropriate variables.
 In the \textit{Word2vec} implementation, the
 noise distribution  $P_n(w)$ is the unigram distribution $U(w)$ raised to the
-$3/4rd$. This was selected by the authors empirically given that outperformed
+$3/4rd$. The authors selected this  empirically given that outperformed
 other alternative distributions such as the standard unigram and the uniform
 distribution. 
 
@@ -407,14 +406,14 @@ distribution.
 
 \section{Other Parameters}
 \label{sec:w2v_other_paramters}
-This section describes the additional paramters needed by the model and that
+This section describes the additional parameters needed by the model and that
 affect the quality of the word vectors.
 
 
 \subsection{Dimension }
 \label{sec:w2v-param-dim}
 Perhaps the most important parameter after the architecture and the training
-algorithm is the dimension of the learned word vector.  This parameter define
+algorithm is the dimension of the learned word vector.  This parameter defines
 the projection layer size. Generally speaking the larger the better.
 However, in order to benefit from a larger dimension size, more data need to
 be used, as it  reaches a upper bound based on the availability of the data.
@@ -425,7 +424,7 @@ largest dataset used. This, as it was just mention is corpus dependent.
 \subsection{Window}
 \label{sec:w2v-params-win}
 
-An important parameter that need to be defined at training size is the
+An important parameter that needs to be defined at training size is the
 \textit{window} or context size. Generally speaking the context size is two
 times the window. More formaly, the context $R(w_i)$ comes from a window of
 size $r$ around the word:
@@ -460,8 +459,8 @@ where $f(w_i)$  is the frequency of word $w_i$ and t is a threshold that can
 be specified  by the user at training time. The subsampling of words also
 affect indirectly the size of the window. In addition to the subsampling
 paramter, \textit{Word2vec} offer a parameter called 
-\textit{min-count} which discards all the words that appear less than a
-number of times in all the corpus.   As the subsampling and the removal of
+\textit{min-count} that discards all the words that appear less than a
+number of times in the entire corpus.   As the subsampling and the removal of
 \textit{min-count} words occur  \emph{before} the actual context creation,
 the actual effective window size increase. These include words that are
 content-full and linearly far from the word in focus, therefore making the similarities more topical.
@@ -488,8 +487,9 @@ cosine similarity is calculated in the following way:
 $$\text{similarity} = \cos(\theta) = {A \cdot B \over \|A\| \|B\|}$$
 
 
-As the word representations capture different types of  similarities among
-words, that are expressed in linear relationship among the vectors. With the
+Word representations capture different types of  similarities among
+words. These similarities are expressed in linear relationship among the
+vectors. Therefore, with the
 operation described above,  what is  being attempted is to answer the
 question ``\emph{What is the word that is similar to 
 c in the same sense as b is similar to a?}''.
@@ -537,7 +537,7 @@ using  operation \cite{DBLP:journals/corr/abs-1301-3781}.
 
 \section{Conclusion}
 \label{sec:sub-w2v-desc-conclusion}
-\textit{Word2vec} allow to train word vector representations from  large
+\textit{Word2vec} allow training word vector representations from  large
 corpus of text in a efficient way. The vector  representations  capture semantic and
 syntactic relationship, relationships that can be explored via simple vector
 operations. In this chapter we described the  architecture, algorithm and techniques
@@ -548,8 +548,8 @@ previous context, but only of obtaining good representation. In that sense
 words not only from the past, as more traditional language models do, but
 also from the future, allowing the model learn complex relationships among
 words.  Finally, it is not a deep architecture. In fact, the architecture only
-contains a layer. This, among other things allows it efficiently train
-representations that are useful to improve existing \ac{NLP} tasks.
+contains a layer. This, among other things allows  training efficiently
+representations that are useful to improve  \ac{NLP} tasks.
 
 
 
